@@ -16,13 +16,13 @@ app.get(baseUrl, (req, res) => {
 });
 
 // load all endpoints
-const healthcheck=require("./admin/healthcheck.js");
-const resetpasses=require("./admin/resetpasses.js");
-const resetstations=require("./admin/resetstations.js");
-const resetvehicles=require("./admin/resetvehicles.js");
+const healthcheck=require("./endpoints/healthcheck.js");
+// const resetpasses=require("./admin/resetpasses.js");
+// const resetstations=require("./admin/resetstations.js");
+// const resetvehicles=require("./admin/resetvehicles.js");
 
 //bind all endpoints to app router
 app.use(baseUrl,healthcheck);
-app.use(baseUrl,resetpasses);
-app.use(baseUrl,resetstations);
-app.use(baseUrl,resetvehicles);
+// app.use(baseUrl,resetpasses);
+// app.use(baseUrl,resetstations);
+// app.use(baseUrl,resetvehicles);
