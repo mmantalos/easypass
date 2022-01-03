@@ -21,8 +21,12 @@ const healthcheck=require("./endpoints/healthcheck.js");
 // const resetstations=require("./admin/resetstations.js");
 // const resetvehicles=require("./admin/resetvehicles.js");
 
+const pAnalysis = require("./endpoints/PassesAnalysis.js");
+
 //bind all endpoints to app router
-app.use(baseUrl,healthcheck);
+app.use(baseUrl, healthcheck);
 // app.use(baseUrl,resetpasses);
 // app.use(baseUrl,resetstations);
 // app.use(baseUrl,resetvehicles);
+
+app.use(baseUrl, pAnalysis);
