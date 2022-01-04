@@ -11,16 +11,21 @@ function resetpasses(req, res) {
     });
 
     con.connect(function(err) {
-        if (err) throw err;
-        console.log('Connected!');
+        if (err) {
+            console.log("Connection error");
+            res.send({"status": "error"});
+        }
+        else {
+            console.log('Connected!');
 
-        let myquery = 'TRUNCATE TABLE passes'
+            let myquery = 'TRUNCATE TABLE passes'
 
-        console.log(myquery);
-        con.query(myquery, function(err, result, fields) {
-            if (err) throw err;
-            res.send(result);
-        });
+            console.log(myquery);
+            con.query(myquery, function(err, result, fields) {
+                if (err) res.send({"status": "failed"});
+                else     res.send({"status": "OK"});
+            });
+        }
         con.end();
     });
 }
