@@ -19,7 +19,7 @@ app.get(baseUrl, (req, res) => {
 const healthcheck=require("./endpoints/healthcheck.js");
 const resetpasses=require("./endpoints/resetpasses.js");
 // const resetstations=require("./endpoints/resetstations.js");
-// const resetvehicles=require("./endpoints/resetvehicles.js");
+const resetvehicles=require("./endpoints/resetvehicles.js");
 
 const pAnalysis = require("./endpoints/PassesAnalysis.js");
 
@@ -27,6 +27,6 @@ const pAnalysis = require("./endpoints/PassesAnalysis.js");
 app.use(baseUrl, healthcheck);
 app.use(baseUrl, resetpasses);
 // app.use(baseUrl,resetstations);
-// app.use(baseUrl,resetvehicles);
+app.use(baseUrl,resetvehicles);
 
 app.use(baseUrl, pAnalysis);

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 var mysql = require('mysql');
 
-function resetpasses(req, res) {
+function resetvehicles(req, res) {
     var con = mysql.createConnection({
         host:     "localhost",
         user:     "admin",
@@ -18,7 +18,11 @@ function resetpasses(req, res) {
         else {
             console.log('Connected!');
 
-            let myquery = 'TRUNCATE TABLE passes;'
+            // Solve the Foreign Key problem !!!
+
+            let myquery = 'TRUNCATE TABLE vehicles;'
+
+            // Initialize Vehicles !!!
 
             console.log(myquery);
             con.query(myquery, function(err, result, fields) {
@@ -30,5 +34,5 @@ function resetpasses(req, res) {
     });
 }
 
-router.post('/admin/resetpasses', resetpasses);
+router.post('/admin/resetvehicles', resetvehicles);
 module.exports = router;
