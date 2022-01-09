@@ -20,12 +20,13 @@ const healthcheck=require("./endpoints/healthcheck.js");
 const resetpasses=require("./endpoints/resetpasses.js");
 // const resetstations=require("./endpoints/resetstations.js");
 // const resetvehicles=require("./endpoints/resetvehicles.js");
-
+const ppStation=require("./endpoints/PassesPerStation.js");
 const pAnalysis = require("./endpoints/PassesAnalysis.js");
 
 //bind all endpoints to app router
 app.use(baseUrl, healthcheck);
 app.use(baseUrl, resetpasses);
+app.use(baseUrl, ppStation);
 // app.use(baseUrl,resetstations);
 // app.use(baseUrl,resetvehicles);
 
