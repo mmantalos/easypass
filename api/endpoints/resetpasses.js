@@ -18,7 +18,7 @@ function resetpasses(req, res) {
         else {
             console.log('Connected!');
 
-            let myquery = 'TRUNCATE TABLE passes'
+            let myquery = 'TRUNCATE TABLE passes;'
 
             console.log(myquery);
             con.query(myquery, function(err, result, fields) {
