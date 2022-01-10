@@ -23,7 +23,7 @@ function getChargesBy(req,res){
     con.connect(function(err) {
     	if (err) throw err;
     	console.log("Connected!");
-    	let myquery = `SELECT tag_provider, COUNT(pass_id), SUM(charge) FROM stations, vehicles, vehicle_id WHERE station_provider = ${req.params["op_ID"]} AND tag_provider <> ${req.params["op_ID"]} AND timestamp >= ${req.params["date_from"]} AND timestamp <= ${req.params["date_to"]} AND station_ref = station_id AND vehicle_ref = vehicle_id GROUP BY tag_provider;`;
+    	let myquery = `SELECT tag_provider as VisitingOperator, COUNT(pass_id) as NumberOfPasses, SUM(charge) as PassesCost FROM stations, vehicles, vehicle_id WHERE station_provider = ${req.params["op_ID"]} AND tag_provider <> ${req.params["op_ID"]} AND timestamp >= ${req.params["date_from"]} AND timestamp <= ${req.params["date_to"]} AND station_ref = station_id AND vehicle_ref = vehicle_id GROUP BY tag_provider;`;
         con.query(myquery, function (err, result, fields){
         		if (err) throw err;
                 var output = {
@@ -32,7 +32,7 @@ function getChargesBy(req,res){
                     PeriodFrom : req.params["date_from"],
                     PeriodTo : req.params["date_to"],
                     NumberOfCharges : result.length,
-                    ChargesList : result
+                    PPOList : result
                 }
         		res.send(output);
         	});
