@@ -16,7 +16,7 @@ function PassesPerStation(req,res){
   var con = mysql.createConnection({
     host: "localhost",
     user: "admin",
-    password: "freepasses4all",
+    password: "softeng2021",
     database: "easy_pass",
     timezone: 'eet'
   });
@@ -40,10 +40,10 @@ function PassesPerStation(req,res){
     //use auxilliary query to get information about the station that is necessary
     //for the main query and required to be returned.
     let auxquery="select station_provider from stations where station_id=?";
-    let mainquery="with gstation_provider(station_id,station_provider) as (select station_id,station_provider from stations where station_id=?)select ROW_NUMBER() over (order by timestamp) as PassIndex,pass_id as PassID,timestamp as PassTimeStamp,vehicle_ref as Vehicle_ID,tag_provider as TagProvider,if(tag_provider=station_provider,'home','visitor') as PassType,charge as PassCharge from passes join vehicles on passes.vehicle_ref=vehicles.vehicle_id, gstation_provider where  station_ref=station_id and passes.timestamp between ? and ?   order by timestamp;"
+    let mainquery="with gstation_provider(station_id,station_provider) as (select station_id,station_provider from stations where station_id=?)select ROW_NUMBER() over (order by timestamp) as PassIndex,pass_id as PassID,timestamp as PassTimeStamp,vehicle_ref as Vehicle_ID,tag_provider as TagProvider,if(tag_provider=station_provider,'home','visitor') as PassType,charge as PassCharge from passes join vehicles on passes.vehicle_ref=vehicles.vehicle_id, gstation_provider where  station_ref=station_id and passes.timestamp between ? and ? order by timestamp;"
     con.query(auxquery,[req.params.stationID],function (err,result,fields){
       if (err) throw err;
-      console.log(result[0].station_provider);
+      // console.log(result[0].station_provider);
       //var auxq_obj=JSON.parse(result);
       //console.log(auxq_obj.station_provider)
       //res.send(result);
