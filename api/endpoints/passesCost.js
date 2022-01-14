@@ -4,16 +4,18 @@ var mysql = require('mysql');
 
 function getPassesCost(req,res){
 
+    var date_ob = new Date();
     var date_from = req.params["date_from"];
     var date_to = req.params["date_to"];
-    var reqTmstmp = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+    reqTmstmp = [date_ob.getFullYear(), ("0" + (date_ob.getMonth() + 1)).slice(-2), ("0" + date_ob.getDate()).slice(-2)].join('-') + ' ' + [("0" + date_ob.getHours()).slice(-2), ("0" + date_ob.getMinutes()).slice(-2), ("0" + date_ob.getSeconds()).slice(-2)].join(':');
 
 
     var con = mysql.createConnection({
     host: "localhost",
     user: "admin",
     password: "softeng2021",
-    database:"easy_pass"
+    database:"easy_pass",
+    timezone: "eet"
     });
 
     //Make database connection and query. Error handling???
@@ -35,7 +37,11 @@ function getPassesCost(req,res){
                     NumberOfPasses : result.PassesCount,
                     PassesCost : result.PassesCost
                   }
-        		res.send(output);
+                  if(req.query.format=='json' || req.query.format==undefined){
+                              res.send(output);
+                          }else if(req.query.format=='csv'){
+                              res.attachment("results.csv").send(output);
+                          }
         	});
         con.end();
     });
