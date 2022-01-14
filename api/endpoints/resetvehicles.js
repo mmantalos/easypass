@@ -18,9 +18,7 @@ function resetvehicles(req, res) {
         else {
             console.log('Connected!');
 
-            // Solve the Foreign Key problem !!!
-
-            let myquery = 'TRUNCATE TABLE vehicles;'
+            let myquery = 'DELETE FROM vehicles;'
 
             // Initialize Vehicles !!!
 

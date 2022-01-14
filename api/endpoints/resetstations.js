@@ -19,7 +19,7 @@ function resetstations(req, res) {
             console.log('Connected!');
 
             //need to call Mario's python script!!!
-            let myquery = 'TRUNCATE TABLE stations'
+            let myquery = 'DELETE FROM stations'
 
             console.log(myquery);
             con.query(myquery, function(err, result, fields) {
