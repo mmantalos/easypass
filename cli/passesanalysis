@@ -4,7 +4,7 @@ import json
 import pandas as pd
 
 parser  = argparse.ArgumentParser(prog = "passesanalysis",
-                                 description = "Καλεί το PassesAnalysis Endpoint.")
+                                 description = "Get passes of vehicles with different tag provider than station provider.")
 #define command arguments
 parser.add_argument("--op1", required = True)
 parser.add_argument("--op2", required = True)
