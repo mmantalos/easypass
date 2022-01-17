@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
+
 var mysql = require('mysql');
+
+const spawn = require("child_process").spawn;
 
 function resetstations(req, res) {
     var con = mysql.createConnection({
@@ -18,13 +21,16 @@ function resetstations(req, res) {
         else {
             console.log('Connected!');
 
-            //need to call Mario's python script!!!
-            let myquery = 'DELETE FROM stations'
+            let myquery = 'DELETE FROM stations;'
 
             console.log(myquery);
             con.query(myquery, function(err, result, fields) {
-                if (err) res.send({"status": "failed"});
-                else     res.send({"status": "OK"});
+                if (err) res.send({"delete status": "failed"});
+                else {
+                    res.send({"delete status": "OK"});
+                    const python = spawn('../backend/init_stations.py',
+                ['../backend/sampledata01/sampledata01_stations.csv']);
+                }
             });
         }
         con.end();

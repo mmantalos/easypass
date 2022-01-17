@@ -2,6 +2,7 @@
 
 import mysql.connector
 import csv
+import sys
 
 mydb = mysql.connector.connect(
         user     = "admin",
@@ -12,7 +13,7 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 
 
-with open(f'./sampledata01/sampledata01_vehicles_100.csv', 'r') as csv_file:
+with open(sys.argv[1], 'r') as csv_file:
    csv_reader = csv.DictReader(csv_file, delimiter=';')
 
    table = [[f'"{word}"' for word in line.values()] for line in csv_reader]
