@@ -26,6 +26,7 @@ try:
             cursor.execute(query)
             db.commit()
 
+        print('Everything is OK')
         cursor.close()
         db.close()
         sys.exit(0)
