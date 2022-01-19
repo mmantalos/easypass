@@ -16,7 +16,7 @@ function PassesPerStation(req,res){
   var con = mysql.createConnection({
     host: "localhost",
     user: "admin",
-    password: "softeng2021",
+    password: "freepasses4all",
     database: "easy_pass",
     timezone: 'eet'
   });
