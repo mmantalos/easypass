@@ -4,26 +4,33 @@ import mysql.connector
 import csv
 import sys
 
-mydb = mysql.connector.connect(
-        user     = "admin",
-        passwd   = "softeng2021",
-        database = "easy_pass"
-        )
+try: 
+    with open(sys.argv[1], 'r') as csv_file:
+        db = mysql.connector.connect(
+                user     = "admin",
+                passwd   = "freepasses4all",
+                database = "easy_pass"
+                )
 
-mycursor = mydb.cursor()
+        cursor = db.cursor()
+        cursor.execute("DELETE FROM stations;")
 
+        csv_reader = csv.DictReader(csv_file, delimiter=';')
 
-with open(sys.argv[1], 'r') as csv_file:S
-   mycursor.execute("DELETE FROM stations;")
+        table = [[f'"{word}"' for word in line.values()] for line in csv_reader]
 
-   csv_reader = csv.DictReader(csv_file, delimiter=';')
+        for record in table:
+            query = "INSERT INTO stations VALUES(" + ",".join(record) + ");"
+            cursor.execute(query)
+            db.commit()
 
-   table = [[f'"{word}"' for word in line.values()] for line in csv_reader]
-   for record in table:
-       query = "INSERT INTO stations VALUES(" + ",".join(record) + ");"
-       mycursor.execute(query)
-       mydb.commit()
+        print('Everything is OK.')
+        cursor.close()
+        db.close()
+        sys.exit(0)
 
-mycursor.close()
-mydb.close()
-
+except mysql.connector.Error as err:
+    print(err)
+    cursor.close()
+    db.close()
+    sys.exit(1)
