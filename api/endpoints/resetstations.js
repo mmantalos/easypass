@@ -3,7 +3,7 @@ const router = express.Router();
 const spawn = require("child_process").spawn;
 
 function resetstations(req, res) {
-    var outoput;
+    var output;
 
     const python = spawn('../backend/init_stations.py',
         ['../backend/sampledata01/sampledata01_stations.csv']);

@@ -28,9 +28,10 @@ try:
 
         cursor.close()
         db.close()
+        sys.exit(0)
 
 except mysql.connector.Error as err:
-    print(error)
+    print(err)
     cursor.close()
     db.close()
     sys.exit(1)
