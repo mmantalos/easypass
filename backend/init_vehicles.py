@@ -14,6 +14,8 @@ mycursor = mydb.cursor()
 
 
 with open(sys.argv[1], 'r') as csv_file:
+   mycursor.execute("DELETE FROM vehicles;")
+
    csv_reader = csv.DictReader(csv_file, delimiter=';')
 
    table = [[f'"{word}"' for word in line.values()] for line in csv_reader]

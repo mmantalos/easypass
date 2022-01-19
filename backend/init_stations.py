@@ -13,7 +13,9 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 
 
-with open(sys.argv[1], 'r') as csv_file:
+with open(sys.argv[1], 'r') as csv_file:S
+   mycursor.execute("DELETE FROM stations;")
+
    csv_reader = csv.DictReader(csv_file, delimiter=';')
 
    table = [[f'"{word}"' for word in line.values()] for line in csv_reader]
