@@ -1,39 +1,25 @@
 const express = require('express');
 const router = express.Router();
-
-var mysql = require('mysql');
-
 const spawn = require("child_process").spawn;
 
 function resetstations(req, res) {
-    var con = mysql.createConnection({
-        host:     "localhost",
-        user:     "admin",
-        password: "softeng2021",
-        database: "easy_pass"
+    var output;
+
+    const python = spawn('../backend/init_stations.py',
+        ['../backend/sampledata01/sampledata01_stations.csv']);
+
+    python.stdout.on('data', function (data) {
+        output = data.toString();
     });
 
-    con.connect(function(err) {
-        if (err) {
-            console.log("Connection error");
-            res.send({"status": "error"});
+    python.on('close', (code) => {
+        console.log(`child process close all stdio with code ${code}`);
+        if (code) {
+            res.send({'status':'error'});
+            console.log('error:', output);
         }
-        else {
-            console.log('Connected!');
-
-            let myquery = 'DELETE FROM stations;'
-
-            console.log(myquery);
-            con.query(myquery, function(err, result, fields) {
-                if (err) res.send({"delete status": "failed"});
-                else {
-                    res.send({"delete status": "OK"});
-                    const python = spawn('../backend/init_stations.py',
-                ['../backend/sampledata01/sampledata01_stations.csv']);
-                }
-            });
-        }
-        con.end();
+        else
+            res.send({'status': 'OK'});
     });
 }
 
