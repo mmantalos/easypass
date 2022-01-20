@@ -16,10 +16,18 @@ function PassesPerStation(req,res){
   var con = mysql.createConnection({
     host: "localhost",
     user: "admin",
-    password: "softeng2021",
+    password: "freepasses4all",
     database: "easy_pass",
     timezone: 'eet'
   });
+  //check if the parameters are valid
+  // if (req.params.date_from==''||req.params.date_to==''||req.params.stationID==''){
+  //   res.status(400);
+  //   res.send('Bad request');
+  //   return;
+  // }
+
+
   //get the date from which the resulting passes will start
   year_st=req.params.date_from.slice(0,4);
   month_st=req.params.date_from.slice(4,6);
@@ -31,7 +39,8 @@ function PassesPerStation(req,res){
   day_to=req.params.date_to.slice(6);
 
 
-  var curr_timestamp=
+  var curr_timestamp=CDate_in_rformat();
+
   con.connect(function(err){
     if(err){
       throw err;
@@ -50,9 +59,26 @@ function PassesPerStation(req,res){
       con.query(mainquery,[req.params.stationID,year_st+'-'+month_st+'-'+day_st+' 00:00:00',year_to+'-'+month_to+'-'+day_to+' 23:59:59'],
       function(err,mainresult,fields){
         if (err) throw err;
-        res.send(mainresult);
+        //res.send(mainresult);
         console.log(mainresult.length);
-        console.log(mainresult[0]);
+        if (mainresult.length==0){
+          res.status(402);
+        }
+        if(req.query.format=='json' || req.query.format==undefined){
+            output={
+
+            }
+            res.send(mainresult);//change later to contain the results of auxquery
+        }
+        else if(req.query.format=='csv'){
+            //if the required format is csv we need to convert the array of json mainresult to a csv string
+            let converter=require('json-2-csv');
+            converter.json2csv(mainresult,
+              function(err,csv){
+                if (err) throw err;
+                res.attachment("PassesPerStation.csv").send(csv);
+            },{"delimiter":{"field":';'}} );
+        }
       }
     );
     });

@@ -6,7 +6,7 @@ import sys
 
 mydb = mysql.connector.connect(
         user     = "admin",
-        passwd   = "softeng2021",
+        passwd   = "freepasses4all",
         database = "easy_pass"
         )
 
