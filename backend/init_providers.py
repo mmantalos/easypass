@@ -21,6 +21,8 @@ try:
     cursor.execute("""INSERT INTO providers VALUES("nea_odos","NE","1")""")
     cursor.execute("""INSERT INTO providers VALUES("olympia_odos","OO","1")""")
 
+    db.commit()
+
     cursor.close()
     db.close()
     sys.exit(0)
