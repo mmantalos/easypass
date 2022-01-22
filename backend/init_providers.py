@@ -14,7 +14,7 @@ try:
 
     cursor.execute("DELETE FROM providers")
     cursor.execute("""INSERT INTO providers VALUES("aodos","AO","1")""")
-    cursor.execute("""INSERT INTO providers VALUES("eganita","EG","1")""")
+    cursor.execute("""INSERT INTO providers VALUES("egnatia","EG","1")""")
     cursor.execute("""INSERT INTO providers VALUES("gefyra","GF","1")""")
     cursor.execute("""INSERT INTO providers VALUES("kentriki_odos","KO","1")""")
     cursor.execute("""INSERT INTO providers VALUES("moreas","MO","1")""")
