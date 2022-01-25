@@ -1,4 +1,0 @@
-op1_ID;op2_ID;RequestTimestamp;PeriodFrom;PeriodTo;NumberOfPasses;PassesList
-aodos;egnatia;2022-01-14 12:17:42;2022-01-01;2022-01-03;3;{'PassIndex': 1, 'PassID': '2', 'StationID': 'AO06', 'TimeStamp': '2022-01-02 16:34:00', 'VehicleID': 'v2', 'Charge': 2.9}
-aodos;egnatia;2022-01-14 12:17:42;2022-01-01;2022-01-03;3;{'PassIndex': 2, 'PassID': '1', 'StationID': 'AO07', 'TimeStamp': '2022-01-02 17:32:00', 'VehicleID': 'v1', 'Charge': 3.1}
-aodos;egnatia;2022-01-14 12:17:42;2022-01-01;2022-01-03;3;{'PassIndex': 3, 'PassID': '3', 'StationID': 'AO06', 'TimeStamp': '2022-01-02 18:18:02', 'VehicleID': 'v2', 'Charge': 4.1}
