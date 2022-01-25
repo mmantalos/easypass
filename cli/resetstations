@@ -12,10 +12,11 @@ url = baseurl + '/admin/resetstations'
 #print(url)
 
 res = requests.post(url)
-obj = res.json()
+res = res.json()
 
 if(args.format == 'csv'):
-    df = pd.DataFrame(res.json()['status'])
+    df = pd.DataFrame(res['status'])
     df.to_csv('resetstations.csv', index=None, sep=';')
+    printf(df)
 else:
-    print(json.dumps(obj, indent=4))
+    print(json.dumps(res, indent=4))
