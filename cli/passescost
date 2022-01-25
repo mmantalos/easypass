@@ -3,8 +3,8 @@ import requests
 import json
 import pandas as pd
 
-parser  = argparse.ArgumentParser(prog = "passesanalysis",
-                                 description = "Get passes of vehicles with different tag provider than station provider.")
+parser  = argparse.ArgumentParser(prog = "passescost",
+                                 description = "Get the total cost and number of passes of vehicles with the specified tag and station providers")
 #define command arguments
 parser.add_argument("--op1", required = True)
 parser.add_argument("--op2", required = True)
@@ -15,11 +15,11 @@ parser.add_argument("--format", choices = ["json", "csv"], required = True)
 args = parser.parse_args()
 
 #for now doesn't verify SSL ->fix https
-res = requests.get(f"http://localhost:9103/interoperability/api/PassesAnalysis/{args.op1}/{args.op2}/{args.datefrom}/{args.dateto}?format={args.format}", verify = False)
+res = requests.get(f"http://localhost:8000/interoperability/api/PassesCost/{args.op1}/{args.op2}/{args.datefrom}/{args.dateto}?format={args.format}", verify = False)
 res = res.json()
 if(args.format == 'csv'): #is this the correct format?
-    df = pd.DataFrame(res['PassesList'])
-    df.to_csv('ChargesBy.csv', index=None, sep=';')
+    df = pd.DataFrame(res['passesCost'])
+    df.to_csv('passesCost.csv', index=None, sep=';')
     print(df)
 else:
     print(json.dumps(res, indent=4))
