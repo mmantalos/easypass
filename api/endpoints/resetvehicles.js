@@ -15,6 +15,7 @@ function resetvehicles(req, res) {
     python.on('close', (code) => {
         console.log(`child process close all stdio with code ${code}`);
         if (code) {
+            res.status(500);
             res.send({'status':'error'});
             console.log('error:', output);
         }

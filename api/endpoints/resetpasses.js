@@ -12,6 +12,7 @@ function resetpasses(req, res) {
 
     con.connect(function(err) {
         if (err) {
+            res.status(500):
             console.log("Connection error");
             res.send({"status": "error"});
         }
@@ -22,8 +23,12 @@ function resetpasses(req, res) {
 
             console.log(myquery);
             con.query(myquery, function(err, result, fields) {
-                if (err) res.send({"status": "failed"});
-                else     res.send({"status": "OK"});
+                if (err) {
+                    res.status(500);
+                    res.send({"status": "failed"});
+                }
+                else     
+                    res.send({"status": "OK"});
             });
         }
         con.end();
