@@ -12,7 +12,7 @@ function resetpasses(req, res) {
 
     con.connect(function(err) {
         if (err) {
-            res.status(500):
+            res.status(500);
             console.log("Connection error");
             res.send({"status": "error"});
         }
