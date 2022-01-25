@@ -15,6 +15,7 @@ function healthcheck(req,res){
 
 	con.connect(function(err) {
       if (err) {
+          res.status(500);
           console.log("error");
           res.send({"status":"failed", "dbconnection": cs})
       }
