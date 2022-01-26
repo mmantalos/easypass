@@ -50,7 +50,7 @@ CREATE TABLE `passes` (
   `pass_id` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `vehicle_ref` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `station_ref` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `timestamp` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `charge` float NOT NULL,
   PRIMARY KEY (`pass_id`),
   KEY `does` (`vehicle_ref`),
@@ -60,15 +60,6 @@ CREATE TABLE `passes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `passes`
---
-
-LOCK TABLES `passes` WRITE;
-/*!40000 ALTER TABLE `passes` DISABLE KEYS */;
-INSERT INTO `passes` VALUES ('1','v1','AO07','2022-01-02 15:32:00',3.1),('2','v2','AO06','2022-01-02 14:34:00',2.9),('3','v2','AO06','2022-01-02 16:18:02',4.1),('4','v1','AO07','2021-12-11 11:21:59',2.9);
-/*!40000 ALTER TABLE `passes` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `providers`
@@ -84,16 +75,6 @@ CREATE TABLE `providers` (
   PRIMARY KEY (`provider_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `providers`
---
-
-LOCK TABLES `providers` WRITE;
-/*!40000 ALTER TABLE `providers` DISABLE KEYS */;
-INSERT INTO `providers` VALUES ('aodos','AO',1),('egnatia','EG',1),('kentriki_odos','KO',1);
-/*!40000 ALTER TABLE `providers` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `settlement`
@@ -120,15 +101,6 @@ CREATE TABLE `settlement` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `settlement`
---
-
-LOCK TABLES `settlement` WRITE;
-/*!40000 ALTER TABLE `settlement` DISABLE KEYS */;
-/*!40000 ALTER TABLE `settlement` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `stations`
 --
 
@@ -144,16 +116,6 @@ CREATE TABLE `stations` (
   CONSTRAINT `FKstations561011` FOREIGN KEY (`station_provider`) REFERENCES `providers` (`provider_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `stations`
---
-
-LOCK TABLES `stations` WRITE;
-/*!40000 ALTER TABLE `stations` DISABLE KEYS */;
-INSERT INTO `stations` VALUES ('AO05','aodos','aodos tolls station 05'),('AO06','aodos','aodos tolls station 06'),('AO07','aodos','aodos tolls station 07'),('EG01','egnatia','egnatia tolls station 01');
-/*!40000 ALTER TABLE `stations` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `vehicles`
@@ -173,16 +135,6 @@ CREATE TABLE `vehicles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `vehicles`
---
-
-LOCK TABLES `vehicles` WRITE;
-/*!40000 ALTER TABLE `vehicles` DISABLE KEYS */;
-INSERT INTO `vehicles` VALUES ('v1','egnatia','032',2001),('v2','egnatia','033',2000),('v3','kentriki_odos','034',2000);
-/*!40000 ALTER TABLE `vehicles` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
