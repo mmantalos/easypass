@@ -4,7 +4,7 @@ var mysql = require('mysql');
 
 function healthcheck(req,res){
     console.log("GOT IN");
-    const cs = "host:localhost;user:admin;password:softeng2021;database:easy_pass";
+    const cs = "host:localhost;user:admin;password:freepasses4all;database:easy_pass";
 
 	  var con = mysql.createConnection({
 		host: "localhost",
