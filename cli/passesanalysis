@@ -16,10 +16,8 @@ args = parser.parse_args()
 
 #for now doesn't verify SSL ->fix https
 res = requests.get(f"http://localhost:9103/interoperability/api/PassesAnalysis/{args.op1}/{args.op2}/{args.datefrom}/{args.dateto}?format={args.format}", verify = False)
-res = res.json()
 if(args.format == 'csv'): #is this the correct format?
-    df = pd.DataFrame(res['PassesList'])
-    df.to_csv('ChargesBy.csv', index=None, sep=';')
-    print(df)
+    decoded_content = res.content.decode('utf-8')
+    print(res.content.decode('utf-8'))
 else:
-    print(json.dumps(res, indent=4))
+    print(json.dumps(res.json(), indent=4))
