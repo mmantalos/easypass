@@ -3,6 +3,7 @@ const router = express.Router();
 var mysql = require('mysql');
 
 function CommitPass(req,res){
+    var timestamp = req.params["timestamp"];
     var date_ob = new Date();
     const date = ("0" + date_ob.getDate()).slice(-2);
     const month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
@@ -27,6 +28,8 @@ function CommitPass(req,res){
         timestamp = timestamp.slice(0,4)+"-"+timestamp.slice(4,6)+"-"+timestamp.slice(6,8)+" "+timestamp.slice(8,10)+":"+timestamp.slice(10,12)+":"+timestamp.slice(12,14);
 
     	let myquery = `INSERT INTO passes(pass_id,timestamp,station_ref,vehicle_ref,charge) VALUES ('${req.params["pass_ID"]}','${req.params["timestamp"]}','${req.params["station_ID"]}','${req.params["vehicle_ID"]}',${req.params["euros"]}.${req.params["cents"]});`;
+        //console.log(myquery);
+
         con.query(myquery, function (err, result, fields){
         		if (err) throw err;
                 var output = {
