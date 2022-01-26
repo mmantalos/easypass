@@ -19,6 +19,9 @@ function getPassesCost(req,res){
       res.send('Please, give valid dates with format YYYYMMDD.');
       return;
 
+      console.log(date_from);
+      console.log(date_to);
+
 
     var con = mysql.createConnection({
     host: "localhost",
