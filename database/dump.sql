@@ -30,14 +30,6 @@ CREATE TABLE `Users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `Users`
---
-
-LOCK TABLES `Users` WRITE;
-/*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Users` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `passes`
