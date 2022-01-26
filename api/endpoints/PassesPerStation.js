@@ -2,17 +2,7 @@ const express=require('express');
 const router=express.Router();
 var moment=require('moment');
 var mysql=require('mysql');
-function CDate_in_rformat(){//returns a timestamp string containing the exact time at the moment of call
-  const d = new Date();//The timestamp at the time of call
-  console.log(String(d));
-  var dd=String(d.getDate()).padStart(2,'0');//get the days
-  var mm= String(d.getMonth()+1).padStart(2,'0');//months
-  var yyyy=d.getFullYear();//years.
-  var h=String(d.getHours()).padStart(2,'0');//hours
-  var m=String(d.getMinutes()).padStart(2,'0');
-  var s=String(d.getSeconds()).padStart(2,'0');
-  return yyyy+'-'+mm+'-'+dd+' '+h+':'+m+':'+s;
-}
+
 function PassesPerStation(req,res){
   console.log("got in the function")
   var con = mysql.createConnection({
@@ -34,10 +24,7 @@ function PassesPerStation(req,res){
     res.send('Please, give valid dates with format YYYYMMDD.');
     return;
   }
-  year_fr=req.params.date_from.slice(0,4);
-  month_fr=req.params.date_from.slice(4,6);
-  day_fr=req.params.date_from.slice(6);
-  date_fr=year_fr+'-'+month_fr+'-'+day_fr+' 00:00:00';
+
   date_fr=moment(req.params.date_from,'YYYYMMDD').format('YYYY-MM-DD');
   //get the date that the resulting passes will end
 
@@ -46,10 +33,7 @@ function PassesPerStation(req,res){
     res.send('Please, give valid dates with format YYYYMMDD');
     return;
   }
-  year_to=req.params.date_to.slice(0,4);
-  month_to=req.params.date_to.slice(4,6);
-  day_to=req.params.date_to.slice(6);
-  date_to=year_to+'-'+month_to+'-'+day_to+' 23:59:59';
+
   date_to=moment(req.params.date_to, 'YYYYMMDD').format('YYYY-MM-DD');
 
   var curr_timestamp=moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
