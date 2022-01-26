@@ -40,28 +40,28 @@ function getPassesAnalysis(req, res) {
                 res.send("Query error.");
                 return;
             }
-            var output = {
-                op1_ID: req.params.op1_ID,
-                op2_ID: req.params.op2_ID,
-                RequestTimestamp: reqTmstmp,
-                PeriodFrom: date_from,
-                PeriodTo: date_to,
-                NumberOfPasses: result.length,
-                PassesList: result
-            }
             if (result.length == 0) {
                 res.status(402); // no data
                 res.send(output);
                 return;
             }
             if (req.query.format == 'json' || req.query.format == undefined) {
+                var output = {
+                    op1_ID: req.params.op1_ID,
+                    op2_ID: req.params.op2_ID,
+                    RequestTimestamp: reqTmstmp,
+                    PeriodFrom: date_from,
+                    PeriodTo: date_to,
+                    NumberOfPasses: result.length,
+                    PassesList: result
+                }
                 res.send(output);
             } else if (req.query.format == 'csv') {
                 let converter=require('json-2-csv');
                 converter.json2csv(result,
                   function(err,csv){
                     if (err) throw err;
-                    res.attachment("PassesPerStation.csv").send(csv);
+                    res.attachment("PassesAnalysis.csv").send(csv);
                 },{"delimiter":{"field":';'}} );
             }
             });
