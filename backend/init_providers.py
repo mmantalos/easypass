@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 
 import mysql.connector
 import sys
@@ -11,7 +11,9 @@ try:
             )
 
     cursor = db.cursor()
-
+    cursor.execute("DELETE FROM passes")
+    cursor.execute("DELETE FROM vehicles")
+    cursor.execute("DELETE FROM stations")
     cursor.execute("DELETE FROM providers")
     cursor.execute("""INSERT INTO providers VALUES("aodos","AO","1")""")
     cursor.execute("""INSERT INTO providers VALUES("egnatia","EG","1")""")
