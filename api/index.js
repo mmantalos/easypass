@@ -1,14 +1,13 @@
-const express = require('express')
-const app = express();
 const port = 9103;
 const baseUrl = "/interoperability/api"
-// var path = require('path');
-
-//initialize port for node application to run
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}!`);
-});
-
+var express = require('express')
+var fs = require('fs');
+var https = require('https');
+//synchronous read of private key and self-signed certificate
+var privateKey  = fs.readFileSync('./key.pem', 'utf8');
+var certificate = fs.readFileSync('./cert.pem', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+var app = express();
 //WELCOME FRIENDS
 
 app.get(baseUrl, (req, res) => {
@@ -41,3 +40,9 @@ app.use(baseUrl, pCost);
 app.use(baseUrl, ChargesBy);
 
 app.use(baseUrl, CommitPass);
+
+https.createServer(
+{
+  key: fs.readFileSync('./key.pem', 'utf8'),
+  cert : fs.readFileSync('./cert.pem', 'utf8'),
+}, app).listen(port, () => console.log(`Secure server on port ${port}`));
