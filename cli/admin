@@ -18,7 +18,7 @@ with open(args.source) as f:
         timestamp = dateparser.parse(row['timestamp'])
         url = baseurl + '/CommitPass/' + row['passID'] + '/' + timestamp.strftime("%Y%m%d%H%M%S") + '/' + row['stationRef'] + '/' + row['vehicleRef'] + '/' + row['charge']
         #print(url)
-        res = requests.post(url)
+        res = requests.post(url, verify=False)
         if(res.status_code == 200):
             passes += 1
         else:

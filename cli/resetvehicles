@@ -11,7 +11,7 @@ baseurl = 'https://localhost:9103/interoperability/api'
 url = baseurl + '/admin/resetvehicles'
 #print(url)
 
-res = requests.post(url)
+res = requests.post(url, verify=False)
 res = res.json()
 
 if(args.format == 'csv'):

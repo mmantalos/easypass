@@ -11,12 +11,12 @@ baseurl = 'https://localhost:9103/interoperability/api'
 url = baseurl + '/admin/resetstations'
 #print(url)
 
-res = requests.post(url)
+res = requests.post(url, verify=False)
 res = res.json()
 
 if(args.format == 'csv'):
     df = pd.DataFrame(res['status'])
     df.to_csv('resetstations.csv', index=None, sep=';')
-    printf(df)
+    print(df)
 else:
     print(json.dumps(res, indent=4))

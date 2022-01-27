@@ -14,7 +14,7 @@ baseurl = 'https://localhost:9103/interoperability/api'
 url = baseurl + '/ChargesBy/' + args.op1 + '/' + str(args.datefrom) + '/' + str(args.dateto)
 #print(url)
 
-res = requests.get(url)
+res = requests.get(url, verify=False)
 obj = res.json()
 
 if(args.format == 'csv'):
