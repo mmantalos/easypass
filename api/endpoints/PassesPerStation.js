@@ -4,7 +4,6 @@ var moment=require('moment');
 var mysql=require('mysql');
 
 function PassesPerStation(req,res){
-  console.log("got in the function")
   var con = mysql.createConnection({
     host: "localhost",
     user: "admin",
@@ -17,11 +16,10 @@ function PassesPerStation(req,res){
 
   //get the date from which the resulting passes will start
   //and check if it is in the right format
-  console.log(req.params.date_from);
+
   if(!moment(req.params.date_from,'YYYYMMDD',true).isValid()){
-    console.log("here");
     res.status(400);
-    res.send('Please, give valid dates with format YYYYMMDD.');
+    res.send({'status':'failed'});
     return;
   }
 
@@ -30,17 +28,17 @@ function PassesPerStation(req,res){
 
   if(!moment(req.params.date_to,'YYYYMMDD',true).isValid()){
     res.status(400);
-    res.send('Please, give valid dates with format YYYYMMDD');
+    res.send({'status':"failed"});
     return;
   }
 
   date_to=moment(req.params.date_to, 'YYYYMMDD').format('YYYY-MM-DD');
 
   var curr_timestamp=moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
-  console.log(curr_timestamp);
   con.connect(function(err){
     if(err){
-      throw err;
+      res.status(500);
+      res.send({"status":"failed"})
     }
     console.log("Connected to database");
 
@@ -53,7 +51,7 @@ function PassesPerStation(req,res){
     con.query(auxquery,[req.params.stationID],function (err,result,fields){
       if (err){
         res.status(500);
-        res.send("DB connection refused");
+        res.send({"status":"failed"});
         return;
       }
       StationOperator=result[0].station_provider;//query has only one result which is the operator that this station belongs to
@@ -63,9 +61,8 @@ function PassesPerStation(req,res){
       function(err,mainresult,fields){
         if (err){
           res.status(500);
-          res.send("DB connection refused");
+          res.send({"status":"failed"});
         }
-        console.log(mainresult.length);
         if (mainresult.length==0){
           res.status(402);
         }
@@ -86,14 +83,17 @@ function PassesPerStation(req,res){
             let converter=require('json-2-csv');
             converter.json2csv(mainresult,
               function(err,csv){
-                if (err) throw err;
+                if (err){
+                  res.status(500);
+                  res.send({"status":"failed"});
+                }
                 res.attachment("PassesPerStation.csv").send(csv);
             },{"delimiter":{"field":';'}} );
         }
         //the requested format is neither csv nor json.
         else{
             res.status(400);
-            res.send("Sorry, the requested format is not supported");
+            res.send({"status":"failed"});
         }
       }
     );
