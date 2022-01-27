@@ -21,7 +21,7 @@ def init_vehicles(argv):
             csv_reader = csv.DictReader(csv_file, delimiter=';')
 
             table = [[f'"{word}"' for word in line.values()] for line in csv_reader]
-            print("Inserting vehicles.")
+            print("Inserting vehicles:")
             for record in tqdm(table):
                 query = "INSERT INTO vehicles VALUES(" + ",".join(
                         [record[0], record[2], record[1], record[4]]) + ");"

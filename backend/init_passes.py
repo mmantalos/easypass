@@ -41,7 +41,7 @@ def init_passes(path='./sampledata01/sampledata01_passes100_8000.csv'):
                 cursor.execute(query)
                 db.commit()
 
-            print('Passes inserted\n')
+            print('Passes inserted.\n')
             cursor.close()
             db.close()
             #sys.exit(0)
