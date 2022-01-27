@@ -5,8 +5,8 @@ import csv
 import dateparser
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--passesupd', help='Πρόσθεση νέων Passes από αρχείο CSV', required='TRUE', action='store_true')
-parser.add_argument('--source', help='Filename', required='TRUE')
+parser.add_argument('--passesupd', required='TRUE', action='store_true')
+parser.add_argument('--source', required='TRUE')
 args = parser.parse_args()
 
 baseurl = 'http://localhost:9103/interoperability/api'
@@ -18,7 +18,10 @@ with open(args.source) as f:
         timestamp = dateparser.parse(row['timestamp'])
         url = baseurl + '/CommitPass/' + row['passID'] + '/' + timestamp.strftime("%Y%m%d%H%M%S") + '/' + row['stationRef'] + '/' + row['vehicleRef'] + '/' + row['charge']
         #print(url)
-        res = requests.get(url)
-        #print(json.dumps(res.json(), indent=4))
-        passes += 1
+        res = requests.post(url)
+        if(res.status_code == 200):
+            passes += 1
+        else:
+            print(json.dumps({**row, **res.json()}, indent=4))
+            break
 print(f'Commited {passes} Passes.')
