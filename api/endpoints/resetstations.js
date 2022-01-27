@@ -16,7 +16,7 @@ function resetstations(req, res) {
         console.log(`child process close all stdio with code ${code}`);
         if (code) {
             res.status(500);
-            res.send({'status':'error'});
+            res.send({'status':'failed'});
             console.log('error:', output);
         }
         else
