@@ -25,7 +25,7 @@ def init_providers():
         """INSERT INTO providers VALUES("nea_odos","NE","1")""",
         """INSERT INTO providers VALUES("olympia_odos","OO","1")"""
         ]
-        print("Inserting providers")
+        print("Inserting providers:")
         for q in tqdm(queries):
             cursor.execute(q)
 
