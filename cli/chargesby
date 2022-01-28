@@ -4,21 +4,19 @@ import json
 import pandas as pd
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--format', choices=['json','csv'], help='', required='TRUE')
-parser.add_argument('--op1', required='TRUE')
-parser.add_argument('--datefrom', required='TRUE')
-parser.add_argument('--dateto', required='TRUE')
+parser.add_argument('--op1', required=True)
+parser.add_argument('--datefrom', required=True)
+parser.add_argument('--dateto', required=True)
+parser.add_argument('--format', choices=['json','csv'], required=True)
 args = parser.parse_args()
 
 baseurl = 'https://localhost:9103/interoperability/api'
-url = baseurl + '/ChargesBy/' + args.op1 + '/' + str(args.datefrom) + '/' + str(args.dateto)
+url = baseurl + '/ChargesBy/' + args.op1 + '/' + str(args.datefrom) + '/' + str(args.dateto) + '?format=' + args.format
 #print(url)
 
 res = requests.get(url, verify=False)
-obj = res.json()
 
 if(args.format == 'csv'):
-    df = pd.DataFrame(res.json()['PPOList'])
-    df.to_csv('ChargesBy.csv', index=None, sep=';')
+    print(res.text)
 else:
-    print(json.dumps(obj, indent=4))
+    print(json.dumps(res.json(), indent=4))
