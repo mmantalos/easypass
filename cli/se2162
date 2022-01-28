@@ -1,1 +1,1 @@
-python3 -W ignore ./$@
+python3 -W ignore `dirname $0`/$@

@@ -6,8 +6,8 @@ var https = require('https');
 var cors = require('cors')
 
 //synchronous read of private key and self-signed certificate
-var privateKey  = fs.readFileSync('./key.pem', 'utf8');
-var certificate = fs.readFileSync('./cert.pem', 'utf8');
+var privateKey  = fs.readFileSync(__dirname + '/key.pem', 'utf8');
+var certificate = fs.readFileSync(__dirname + '/cert.pem', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
 var app = express();
 //WELCOME FRIENDS
@@ -19,17 +19,17 @@ app.get(baseUrl, (req, res) => {
 });
 
 // load all endpoints
-const healthcheck=require("./endpoints/healthcheck.js");
-const resetpasses=require("./endpoints/resetpasses.js");
-const resetstations=require("./endpoints/resetstations.js");
-const resetvehicles=require("./endpoints/resetvehicles.js");
+const healthcheck=require(__dirname + "/endpoints/healthcheck.js");
+const resetpasses=require(__dirname + "/endpoints/resetpasses.js");
+const resetstations=require(__dirname + "/endpoints/resetstations.js");
+const resetvehicles=require(__dirname + "/endpoints/resetvehicles.js");
 
 //main endpoints
-const ppStation=require("./endpoints/PassesPerStation.js");
-const pAnalysis = require("./endpoints/PassesAnalysis.js");
-const pCost=require("./endpoints/passesCost.js");
-const ChargesBy = require("./endpoints/ChargesBy.js");
-const CommitPass = require("./endpoints/CommitPass.js");
+const ppStation=require(__dirname + "/endpoints/PassesPerStation.js");
+const pAnalysis = require(__dirname + "/endpoints/PassesAnalysis.js");
+const pCost=require(__dirname + "/endpoints/passesCost.js");
+const ChargesBy = require(__dirname + "/endpoints/ChargesBy.js");
+const CommitPass = require(__dirname + "/endpoints/CommitPass.js");
 
 
 //bind all endpoints to app router
@@ -47,6 +47,6 @@ app.use(baseUrl, CommitPass);
 
 https.createServer(
 {
-  key: fs.readFileSync('./key.pem', 'utf8'),
-  cert : fs.readFileSync('./cert.pem', 'utf8'),
+  key: fs.readFileSync(__dirname + '/key.pem', 'utf8'),
+  cert : fs.readFileSync(__dirname + '/cert.pem', 'utf8'),
 }, app).listen(port, () => console.log(`Secure server on port ${port}`));

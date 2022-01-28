@@ -1,0 +1,1 @@
+`dirname $0`/../cli/se2162 chargesby --format csv --op1 aodos --datefrom 20211101 --dateto 20211130

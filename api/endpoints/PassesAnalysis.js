@@ -57,16 +57,16 @@ function getPassesAnalysis(req, res) {
                 }
                 res.send(output);
             } else if (req.query.format == 'csv') {
-                let converter=require('json-2-csv');
+                let converter = require('json-2-csv');
                 converter.json2csv(result,
-                  function(err,csv){
-                    if (err) throw err;
-                    res.attachment("PassesAnalysis.csv").send(csv);
-                },{"delimiter":{"field":';'}} );
+                    function (err, csv) {
+                        if (err) throw err;
+                        res.attachment("PassesAnalysis.csv").send(csv);
+                    }, { "delimiter": { "field": ';' } });
             }
-            });
-        con.end();
         });
+        con.end();
+    });
 }
 
 router.get('/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to', getPassesAnalysis);
