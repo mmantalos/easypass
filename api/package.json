@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.2",
+    "json-2-csv": "^3.16.1",
     "json2csv": "^5.0.6",
     "moment": "^2.29.1",
     "mysql": "^2.18.1",

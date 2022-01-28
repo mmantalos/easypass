@@ -14,7 +14,7 @@ function resetpasses(req, res) {
         if (err) {
             res.status(500);
             console.log("Connection error");
-            res.send({"status": "error"});
+            res.send({"status": "failed"});
         }
         else {
             console.log('Connected!');

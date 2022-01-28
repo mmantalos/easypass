@@ -1,51 +1,71 @@
 const express = require('express');
 const router = express.Router();
 var mysql = require('mysql');
+var moment = require('moment');
+let converter = require('json-2-csv');
 
-function getChargesBy(req,res){
+function getChargesBy(req, res) {
+    //get current date string with format "yyyy-mm-dd hh:mm:ss" from date object
+    var reqTmstmp = moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
+
     var date_from = req.params["date_from"];
     var date_to = req.params["date_to"];
 
-    var date_ob = new Date();
-    const date = ("0" + date_ob.getDate()).slice(-2);
-    const month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-    const year = date_ob.getFullYear();
-    const hours = ("0" + date_ob.getHours()).slice(-2);
-    const minutes = ("0" + date_ob.getMinutes()).slice(-2);
-    const seconds = ("0"+date_ob.getSeconds()).slice(-2);
-    var reqTmstmp = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
+    //check if input dates have "YYYYMMDD" format and convert them to YYYY-MM-DD
+    if (moment(date_from, 'YYYYMMDD', true).isValid() && moment(date_to, 'YYYYMMDD', true).isValid()) {
+        date_from = moment(date_from).format('YYYY-MM-DD');
+        date_to = moment(date_to).format('YYYY-MM-DD');
+    } else {
+        res.status(400);
+        res.send({ "status": "failed" });
+        return;
+    }
 
     var con = mysql.createConnection({
-    host: "localhost",
-    user: "admin",
-    password: "freepasses4all",
-    database:"easy_pass",
-    timezone:"eet"
+        host: "localhost",
+        user: "admin",
+        password: "freepasses4all",
+        database: "easy_pass",
+        timezone: "eet"
     });
 
-    //Make database connection and query. Error handling???
-    con.connect(function(err) {
-    	if (err) throw err;
-    	console.log("Connected!");
-        // convert input dates from "yyyymmdd" to "yyyy-mm-dd" format
-        date_from = date_from.slice(0,4)+"-"+date_from.slice(4,6)+"-"+date_from.slice(-2);
-        date_to = date_to.slice(0,4)+"-"+date_to.slice(4,6)+"-"+date_to.slice(-2);
-
-    	let myquery = `SELECT tag_provider as VisitingOperator, COUNT(pass_id) as NumberOfPasses, SUM(charge) as PassesCost FROM stations, vehicles, passes WHERE station_provider = "${req.params["op_ID"]}" AND tag_provider <> "${req.params["op_ID"]}" AND timestamp BETWEEN "${req.params["date_from"]}" AND "${req.params["date_to"]}" AND station_ref = station_id AND vehicle_ref = vehicle_id GROUP BY tag_provider;`;
-        con.query(myquery, function (err, result, fields){
-        		if (err) throw err;
-                var output = {
-                    op_ID : req.params["op_ID"],
-                    RequestTimestamp : reqTmstmp,
-                    PeriodFrom : req.params["date_from"],
-                    PeriodTo : req.params["date_to"],
-                    NumberOfCharges : result.length,
-                    PPOList : result
+    //Make database connection and query.
+    try {
+        con.connect(function (err) {
+            if (err) throw err;
+            let myquery = `SELECT tag_provider as VisitingOperator, COUNT(pass_id) as NumberOfPasses, SUM(charge) as PassesCost FROM stations, vehicles, passes WHERE station_provider = "${req.params["op_ID"]}" AND tag_provider <> "${req.params["op_ID"]}" AND timestamp BETWEEN "${req.params["date_from"]}" AND "${req.params["date_to"]}" AND station_ref = station_id AND vehicle_ref = vehicle_id GROUP BY tag_provider;`;
+            con.query(myquery, function (err, result, fields) {
+                console.log(myquery);
+                if (err) throw err;
+                if (result.length == 0) {
+                    res.status(402); // no data
                 }
-        		res.send(output);
-        	});
-        con.end();
-    });
+                var output = {
+                    op_ID: req.params["op_ID"],
+                    RequestTimestamp: reqTmstmp,
+                    PeriodFrom: req.params["date_from"],
+                    PeriodTo: req.params["date_to"],
+                    NumberOfCharges: result.length,
+                    PPOList: result
+                }
+                if (req.query.format == 'csv') {
+                    converter.json2csv(result,
+                        function (err, csv) {
+                            if (err) throw err;
+                            res.send(csv);
+                        }, { "delimiter": { "field": ';' } });
+                }
+                else res.send(output);
+            });
+            con.end();
+        });
+    }
+
+    catch (err) {
+        res.status(500); // internal server error
+        res.send({ "status": "failed" });
+        return;
+    }
 }
 
 router.get('/ChargesBy/:op_ID/:date_from/:date_to', getChargesBy);
