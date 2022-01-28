@@ -1,0 +1,218 @@
+[
+        {
+            "PassIndex": 1,
+            "PassID": "MKL0928371",
+            "StationID": "AO16",
+            "TimeStamp": "2021-01-02 00:37:00",
+            "VehicleID": "QH15HWX24570",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 2,
+            "PassID": "AXI4697086",
+            "StationID": "AO15",
+            "TimeStamp": "2021-01-04 02:48:00",
+            "VehicleID": "HE38BQH01623",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 3,
+            "PassID": "TZP6569867",
+            "StationID": "AO15",
+            "TimeStamp": "2021-01-07 03:25:00",
+            "VehicleID": "UA13YTK28483",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 4,
+            "PassID": "LVX6504737",
+            "StationID": "AO05",
+            "TimeStamp": "2021-01-11 06:52:00",
+            "VehicleID": "QN23UHH39091",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 5,
+            "PassID": "GTK9718850",
+            "StationID": "AO04",
+            "TimeStamp": "2021-01-15 20:40:00",
+            "VehicleID": "XV91YMP27722",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 6,
+            "PassID": "OHN2131550",
+            "StationID": "AO12",
+            "TimeStamp": "2021-01-21 07:41:00",
+            "VehicleID": "HE38BQH01623",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 7,
+            "PassID": "KMA3203618",
+            "StationID": "AO06",
+            "TimeStamp": "2021-01-21 17:11:00",
+            "VehicleID": "HA82SCK64299",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 8,
+            "PassID": "CTW3412791",
+            "StationID": "AO11",
+            "TimeStamp": "2021-01-24 13:31:00",
+            "VehicleID": "EZ65FLV39493",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 9,
+            "PassID": "FUT4993536",
+            "StationID": "AO16",
+            "TimeStamp": "2021-01-25 06:35:00",
+            "VehicleID": "HR53SRO94328",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 10,
+            "PassID": "SKV1069785",
+            "StationID": "AO04",
+            "TimeStamp": "2021-01-25 19:16:00",
+            "VehicleID": "BI87HYL81972",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 11,
+            "PassID": "GPR9011428",
+            "StationID": "AO06",
+            "TimeStamp": "2021-01-28 16:13:00",
+            "VehicleID": "KF48RSD79865",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 12,
+            "PassID": "HLC3540391",
+            "StationID": "AO14",
+            "TimeStamp": "2021-01-29 04:54:00",
+            "VehicleID": "QH15HWX24570",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 13,
+            "PassID": "MCJ5048209",
+            "StationID": "AO02",
+            "TimeStamp": "2021-01-31 15:28:00",
+            "VehicleID": "HE38BQH01623",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 14,
+            "PassID": "TED9930049",
+            "StationID": "AO19",
+            "TimeStamp": "2021-02-02 00:25:00",
+            "VehicleID": "HE38BQH01623",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 15,
+            "PassID": "DIW6269162",
+            "StationID": "AO00",
+            "TimeStamp": "2021-02-05 10:14:00",
+            "VehicleID": "QO68DIC93032",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 16,
+            "PassID": "CKT8454385",
+            "StationID": "AO19",
+            "TimeStamp": "2021-02-07 19:43:00",
+            "VehicleID": "EZ65FLV39493",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 17,
+            "PassID": "AZG6613438",
+            "StationID": "AO15",
+            "TimeStamp": "2021-02-15 03:31:00",
+            "VehicleID": "QN23UHH39091",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 18,
+            "PassID": "EPU1998550",
+            "StationID": "AO12",
+            "TimeStamp": "2021-02-15 15:19:00",
+            "VehicleID": "UA13YTK28483",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 19,
+            "PassID": "DGM8806238",
+            "StationID": "AO08",
+            "TimeStamp": "2021-02-15 15:26:00",
+            "VehicleID": "BI87HYL81972",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 20,
+            "PassID": "XSE6486252",
+            "StationID": "AO02",
+            "TimeStamp": "2021-02-17 08:47:00",
+            "VehicleID": "KF48RSD79865",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 21,
+            "PassID": "OCE1326055",
+            "StationID": "AO09",
+            "TimeStamp": "2021-02-18 13:09:00",
+            "VehicleID": "HA82SCK64299",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 22,
+            "PassID": "LHJ1174654",
+            "StationID": "AO05",
+            "TimeStamp": "2021-02-23 12:25:00",
+            "VehicleID": "XV91YMP27722",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 23,
+            "PassID": "EEX1816167",
+            "StationID": "AO08",
+            "TimeStamp": "2021-02-25 05:45:00",
+            "VehicleID": "QN23UHH39091",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 24,
+            "PassID": "PDC2085232",
+            "StationID": "AO09",
+            "TimeStamp": "2021-02-26 04:31:00",
+            "VehicleID": "XV91YMP27722",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 25,
+            "PassID": "XIJ9076631",
+            "StationID": "AO06",
+            "TimeStamp": "2021-03-01 19:00:00",
+            "VehicleID": "QH15HWX24570",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 26,
+            "PassID": "WNU9916152",
+            "StationID": "AO08",
+            "TimeStamp": "2021-03-02 03:39:00",
+            "VehicleID": "QH15HWX24570",
+            "Charge": 2.8
+        },
+        {
+            "PassIndex": 27,
+            "PassID": "WQV4856447",
+            "StationID": "AO12",
+            "TimeStamp": "2021-03-05 07:12:00",
+            "VehicleID": "RR98KQE80731",
+            "Charge": 2.8
+        }
+    ]

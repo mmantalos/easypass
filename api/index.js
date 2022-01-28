@@ -3,12 +3,16 @@ const baseUrl = "/interoperability/api"
 var express = require('express')
 var fs = require('fs');
 var https = require('https');
+var cors = require('cors')
+
 //synchronous read of private key and self-signed certificate
 var privateKey  = fs.readFileSync('./key.pem', 'utf8');
 var certificate = fs.readFileSync('./cert.pem', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
 var app = express();
 //WELCOME FRIENDS
+
+app.use(cors())
 
 app.get(baseUrl, (req, res) => {
   res.send("HELLO WORLD");
