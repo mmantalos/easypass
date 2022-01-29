@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import NewForm from './NewForm';
+import TableReportForm from './TableReportForm';
 
 class App extends React.Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="container">
-        <NewForm />
+        <TableReportForm />
       </div>
     );
   }
