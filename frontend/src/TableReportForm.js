@@ -28,7 +28,7 @@ class TableReportForm extends React.Component {
           }, 0);
         })
         .catch(err => {
-          this.setState({ error: err })
+          this.setState({ error: err.message })
         });
     }
     else {
