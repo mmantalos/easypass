@@ -7,38 +7,30 @@ class TableReportForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      op1_ID: null,
-      op2_ID: null,
-      date_from: null,
-      date_to: null,
+      op1_ID: '',
+      op2_ID: '',
+      date_from: '',
+      date_to: '',
+      data: null,
       error: null };
-    this.data = null;
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleClear = this.handleClear.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
   }
 
   handleSubmit() {
-    if (this.state.op1_ID && this.state.op2_ID && this.state.date_from && this.state.date_to) {
-      this.setState({ error : null});
+      this.state.data = null;
       fetchData(this.state.op1_ID, this.state.op2_ID, this.state.date_from, this.state.date_to)
         .then(json => {
+          this.setState({ error : null});
           setTimeout(() => {
-            this.data = json;
+            this.setState({data: json});
           }, 0);
         })
-        .catch(err => {
-          this.setState({ error: err.message })
+        .catch(error => {
+            if(error.response){
+                this.setState({ error: error.response.data});
+            }
         });
-    }
-    else {
-      this.setState({ error: "Some fields are blank" })
-    }
-  }
-
-  handleClear() {
-    this.setState({ error : null});
-    this.data = null;
   }
 
   handleUserInput(e) {
@@ -83,20 +75,12 @@ class TableReportForm extends React.Component {
         >
           Show Table
         </button>
-        <button
-          className="btn"
-          name="action"
-          onClick={this.handleClear}
-        >
-          Clear
-        </button>
-        {this.data !== null && (
-          <JsonDataDisplay data={this.data} />
+        {this.state.data !== null && (
+          <JsonDataDisplay data={this.state.data}/>
         )}
-
         {this.state.error !== null && (
           <div className="error">
-            Error: {this.state.error}
+            {this.state.error}
           </div>
         )}
       </div>

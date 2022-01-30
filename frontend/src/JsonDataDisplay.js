@@ -5,36 +5,30 @@ class JsonDataDisplay extends React.Component {
   constructor(props) {
     super(props);
 		this.json = props.data;
+        console.log(props.data);
   }
 
 	render() {
 		const DisplayData=this.json.data.PassesList.map(
 			(info)=>{
+                var vals = [];
+                Object.values(info).forEach(value => {vals.push(<td>{value}</td>);});
 				return(
-					<tr>
-						<td>{info.PassIndex}</td>
-						<td>{info.PassID}</td>
-						<td>{info.StationID}</td>
-						<td>{info.TimeStamp}</td>
-						<td>{info.VehicleID}</td>
-						<td>{info.Charge}</td>
+                    <tr key={info.PassIndex}>{/* warning if non-unique keys */}
+						{vals}
 					</tr>
 				)
 			}
 		)
-
+        var headers = [];
+        Object.keys(this.json.data.PassesList[0]).forEach(key => {headers.push(<th>{key}</th>);});
 		return(
 			<div>
 				<table className="table table-striped">
 					<thead>
 						<tr>
-						<th>PassIndex</th>
-						<th>PassID</th>
-						<th>StationID</th>
-						<th>TimeStamp</th>
-						<th>VehicleID</th>
-						<th>Charge</th>
-						</tr>
+                        {headers}
+                        </tr>
 					</thead>
 					<tbody>
 
