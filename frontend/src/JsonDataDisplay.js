@@ -12,7 +12,7 @@ class JsonDataDisplay extends React.Component {
 			(info)=>{
 				return(
 					<tr>
-						<td>{info.PassIndex}</td>
+            <td>{info.PassIndex}</td>
 						<td>{info.PassID}</td>
 						<td>{info.StationID}</td>
 						<td>{info.TimeStamp}</td>
