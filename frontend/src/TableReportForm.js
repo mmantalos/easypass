@@ -70,13 +70,33 @@ class TableReportForm extends React.Component {
           onChange={this.handleUserInput} />
         <button
           className="btn"
-          name="action"
+          name="back"
+          onClick={this.props.handleBack}
+        >
+          Back
+        </button>
+        <button
+          className="btn"
+          name="submit"
           onClick={this.handleSubmit}
         >
           Show Table
         </button>
+<<<<<<< HEAD
         {this.state.data !== null && (
           <JsonDataDisplay data={this.state.data}/>
+=======
+        <button
+          className="btn"
+          name="clear"
+          onClick={this.handleClear}
+        >
+          Clear
+        </button>
+
+        {this.data !== null && (
+          <JsonDataDisplay data={this.data} />
+>>>>>>> 289561ca0c2cf8d48063fa023a34072f7d1a570d
         )}
         {this.state.error !== null && (
           <div className="error">

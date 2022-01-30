@@ -2,3 +2,4 @@ api/node_modules
 api/key.pem
 api/cert.pem
 frontend/node_modules
+*.pyc
