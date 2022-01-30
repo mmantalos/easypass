@@ -1,5 +1,5 @@
 import React from 'react'
-import Json from './data.json'
+import JSON from 'JSON'
 
 class JsonDataDisplay extends React.Component {
   constructor(props) {
@@ -8,8 +8,7 @@ class JsonDataDisplay extends React.Component {
   }
 
 	render() {
-
-		const DisplayData=Json.map(
+		const DisplayData=this.json.data.PassesList.map(
 			(info)=>{
 				return(
 					<tr>

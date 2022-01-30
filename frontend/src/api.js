@@ -3,7 +3,7 @@ import config from "./config";
 
 axios.defaults.baseURL = config.apiUrl;
 
-export const fetchData = obj => {
-  const requestUrl = "PassesAnalysis/aodos/moreas/20210101/20210510?format=json";
+export const fetchData = (op1_ID, op2_ID, date_from, date_to) => {
+  const requestUrl = "PassesAnalysis/" + op1_ID + "/" + op2_ID + "/" + date_from + "/" + date_to + "?format=json";
   return axios.get(requestUrl)
 };
