@@ -19,11 +19,12 @@ class TableReportForm extends React.Component {
 
   handleSubmit() {
       this.state.data = null;
+      this.setState({error: null});
       fetchData(this.state.op1_ID, this.state.op2_ID, this.state.date_from, this.state.date_to)
-        .then(json => {
+        .then(csv => {
           this.setState({ error : null});
           setTimeout(() => {
-            this.setState({data: json});
+            this.setState({data: csv.data});
           }, 0);
         })
         .catch(error => {
