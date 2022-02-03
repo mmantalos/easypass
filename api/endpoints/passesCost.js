@@ -18,7 +18,7 @@ function getPassesCost(req, res) {
     res.status(400);
     res.send('Please, give valid dates with format YYYYMMDD.');
     return;
-
+}
     console.log(date_from);
     console.log(date_to);
 
@@ -78,6 +78,5 @@ function getPassesCost(req, res) {
       con.end();
     });
   }
-}
 router.get('/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to', getPassesCost);
 module.exports = router;

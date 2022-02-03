@@ -1,1 +1,22 @@
+import argparse
+import requests
+import json
+import pandas as pd
+
+parser =argparse.ArgumentParser(prog="passesperstation",
                                 description="Get passes from a given station in a given period")
+
+parser.add_argument("--station", required=True)
+parser.add_argument("--datefrom", required=True)
+parser.add_argument("--dateto", required=True)
+parser.add_argument("--format",choices=['json','csv'] , required=True)
+
+args=parser.parse_args()
+
+res=requests.get(f"https://localhost:9103/interoperability/api/PassesPerStation/{args.station}/{args.datefrom}/{args.dateto}?format={args.format}", verify = False)
+
+if(args.format=='csv'):
+    decoded_content=res.content.decode('utf-8')
+    print(res.content.decode('utf-8'))
+else:
+    print(json.dumps(res.json(),indent=4))
