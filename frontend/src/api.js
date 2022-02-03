@@ -3,7 +3,12 @@ import config from "./config";
 
 axios.defaults.baseURL = config.apiUrl;
 
-export const fetchData = (op1_ID, op2_ID, date_from, date_to) => {
-  const requestUrl = "PassesAnalysis/" + op1_ID + "/" + op2_ID + "/" + date_from + "/" + date_to + "?format=json";
+export const fetchPasses = (op1_ID, op2_ID, date_from, date_to) => {
+  const requestUrl = "PassesAnalysis/" + op1_ID + "/" + op2_ID + "/" + date_from + "/" + date_to + "?format=csv";
+  return axios.get(requestUrl)
+};
+
+export const fetchCosts = (op1_ID, op2_ID, date_from, date_to) => {
+  const requestUrl = "PassesCost/" + op1_ID + "/" + op2_ID + "/" + date_from + "/" + date_to + "?format=csv";
   return axios.get(requestUrl)
 };

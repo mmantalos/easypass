@@ -1,9 +1,9 @@
 import React from 'react';
-import './TableReportForm.css';
-import { fetchPasses } from './api';
+import './ShortReportForm.css';
+import { fetchCosts } from './api';
 import JsonDataDisplay from './JsonDataDisplay';
 
-class TableReportForm extends React.Component {
+class ShortReportForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,7 +20,7 @@ class TableReportForm extends React.Component {
   handleSubmit() {
       this.setState({data: null});
       this.setState({error: null});
-      fetchPasses(this.state.op1_ID, this.state.op2_ID, this.state.date_from, this.state.date_to)
+      fetchCosts(this.state.op1_ID, this.state.op2_ID, this.state.date_from, this.state.date_to)
         .then(csv => {
           this.setState({ error : null});
           setTimeout(() => {
@@ -43,7 +43,7 @@ class TableReportForm extends React.Component {
   render() {
     return (
       <div className="new-form">
-        <h1>Table Report</h1>
+        <h1>Short Report</h1>
         <input
           name="op1_ID"
           field="op1_ID"
@@ -96,4 +96,4 @@ class TableReportForm extends React.Component {
   }
 }
 
-export default TableReportForm;
+export default ShortReportForm;

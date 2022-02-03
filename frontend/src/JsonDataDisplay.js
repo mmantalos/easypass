@@ -1,44 +1,29 @@
 import React from 'react'
-import JSON from 'JSON'
-
+import Papa from "papaparse";
 class JsonDataDisplay extends React.Component {
   constructor(props) {
     super(props);
-		this.json = props.data;
+		this.csv = Papa.parse(props.data).data;
   }
 
 	render() {
-		const DisplayData=this.json.data.PassesList.map(
+		const DisplayData=this.csv.map(
 			(info)=>{
+                var vals = info.map((val) => {return(<td>{val}</td>)})
 				return(
-					<tr>
-						<td>{info.PassIndex}</td>
-						<td>{info.PassID}</td>
-						<td>{info.StationID}</td>
-						<td>{info.TimeStamp}</td>
-						<td>{info.VehicleID}</td>
-						<td>{info.Charge}</td>
-					</tr>
+                    <tr>{vals}</tr>
 				)
 			}
 		)
-
+        // var headers = [];
+        // Object.keys(this.csv[0]).forEach(key => {headers.push(<th>{key}</th>);});
 		return(
 			<div>
-				<table className="table table-striped">
-					<thead>
-						<tr>
-						<th>PassIndex</th>
-						<th>PassID</th>
-						<th>StationID</th>
-						<th>TimeStamp</th>
-						<th>VehicleID</th>
-						<th>Charge</th>
-						</tr>
-					</thead>
+				<table className="table table-stripe">
+                    <thead>{DisplayData[0]}</thead>
 					<tbody>
 
-						{DisplayData}
+						{DisplayData.slice(1)}
 
 					</tbody>
 				</table>

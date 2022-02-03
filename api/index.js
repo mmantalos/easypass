@@ -27,7 +27,7 @@ const resetvehicles=require(__dirname + "/endpoints/resetvehicles.js");
 //main endpoints
 const ppStation=require(__dirname + "/endpoints/PassesPerStation.js");
 const pAnalysis = require(__dirname + "/endpoints/PassesAnalysis.js");
-const pCost=require(__dirname + "/endpoints/passesCost.js");
+const pCost=require(__dirname + "/endpoints/PassesCost.js");
 const ChargesBy = require(__dirname + "/endpoints/ChargesBy.js");
 const CommitPass = require(__dirname + "/endpoints/CommitPass.js");
 

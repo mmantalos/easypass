@@ -42,7 +42,7 @@ function getPassesAnalysis(req, res) {
             }
             if (result.length == 0) {
                 res.status(402); // no data
-                res.send(output);
+                res.send("No data.");
                 return;
             }
             if (req.query.format == 'json' || req.query.format == undefined) {
