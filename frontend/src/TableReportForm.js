@@ -1,6 +1,6 @@
 import React from 'react';
 import './TableReportForm.css';
-import { fetchData } from './api';
+import { fetchPasses } from './api';
 import JsonDataDisplay from './JsonDataDisplay';
 
 class TableReportForm extends React.Component {
@@ -18,9 +18,9 @@ class TableReportForm extends React.Component {
   }
 
   handleSubmit() {
-      this.state.data = null;
+      this.setState({data: null});
       this.setState({error: null});
-      fetchData(this.state.op1_ID, this.state.op2_ID, this.state.date_from, this.state.date_to)
+      fetchPasses(this.state.op1_ID, this.state.op2_ID, this.state.date_from, this.state.date_to)
         .then(csv => {
           this.setState({ error : null});
           setTimeout(() => {
