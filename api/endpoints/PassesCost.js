@@ -21,7 +21,8 @@ function getPassesCost(req, res) {
 }
     console.log(date_from);
     console.log(date_to);
-
+    date_fr=moment(req.params.date_from,'YYYYMMDD').format('YYYY-MM-DD');
+    date_to=moment(req.params.date_to, 'YYYYMMDD').format('YYYY-MM-DD');  
 
     var con = mysql.createConnection({
       host: "localhost",
