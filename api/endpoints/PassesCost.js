@@ -53,8 +53,8 @@ function getPassesCost(req, res) {
           RequestTimestamp: reqTmstmp,
           PeriodFrom: req.params["date_from"],
           PeriodTo: req.params["date_to"],
-          NumberOfPasses: result.PassesCount,
-          PassesCost: result.PassesCost
+          NumberOfPasses: result[0].PassesCount,
+          PassesCost: result[0].PassesCost
         }
         if (result.length == 0) {
           res.status(402); // no data
