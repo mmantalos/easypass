@@ -22,7 +22,7 @@ function getPassesCost(req, res) {
     console.log(date_from);
     console.log(date_to);
     date_fr=moment(req.params.date_from,'YYYYMMDD').format('YYYY-MM-DD');
-    date_to=moment(req.params.date_to, 'YYYYMMDD').format('YYYY-MM-DD');  
+    date_to=moment(req.params.date_to, 'YYYYMMDD').format('YYYY-MM-DD');
 
     var con = mysql.createConnection({
       host: "localhost",
@@ -52,8 +52,8 @@ function getPassesCost(req, res) {
           op1_ID: req.params["op1_ID"],
           op2_ID: req.params["op2_ID"],
           RequestTimestamp: reqTmstmp,
-          PeriodFrom: req.params["date_from"],
-          PeriodTo: req.params["date_to"],
+          PeriodFrom: date_fr,
+          PeriodTo: date_to,
           NumberOfPasses: result[0].PassesCount,
           PassesCost: result[0].PassesCost
         }
