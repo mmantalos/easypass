@@ -76,6 +76,11 @@ function getPassesCost(req, res) {
               res.attachment("PassesCost.csv").send(csv);
             }, { "delimiter": { "field": ';' } });
         }
+        else {
+           res.status(400);
+           res.send({ "status": "failed" });
+           return;
+       }
       });
       con.end();
     });
