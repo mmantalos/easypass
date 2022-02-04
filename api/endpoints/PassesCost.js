@@ -65,7 +65,8 @@ function getPassesCost(req, res) {
         if (req.query.format == 'json' || req.query.format == undefined) {
           res.send(output);
         } else if (req.query.format == 'csv') {
-          j2c.json2csv(result,
+          let converter = require('json-2-csv');
+          converter.json2csv(result,
             function (err, csv) {
               if (err) {
                 res.status(500); // internal server error
