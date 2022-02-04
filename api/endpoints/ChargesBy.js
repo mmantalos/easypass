@@ -16,8 +16,8 @@ function getChargesBy(req, res) {
         date_from = moment(date_from).format('YYYY-MM-DD');
         date_to = moment(date_to).format('YYYY-MM-DD');
     } else {
-        res.status(400);
-        res.send({ "status": "failed" });
+        res.status(400); // bad request
+        res.send({ "status": "failed", "description": "Date format should be YYYYMMDD." });
         return;
     }
 
@@ -30,42 +30,53 @@ function getChargesBy(req, res) {
     });
 
     //Make database connection and query.
-    try {
-        con.connect(function (err) {
-            if (err) throw err;
-            let myquery = `SELECT tag_provider as VisitingOperator, COUNT(pass_id) as NumberOfPasses, SUM(charge) as PassesCost FROM stations, vehicles, passes WHERE station_provider = "${req.params["op_ID"]}" AND tag_provider <> "${req.params["op_ID"]}" AND timestamp BETWEEN "${req.params["date_from"]}" AND "${req.params["date_to"]}" AND station_ref = station_id AND vehicle_ref = vehicle_id GROUP BY tag_provider;`;
-            con.query(myquery, function (err, result, fields) {
-                console.log(myquery);
-                if (err) throw err;
-                if (result.length == 0) {
-                    res.status(402); // no data
-                }
-                var output = {
-                    op_ID: req.params["op_ID"],
-                    RequestTimestamp: reqTmstmp,
-                    PeriodFrom: req.params["date_from"],
-                    PeriodTo: req.params["date_to"],
-                    NumberOfCharges: result.length,
-                    PPOList: result
-                }
-                if (req.query.format == 'csv') {
-                    converter.json2csv(result,
-                        function (err, csv) {
-                            if (err) throw err;
-                            res.send(csv);
-                        }, { "delimiter": { "field": ';' } });
-                }
-                else res.send(output);
-            });
-            con.end();
+    con.connect(function (err) {
+        if (err) {
+            res.status(500); // internal server error
+            res.send({ "status": "failed", "description": "DB connection refused." });
+            return;
+        }
+        let myquery = `SELECT tag_provider as VisitingOperator, COUNT(pass_id) as NumberOfPasses, SUM(charge) as PassesCost FROM stations, vehicles, passes WHERE station_provider = "${req.params["op_ID"]}" AND tag_provider <> "${req.params["op_ID"]}" AND timestamp BETWEEN "${req.params["date_from"]}" AND "${req.params["date_to"]}" AND station_ref = station_id AND vehicle_ref = vehicle_id GROUP BY tag_provider;`;
+        con.query(myquery, function (err, result, fields) {
+            console.log(myquery);
+            if (err) {
+                res.status(500); // internal server error
+                res.send({ "status": "failed", "description": "Query error." });
+                return;
+            }
+            if (result.length == 0) {
+                res.status(402); // no data
+                res.send({ "status": "failed", "description": "No data." });
+                return;
+            }
+            var output = {
+                op_ID: req.params["op_ID"],
+                RequestTimestamp: reqTmstmp,
+                PeriodFrom: req.params["date_from"],
+                PeriodTo: req.params["date_to"],
+                NumberOfCharges: result.length,
+                PPOList: result
+            }
+            if (req.query.format == 'json' || req.query.format == undefined)
+                res.send(output);
+            else if (req.query.format == 'csv') {
+                converter.json2csv(result,
+                    function (err, csv) {
+                        if (err) {
+                            res.status(500); // internal server error
+                            res.send({ "status": "failed", "description": "Convertion error." });
+                            return;
+                        }
+                        res.send(csv);
+                    }, { "delimiter": { "field": ';' } });
+            }
+            else {
+                res.status(400); // bad request
+                res.send({ "status": "failed", "description": "Format should be json or csv." });
+            }
         });
-    }
-
-    catch (err) {
-        res.status(500); // internal server error
-        res.send({ "status": "failed" });
-        return;
-    }
+        con.end();
+    });
 }
 
 router.get('/ChargesBy/:op_ID/:date_from/:date_to', getChargesBy);
