@@ -14,7 +14,7 @@ function SetSettlement(req, res) {
         date_to = moment(date_to).format('YYYY-MM-DD');
     } else {
         res.status(400);
-        res.send('Please, give valid dates with format YYYYMMDD.');
+        res.send({status: 'failed', description: 'Please, give valid dates with format YYYYMMDD.'});
         return;
     }
 
@@ -30,17 +30,17 @@ function SetSettlement(req, res) {
     con.connect(function (err) {
         if (err) {
             res.status(500); // internal server error
-            res.send("DB connection refused.");
+            res.send({status:failed, description: "DB connection refused."});
             return;
         }
         var myquery = 'UPDATE passes AS p, vehicles AS v, stations AS s SET p.is_settled = 1 WHERE p.vehicle_ref = v.vehicle_id AND p.station_ref = s.station_id AND v.tag_provider = ? AND s.station_provider = ? AND CAST(p.timestamp AS date) BETWEEN ? AND ?;'
         con.query(myquery, [req.params.op2_ID, req.params.op1_ID, date_from, date_to], function (err, result, fields) {
             if (err) {
                 res.status(500);
-                res.send({"status": "failed"});
+                res.send({status: "failed"});
             }
             else
-                res.send({"status": "OK"});
+                res.send({status: "OK"});
         });
         con.end();
     });

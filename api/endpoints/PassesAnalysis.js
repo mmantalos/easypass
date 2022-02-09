@@ -45,12 +45,12 @@ function getPassesAnalysis(req, res) {
         con.query(myquery, [req.params.op2_ID, req.params.op1_ID, date_from, date_to], function (err, result, fields) {
             if (err) {
                 res.status(500); // internal server error
-                res.send("Query error.");
+                res.send({status: 'failed', description: 'Query error.'');
                 return;
             }
             if (result.length == 0) {
                 res.status(402); // no data
-                res.send("No data.");
+                res.send({status: 'failed', description: 'No data.''});
                 return;
             }
             if (req.query.format == 'json' || req.query.format == undefined) {
