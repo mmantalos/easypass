@@ -30,6 +30,7 @@ const pAnalysis = require(__dirname + "/endpoints/PassesAnalysis.js");
 const pCost=require(__dirname + "/endpoints/PassesCost.js");
 const ChargesBy = require(__dirname + "/endpoints/ChargesBy.js");
 const CommitPass = require(__dirname + "/endpoints/CommitPass.js");
+const SetSettlement = require(__dirname + "/endpoints/SetSettlement.js")
 
 
 //bind all endpoints to app router
@@ -44,6 +45,7 @@ app.use(baseUrl, pCost);
 app.use(baseUrl, ChargesBy);
 
 app.use(baseUrl, CommitPass);
+app.use(baseUrl, SetSettlement)
 
 https.createServer(
 {

@@ -14,13 +14,15 @@ class JsonDataDisplay extends React.Component {
                     <tr>{vals}</tr>
 				)
 			}
-		)
-        // var headers = [];
-        // Object.keys(this.csv[0]).forEach(key => {headers.push(<th>{key}</th>);});
+		);
 		return(
 			<div>
 				<table className="table table-stripe">
-                    <thead>{DisplayData[0]}</thead>
+                    <thead>
+
+                        {DisplayData[0]}
+
+                    </thead>
 					<tbody>
 
 						{DisplayData.slice(1)}
