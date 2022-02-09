@@ -54,7 +54,6 @@ function getChargesBy(req, res) {
                 RequestTimestamp: reqTmstmp,
                 PeriodFrom: req.params["date_from"],
                 PeriodTo: req.params["date_to"],
-                NumberOfCharges: result.length,
                 PPOList: result
             }
             if (req.query.format == 'json' || req.query.format == undefined)
