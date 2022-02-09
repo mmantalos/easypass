@@ -125,6 +125,22 @@ CREATE TABLE `vehicles` (
   KEY `FKvehicles581378` (`tag_provider`),
   CONSTRAINT `FKvehicles581378` FOREIGN KEY (`tag_provider`) REFERENCES `providers` (`provider_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP VIEW IF EXISTS passes_info;
+
+CREATE VIEW passes_info AS
+SELECT passes.pass_id,
+       passes.vehicle_ref,
+       passes.station_ref,
+       passes.timestamp,
+       passes.charge,
+       stations.station_provider as op1_ID,
+       vehicles.tag_provider as op2_ID
+FROM passes
+INNER JOIN vehicles
+ON passes.vehicle_ref=vehicles.vehicle_id
+INNER JOIN stations
+ON stations.station_id=passes.station_ref;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
