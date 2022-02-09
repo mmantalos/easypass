@@ -36,7 +36,7 @@ def init_passes(path='./sampledata01/sampledata01_passes100_8000.csv'):
                 timestamp='"'+timestamp+'"'
                 #print(timestamp)
                 query = "INSERT INTO passes VALUES(" + ",".join(
-                        [record[0], record[3], record[2], timestamp, record[4]]) + ");"
+                        [record[0], record[3], record[2], timestamp, record[4], 'FALSE', 'FALSE']) + ");"
                 #print(query)
                 cursor.execute(query)
                 db.commit()
