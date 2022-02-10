@@ -52,8 +52,8 @@ function getChargesBy(req, res) {
             var output = {
                 op_ID: req.params["op_ID"],
                 RequestTimestamp: reqTmstmp,
-                PeriodFrom: req.params["date_from"],
-                PeriodTo: req.params["date_to"],
+                PeriodFrom: date_from,
+                PeriodTo: date_to,
                 PPOList: result
             }
             if (req.query.format == 'json' || req.query.format == undefined)
