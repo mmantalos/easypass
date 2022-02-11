@@ -17,13 +17,13 @@ def init_providers():
         cursor.execute("DELETE FROM stations")
         cursor.execute("DELETE FROM providers")
         queries=[
-        """INSERT INTO providers VALUES("aodos","AO","1")""",
-        """INSERT INTO providers VALUES("egnatia","EG","1")""",
-        """INSERT INTO providers VALUES("gefyra","GF","1")""",
-        """INSERT INTO providers VALUES("kentriki_odos","KO","1")""",
-        """INSERT INTO providers VALUES("moreas","MO","1")""",
-        """INSERT INTO providers VALUES("nea_odos","NE","1")""",
-        """INSERT INTO providers VALUES("olympia_odos","OO","1")"""
+        """INSERT INTO providers(provider_name, provider_abbr, is_active) VALUES("aodos","AO","1")""",
+        """INSERT INTO providers(provider_name, provider_abbr, is_active) VALUES("egnatia","EG","1")""",
+        """INSERT INTO providers(provider_name, provider_abbr, is_active) VALUES("gefyra","GF","1")""",
+        """INSERT INTO providers(provider_name, provider_abbr, is_active) VALUES("kentriki_odos","KO","1")""",
+        """INSERT INTO providers(provider_name, provider_abbr, is_active) VALUES("moreas","MO","1")""",
+        """INSERT INTO providers(provider_name, provider_abbr, is_active) VALUES("nea_odos","NE","1")""",
+        """INSERT INTO providers(provider_name, provider_abbr, is_active) VALUES("olympia_odos","OO","1")"""
         ]
         print("Inserting providers:")
         for q in tqdm(queries):
