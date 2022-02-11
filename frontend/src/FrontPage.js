@@ -1,6 +1,6 @@
 import React from 'react';
 import TableReportForm from './TableReportForm';
-import ShortReportForm from './ShortReportForm';
+import SettlementReportForm from './SettlementReportForm';
 
 class FrontPage extends React.Component {
   constructor(props) {
@@ -49,7 +49,7 @@ class FrontPage extends React.Component {
         )}
 
         {this.state.selection === "settlement-btn" && (
-          <ShortReportForm handleBack={this.handleBack} />
+          <SettlementReportForm handleBack={this.handleBack} />
         )}
       </div>
     );
