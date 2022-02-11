@@ -36,9 +36,9 @@ function getChargesBy(req, res) {
             res.send({ "status": "failed", "description": "DB connection refused." });
             return;
         }
-        let myquery = `SELECT tag_provider as VisitingOperator, COUNT(pass_id) as NumberOfPasses, SUM(charge) as PassesCost FROM stations, vehicles, passes WHERE station_provider = "${req.params["op_ID"]}" AND tag_provider <> "${req.params["op_ID"]}" AND timestamp BETWEEN "${req.params["date_from"]}" AND "${req.params["date_to"]}" AND station_ref = station_id AND vehicle_ref = vehicle_id GROUP BY tag_provider;`;
+        let myquery = `SELECT tag_provider as VisitingOperator, COUNT(pass_id) as NumberOfPasses, SUM(charge) as PassesCost FROM stations, vehicles, passes WHERE station_provider = "${req.params["op_ID"]}" AND tag_provider <> "${req.params["op_ID"]}" AND DATE(timestamp) BETWEEN "${req.params["date_from"]}" AND "${req.params["date_to"]}" AND station_ref = station_id AND vehicle_ref = vehicle_id GROUP BY tag_provider;`;
+        console.log(myquery);
         con.query(myquery, function (err, result, fields) {
-            console.log(myquery);
             if (err) {
                 res.status(500); // internal server error
                 res.send({ "status": "failed", "description": "Query error." });
