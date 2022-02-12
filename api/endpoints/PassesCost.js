@@ -36,7 +36,7 @@ function getPassesCost(req, res) {
     con.connect(function (err) {
       if (err) {
           res.status(500); // internal server error
-          res.send({ "status": "failed", "description": "Query error." });
+          res.send({ "status": "failed", "description": "DB connection refused." });
           return;
       }
       console.log("Connected!");

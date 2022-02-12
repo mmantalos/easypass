@@ -18,8 +18,8 @@ function PassesPerStation(req,res){
   //and check if it is in the right format
 
   if(!moment(req.params.date_from,'YYYYMMDD',true).isValid()){
-    res.status(400);
-    res.send({'status':'failed'});
+    res.status(400); // bad request
+    res.send({ "status": "failed", "description": "Date format should be YYYYMMDD." });
     return;
   }
 
@@ -37,8 +37,9 @@ function PassesPerStation(req,res){
   var curr_timestamp=moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
   con.connect(function(err){
     if(err){
-      res.status(500);
-      res.send({"status":"failed"})
+      res.status(500); // db connection error
+      res.send({ "status": "failed", "description": "DB connection refused." });
+      return;
     }
     console.log("Connected to database");
 
@@ -50,8 +51,8 @@ function PassesPerStation(req,res){
     let mainquery="with gstation_provider(station_id,station_provider) as (select station_id,station_provider from stations where station_id=?)select ROW_NUMBER() over (order by timestamp) as PassIndex,pass_id as PassID,timestamp as PassTimeStamp,vehicle_ref as VehicleID,tag_provider as TagProvider,if(tag_provider=station_provider,'home','visitor') as PassType,charge as PassCharge from passes join vehicles on passes.vehicle_ref=vehicles.vehicle_id, gstation_provider where station_ref=station_id and DATE(passes.timestamp) between ? and ? order by timestamp;"
     con.query(auxquery,[req.params.stationID],function (err,result,fields){
       if (err){
-        res.status(500);
-        res.send({"status":"failed"});
+        res.status(500); // query error
+        res.send({ "status": "failed", "description": "Query error." });
         return;
       }
       StationOperator=result[0].station_provider;//query has only one result which is the operator that this station belongs to
@@ -60,11 +61,14 @@ function PassesPerStation(req,res){
       con.query(mainquery,[req.params.stationID,date_fr,date_to],
       function(err,mainresult,fields){
         if (err){
-          res.status(500);
-          res.send({"status":"failed"});
+          res.status(500); // query error
+          res.send({ "status": "failed", "description": "Query error." });
+          return;
         }
         if (mainresult.length==0){
-          res.status(402);
+          res.status(402); // no data
+          res.send({ "status": "failed", "description": "No data." });
+          return;
         }
         if(req.query.format=='json' || req.query.format==undefined){
             output={
@@ -84,16 +88,16 @@ function PassesPerStation(req,res){
             converter.json2csv(mainresult,
               function(err,csv){
                 if (err){
-                  res.status(500);
-                  res.send({"status":"failed"});
+                  res.status(500); // internal server error
+                  res.send({ "status": "failed", "description": "Convertion error." });
                 }
                 res.attachment("PassesPerStation.csv").send(csv);
             },{"delimiter":{"field":';'}} );
         }
         //the requested format is neither csv nor json.
         else{
-            res.status(400);
-            res.send({"status":"failed"});
+          res.status(400); // bad request
+          res.send({ "status": "failed", "description": "Format should be json or csv." });
         }
       }
     );
