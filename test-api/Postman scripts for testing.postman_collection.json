@@ -68,7 +68,7 @@
 							"    pm.expect(jsonData.PeriodTo).to.eql(\"2020-01-31\");",
 							"",
 							"    for(let i=0;i<jsonData.length;i++){",
-							"        pm.expect(moment(jsonData.PassesList[i].PassTimeStamp,\"YYYY-MM-DD hh:mm:ss\"));",
+							"        pm.expect(moment(jsonData.PassesList[i].PassTimeStamp,\"YYYY-MM-DD hh:mm:ss\",true).isValid());",
 							"    }",
 							"",
 							"});",
@@ -236,7 +236,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:9103/interoperability/api/PassesPerStation/EG03 /wrongdate/20250115",
+					"raw": "https://localhost:9103/interoperability/api/PassesPerStation/EG03/wrongdate/20250115",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -246,7 +246,7 @@
 						"interoperability",
 						"api",
 						"PassesPerStation",
-						"EG03 ",
+						"EG03",
 						"wrongdate",
 						"20250115"
 					]
@@ -295,6 +295,44 @@
 		},
 		{
 			"name": "PassesPerStation_test4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Number of passes is correct\",function(){",
+							"    var jsonData=pm.response.json();",
+							"    pm.expect(jsonData.NumberOfPasses).to.eql(12);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:9103/interoperability/api/PassesPerStation/EG03/20200201/20200229",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesPerStation",
+						"EG03",
+						"20200201",
+						"20200229"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PassesPerStation_test4 Copy",
 			"event": [
 				{
 					"listen": "test",
@@ -422,7 +460,7 @@
 							"    pm.expect(jsonData.PeriodTo).to.eql(\"2020-01-31\");",
 							"",
 							"    for(let i=0;i<jsonData.length;i++){",
-							"        pm.expect(moment(jsonData.PassesList[i].TimeStamp,\"YYYY-MM-DD hh:mm:ss\"));",
+							"        pm.expect(moment(jsonData.PassesList[i].PassTimeStamp,\"YYYY-MM-DD hh:mm:ss\",true).isValid());",
 							"    }",
 							"});",
 							"pm.test(\"Length of result is right\",function(){",
@@ -618,6 +656,45 @@
 		},
 		{
 			"name": "PassesAnalysis_test4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Length of result is right\",function(){",
+							"    var jsonData=pm.response.json();",
+							"    pm.expect(jsonData.NumberOfPasses).to.eql(10);//enumerated manually",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:9103/interoperability/api/PassesAnalysis/aodos/kentriki_odos/20200301/20200331",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesAnalysis",
+						"aodos",
+						"kentriki_odos",
+						"20200301",
+						"20200331"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PassesAnalysis_test4 Copy",
 			"event": [
 				{
 					"listen": "test",
@@ -902,6 +979,46 @@
 						"exec": [
 							"pm.test(\"Test if PassesCost and NumberOfPasses are right\",function(){",
 							" jsonData=pm.response.json();",
+							" pm.expect(jsonData.PassesCost).to.eql(13.20);",
+							" pm.expect(jsonData.NumberOfPasses).to.eql(7);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:9103/interoperability/api/PassesCost/egnatia/gefyra/20200201/20200229",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesCost",
+						"egnatia",
+						"gefyra",
+						"20200201",
+						"20200229"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PassesCost_test4 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test if PassesCost and NumberOfPasses are right\",function(){",
+							" jsonData=pm.response.json();",
 							" pm.expect(jsonData.PassesCost).to.eql(278.85);",
 							" pm.expect(jsonData.NumberOfPasses).to.eql(129);",
 							"});"
@@ -1022,8 +1139,8 @@
 						"exec": [
 							"pm.test(\"Test if PassesCost and NumberOfPasses are right\",function(){",
 							" jsonData=pm.response.json();",
-							" pm.expect(jsonData.PassesCost).to.eql(13443.70);",
-							" pm.expect(jsonData.NumberOfPasses).to.eql(3101);",
+							" pm.expect(jsonData.PassesCost).to.eql(557.10);",
+							" pm.expect(jsonData.NumberOfPasses).to.eql(151);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1034,7 +1151,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:9103/interoperability/api/PassesCost/aodos/aodos/20190115/20210115",
+					"raw": "https://localhost:9103/interoperability/api/PassesCost/aodos/aodos/20200101/20200131",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -1046,8 +1163,48 @@
 						"PassesCost",
 						"aodos",
 						"aodos",
-						"20190115",
-						"20210115"
+						"20200101",
+						"20200131"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PassesCost_test6 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test if PassesCost and NumberOfPasses are right\",function(){",
+							" jsonData=pm.response.json();",
+							" pm.expect(jsonData.PassesCost).to.eql(557.10);",
+							" pm.expect(jsonData.NumberOfPasses).to.eql(151);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:9103/interoperability/api/PassesCost/aodos/aodos/20200101/20200131",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesCost",
+						"aodos",
+						"aodos",
+						"20200101",
+						"20200131"
 					]
 				}
 			},
