@@ -47,7 +47,7 @@ function PassesPerStation(req,res){
     let auxquery="select station_provider from stations where station_id=?";
 
     //use the main query to get the passes requested.
-    let mainquery="with gstation_provider(station_id,station_provider) as (select station_id,station_provider from stations where station_id=?)select ROW_NUMBER() over (order by timestamp) as PassIndex,pass_id as PassID,timestamp as PassTimeStamp,vehicle_ref as VehicleID,tag_provider as TagProvider,if(tag_provider=station_provider,'home','visitor') as PassType,charge as PassCharge from passes join vehicles on passes.vehicle_ref=vehicles.vehicle_id, gstation_provider where  station_ref=station_id and passes.timestamp between ? and ? order by timestamp;"
+    let mainquery="with gstation_provider(station_id,station_provider) as (select station_id,station_provider from stations where station_id=?)select ROW_NUMBER() over (order by timestamp) as PassIndex,pass_id as PassID,timestamp as PassTimeStamp,vehicle_ref as VehicleID,tag_provider as TagProvider,if(tag_provider=station_provider,'home','visitor') as PassType,charge as PassCharge from passes join vehicles on passes.vehicle_ref=vehicles.vehicle_id, gstation_provider where station_ref=station_id and DATE(passes.timestamp) between ? and ? order by timestamp;"
     con.query(auxquery,[req.params.stationID],function (err,result,fields){
       if (err){
         res.status(500);
