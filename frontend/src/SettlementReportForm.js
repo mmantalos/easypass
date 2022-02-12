@@ -27,7 +27,7 @@ class ShortReportForm extends React.Component {
         this.setState({
             cost: null,
             data: null,
-            error: null           
+            error: null
         });
         this.setState({error: null});
         fetchCosts(this.state.op1_ID, this.state.op2_ID, this.state.date_from, this.state.date_to)
@@ -106,12 +106,14 @@ class ShortReportForm extends React.Component {
           name="date_from"
           field="date_from"
           placeholder="From date"
+          type="date"
           value={this.state.date_from}
           onChange={this.handleUserInput} />
         <input
           name="date_to"
           field="date_to"
-          placeholder="To date"
+          placeholder="DD-MM-YYYY"
+          type="date"
           value={this.state.date_to}
           onChange={this.handleUserInput} />
         <button

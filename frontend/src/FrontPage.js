@@ -24,13 +24,14 @@ class FrontPage extends React.Component {
 
   render() {
     return (
-      <div className="front-page">
+      <div class="myDiv">
         {this.state.selection == null && (
-          <div className="first-buttons">
+          <div className="first-buttons" id="id">
             <button
               className="btn"
               name="passes-btn"
               onClick={this.handleSelect}
+              id="button"
             >
               Passes Report
             </button>

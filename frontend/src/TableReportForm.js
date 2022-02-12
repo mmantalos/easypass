@@ -60,6 +60,7 @@ class TableReportForm extends React.Component {
         <input
           name="date_from"
           field="date_from"
+          type="date"
           placeholder="From date"
           value={this.state.date_from}
           onChange={this.handleUserInput} />
@@ -67,6 +68,7 @@ class TableReportForm extends React.Component {
           name="date_to"
           field="date_to"
           placeholder="To date"
+          type="date"
           value={this.state.date_to}
           onChange={this.handleUserInput} />
         <button

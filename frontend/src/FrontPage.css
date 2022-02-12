@@ -1,0 +1,12 @@
+body {
+  background-color: blue;
+}
+#id {
+  color: green;
+}
+#button{
+  top: 50%;
+  font-size: 15px;
+  background-color: yellow;
+  color: green;
+}
