@@ -14,7 +14,7 @@ function getPassesAnalysis(req, res) {
         date_to = moment(date_to).format('YYYY-MM-DD');
     } else {
         res.status(400);
-        res.send({status: 'failed', description: 'Please, give valid dates with format YYYYMMDD.'});
+        res.send({status: 'failed', details: 'Date format should be YYYYMMDD.'});
         return;
     }
 
@@ -30,7 +30,7 @@ function getPassesAnalysis(req, res) {
     con.connect(function (err) {
         if (err) {
             res.status(500); // internal server error
-            res.send({status:failed, description: "DB connection refused."});
+            res.send({status:failed, details: "DB connection refused."});
             return;
         }
 
@@ -40,19 +40,19 @@ function getPassesAnalysis(req, res) {
             var myquery = `SELECT ROW_NUMBER() OVER (ORDER BY TimeStamp) AS PassIndex, p.pass_id AS PassID, s.station_id AS StationID, p.timestamp AS TimeStamp, v.vehicle_id AS VehicleID, p.charge AS Charge FROM vehicles AS v, stations AS s, passes AS p WHERE v.vehicle_id = p.vehicle_ref AND s.station_id = p.station_ref AND v.tag_provider = ? AND s.station_provider = ? AND CAST(p.timestamp AS date) BETWEEN ? AND ?;`;
         }else{
             res.status(400); // bad request
-            res.send({ status: "failed", description: "settle should be true or false." });
+            res.send({ status: "failed", details: "settle should be true or false." });
             con.end();
             return;
         }
         con.query(myquery, [req.params.op2_ID, req.params.op1_ID, date_from, date_to], function (err, result, fields) {
             if (err) {
                 res.status(500); // internal server error
-                res.send({status: 'failed', description: 'Query error.'});
+                res.send({status: 'failed', details: 'Query error.'});
                 return;
             }
             if (result.length == 0) {
                 res.status(402); // no data
-                res.send({status: 'failed', description: 'No data.'});
+                res.send({status: 'failed', details: 'No data.'});
                 return;
             }
             if (req.query.format == 'json' || req.query.format == undefined) {
@@ -72,14 +72,14 @@ function getPassesAnalysis(req, res) {
                     function (err, csv) {
                         if (err) {
                             res.status(500); // internal server error
-                            res.send({ status: "failed", description: "Convertion error." });
+                            res.send({ status: "failed", details: "Conversion error." });
                             return;
                         }
                         res.attachment("PassesAnalysis.csv").send(csv);
                     }, { "delimiter": { "field": ';' } });
             }else{
                 res.status(400); // bad request
-                res.send({ status: "failed", description: "Format should be json or csv." });
+                res.send({ status: "failed", details: "Format should be json or csv." });
                 return;
             }
         });

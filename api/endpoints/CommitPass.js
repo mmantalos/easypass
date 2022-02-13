@@ -14,7 +14,7 @@ function CommitPass(req, res) {
     con.connect(function (err) {
         if (err) {
             res.status(500); // internal server error
-            res.send({ "status": "failed", "description": "DB connection refused." });
+            res.send({ "status": "failed", "details": "DB connection refused." });
             return;
         }
         let myquery = `INSERT INTO passes(pass_id,timestamp,station_ref,vehicle_ref,charge) VALUES ('${req.params["pass_ID"]}','${req.params["timestamp"]}','${req.params["station_ID"]}','${req.params["vehicle_ID"]}',${req.params["euros"]}.${req.params["cents"]});`;
@@ -22,7 +22,7 @@ function CommitPass(req, res) {
         con.query(myquery, function (err, result, fields) {
             if (err) {
                 res.status(500); // internal server error
-                res.send({ "status": "failed", "description": "Query error." });
+                res.send({ "status": "failed", "details": "Query error." });
                 return;
             }
             res.send({ 'status': 'OK' });

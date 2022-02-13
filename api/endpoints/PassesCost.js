@@ -16,7 +16,7 @@ function getPassesCost(req, res) {
   }
   else {
       res.status(400); // bad request
-      res.send({ "status": "failed", "description": "Date format should be YYYYMMDD." });
+      res.send({ "status": "failed", "details": "Date format should be YYYYMMDD." });
       return;
   }
     console.log(date_from);
@@ -36,7 +36,7 @@ function getPassesCost(req, res) {
     con.connect(function (err) {
       if (err) {
           res.status(500); // internal server error
-          res.send({ "status": "failed", "description": "DB connection refused." });
+          res.send({ "status": "failed", "details": "DB connection refused." });
           return;
       }
       console.log("Connected!");
@@ -45,7 +45,7 @@ function getPassesCost(req, res) {
       con.query(myquery, function (err, result, fields) {
         if (err) {
             res.status(500); // internal server error
-            res.send({ "status": "failed", "description": "Query error." });
+            res.send({ "status": "failed", "details": "Query error." });
             return;
         }
         var output = {
@@ -59,7 +59,7 @@ function getPassesCost(req, res) {
         }
         if (result.length == 0 || result[0].PassesCount == 0) {
             res.status(402); // no data
-            res.send({ "status": "failed", "description": "No data." });
+            res.send({ "status": "failed", "details": "No data." });
             return;
         }
         if (req.query.format == 'json' || req.query.format == undefined) {
@@ -70,7 +70,7 @@ function getPassesCost(req, res) {
             function (err, csv) {
               if (err) {
                   res.status(500); // internal server error
-                  res.send({ "status": "failed", "description": "Convertion error." });
+                  res.send({ "status": "failed", "details": "Conversion error." });
                   return;
               }
               res.attachment("PassesCost.csv").send(csv);
@@ -78,7 +78,7 @@ function getPassesCost(req, res) {
         }
         else {
             res.status(400); // bad request
-            res.send({ "status": "failed", "description": "Format should be json or csv." });
+            res.send({ "status": "failed", "details": "Format should be json or csv." });
         }
       });
       con.end();

@@ -17,7 +17,7 @@ function getChargesBy(req, res) {
         date_to = moment(date_to).format('YYYY-MM-DD');
     } else {
         res.status(400); // bad request
-        res.send({ "status": "failed", "description": "Date format should be YYYYMMDD." });
+        res.send({ "status": "failed", "details": "Date format should be YYYYMMDD." });
         return;
     }
 
@@ -33,7 +33,7 @@ function getChargesBy(req, res) {
     con.connect(function (err) {
         if (err) {
             res.status(500); // internal server error
-            res.send({ "status": "failed", "description": "DB connection refused." });
+            res.send({ "status": "failed", "details": "DB connection refused." });
             return;
         }
         let myquery = `SELECT tag_provider as VisitingOperator, COUNT(pass_id) as NumberOfPasses, SUM(charge) as PassesCost FROM stations, vehicles, passes WHERE station_provider = "${req.params["op_ID"]}" AND tag_provider <> "${req.params["op_ID"]}" AND DATE(timestamp) BETWEEN "${req.params["date_from"]}" AND "${req.params["date_to"]}" AND station_ref = station_id AND vehicle_ref = vehicle_id GROUP BY tag_provider;`;
@@ -41,12 +41,12 @@ function getChargesBy(req, res) {
         con.query(myquery, function (err, result, fields) {
             if (err) {
                 res.status(500); // internal server error
-                res.send({ "status": "failed", "description": "Query error." });
+                res.send({ "status": "failed", "details": "Query error." });
                 return;
             }
             if (result.length == 0) {
                 res.status(402); // no data
-                res.send({ "status": "failed", "description": "No data." });
+                res.send({ "status": "failed", "details": "No data." });
                 return;
             }
             var output = {
@@ -63,7 +63,7 @@ function getChargesBy(req, res) {
                     function (err, csv) {
                         if (err) {
                             res.status(500); // internal server error
-                            res.send({ "status": "failed", "description": "Convertion error." });
+                            res.send({ "status": "failed", "details": "Conversion error." });
                             return;
                         }
                         res.send(csv);
@@ -71,7 +71,7 @@ function getChargesBy(req, res) {
             }
             else {
                 res.status(400); // bad request
-                res.send({ "status": "failed", "description": "Format should be json or csv." });
+                res.send({ "status": "failed", "details": "Format should be json or csv." });
             }
         });
         con.end();

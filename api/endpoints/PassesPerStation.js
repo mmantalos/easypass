@@ -19,7 +19,7 @@ function PassesPerStation(req,res){
 
   if(!moment(req.params.date_from,'YYYYMMDD',true).isValid()){
     res.status(400); // bad request
-    res.send({ "status": "failed", "description": "Date format should be YYYYMMDD." });
+    res.send({ "status": "failed", "details": "Date format should be YYYYMMDD." });
     return;
   }
 
@@ -38,7 +38,7 @@ function PassesPerStation(req,res){
   con.connect(function(err){
     if(err){
       res.status(500); // db connection error
-      res.send({ "status": "failed", "description": "DB connection refused." });
+      res.send({ "status": "failed", "details": "DB connection refused." });
       return;
     }
     console.log("Connected to database");
@@ -52,7 +52,7 @@ function PassesPerStation(req,res){
     con.query(auxquery,[req.params.stationID],function (err,result,fields){
       if (err){
         res.status(500); // query error
-        res.send({ "status": "failed", "description": "Query error." });
+        res.send({ "status": "failed", "details": "Query error." });
         return;
       }
       StationOperator=result[0].station_provider;//query has only one result which is the operator that this station belongs to
@@ -62,12 +62,12 @@ function PassesPerStation(req,res){
       function(err,mainresult,fields){
         if (err){
           res.status(500); // query error
-          res.send({ "status": "failed", "description": "Query error." });
+          res.send({ "status": "failed", "details": "Query error." });
           return;
         }
         if (mainresult.length==0){
           res.status(402); // no data
-          res.send({ "status": "failed", "description": "No data." });
+          res.send({ "status": "failed", "details": "No data." });
           return;
         }
         if(req.query.format=='json' || req.query.format==undefined){
@@ -89,7 +89,7 @@ function PassesPerStation(req,res){
               function(err,csv){
                 if (err){
                   res.status(500); // internal server error
-                  res.send({ "status": "failed", "description": "Convertion error." });
+                  res.send({ "status": "failed", "details": "Conversion error." });
                 }
                 res.attachment("PassesPerStation.csv").send(csv);
             },{"delimiter":{"field":';'}} );
@@ -97,7 +97,7 @@ function PassesPerStation(req,res){
         //the requested format is neither csv nor json.
         else{
           res.status(400); // bad request
-          res.send({ "status": "failed", "description": "Format should be json or csv." });
+          res.send({ "status": "failed", "details": "Format should be json or csv." });
         }
       }
     );
