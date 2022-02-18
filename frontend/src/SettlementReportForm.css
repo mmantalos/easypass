@@ -1,0 +1,15 @@
+.td{
+    text-align:center;
+}
+
+.float-container {
+    padding: 0px;
+}
+
+.float-child {
+    width: 50%;
+    float: left;
+    padding: 20px;
+    margin-right: 0px;
+    border: 2px solid #4db6ac;
+}

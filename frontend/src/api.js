@@ -7,6 +7,7 @@ axios.defaults.baseURL = config.apiUrl;
 export const fetchPasses = (op1_ID, op2_ID, date_from, date_to) => {
   date_from=moment(date_from,'YYYY-MM-DD').format('YYYYMMDD');
   date_to=moment(date_to,'YYYY-MM-DD').format('YYYYMMDD');
+  console.log(date_from, date_to);
   const requestUrl = "PassesAnalysis/" + op1_ID + "/" + op2_ID + "/" + date_from + "/" + date_to + "?format=csv";
   return axios.get(requestUrl)
 };

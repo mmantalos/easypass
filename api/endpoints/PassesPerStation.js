@@ -28,7 +28,7 @@ function PassesPerStation(req,res){
 
   if(!moment(req.params.date_to,'YYYYMMDD',true).isValid()){
     res.status(400);
-    res.send({'status':"failed"});
+    res.send({'status':"failed", "details": "Date format should be YYYYMMDD."});
     return;
   }
 

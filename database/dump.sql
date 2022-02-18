@@ -45,7 +45,6 @@ CREATE TABLE `passes` (
   `timestamp` datetime NOT NULL DEFAULT current_timestamp(),
   `charge` numeric(10,2) NOT NULL,
   `is_settled` tinyint(1) DEFAULT FALSE,
-  `is_paid` tinyint(1) DEFAULT FALSE,
   PRIMARY KEY (`pass_id`),
   KEY `does` (`vehicle_ref`),
   KEY `through` (`station_ref`),

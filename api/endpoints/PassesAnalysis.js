@@ -30,12 +30,12 @@ function getPassesAnalysis(req, res) {
     con.connect(function (err) {
         if (err) {
             res.status(500); // internal server error
-            res.send({status:failed, details: "DB connection refused."});
+            res.send({status:'failed', details: "DB connection refused."});
             return;
         }
 
         if (req.query.settle == 'true'){
-            var myquery = `SELECT ROW_NUMBER() OVER (ORDER BY TimeStamp) AS PassIndex, p.pass_id AS PassID, s.station_id AS StationID, p.timestamp AS TimeStamp, v.vehicle_id AS VehicleID, p.charge AS Charge, p.is_settled AS is_settled, p.is_paid AS is_paid FROM vehicles AS v, stations AS s, passes AS p WHERE v.vehicle_id = p.vehicle_ref AND s.station_id = p.station_ref AND v.tag_provider = ? AND s.station_provider = ? AND CAST(p.timestamp AS date) BETWEEN ? AND ?;`;
+            var myquery = `SELECT ROW_NUMBER() OVER (ORDER BY TimeStamp) AS PassIndex, p.pass_id AS PassID, s.station_id AS StationID, p.timestamp AS TimeStamp, v.vehicle_id AS VehicleID, p.charge AS Charge, p.is_settled AS is_settled FROM vehicles AS v, stations AS s, passes AS p WHERE v.vehicle_id = p.vehicle_ref AND s.station_id = p.station_ref AND v.tag_provider = ? AND s.station_provider = ? AND CAST(p.timestamp AS date) BETWEEN ? AND ?;`;
         }else if(req.query.settle == 'false' || req.query.settle == undefined){
             var myquery = `SELECT ROW_NUMBER() OVER (ORDER BY TimeStamp) AS PassIndex, p.pass_id AS PassID, s.station_id AS StationID, p.timestamp AS TimeStamp, v.vehicle_id AS VehicleID, p.charge AS Charge FROM vehicles AS v, stations AS s, passes AS p WHERE v.vehicle_id = p.vehicle_ref AND s.station_id = p.station_ref AND v.tag_provider = ? AND s.station_provider = ? AND CAST(p.timestamp AS date) BETWEEN ? AND ?;`;
         }else{

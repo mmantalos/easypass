@@ -3,7 +3,7 @@ import Papa from "papaparse";
 class JsonDataDisplay extends React.Component {
   constructor(props) {
     super(props);
-		this.csv = Papa.parse(props.data).data;
+	this.csv = Papa.parse(props.data).data;
   }
 
 	render() {

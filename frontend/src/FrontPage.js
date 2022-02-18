@@ -24,7 +24,7 @@ class FrontPage extends React.Component {
 
   render() {
     return (
-      <div class="myDiv">
+      <div className="myDiv">
         {this.state.selection == null && (
           <div className="first-buttons" id="id">
             <button

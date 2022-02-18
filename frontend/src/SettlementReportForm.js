@@ -14,7 +14,8 @@ class ShortReportForm extends React.Component {
       op_credited: '',
       op_debited: '',
       cost: null,
-      data: null,
+      data1: null,
+      data2: null,
       error: null };
     this.handleShortSubmit = this.handleShortSubmit.bind(this);
     this.handleDetailedSubmit = this.handleDetailedSubmit.bind(this);
@@ -26,7 +27,8 @@ class ShortReportForm extends React.Component {
         var cost2;
         this.setState({
             cost: null,
-            data: null,
+            data1: null,
+            data2: null,
             error: null
         });
         this.setState({error: null});
@@ -69,7 +71,18 @@ class ShortReportForm extends React.Component {
         fetchSettlements(this.state.op1_ID, this.state.op2_ID, this.state.date_from, this.state.date_to)
             .then(csv => {
               setTimeout(() => {
-                this.setState({data: csv.data});
+                this.setState({data1: csv.data});
+              }, 0);
+            })
+            .catch(error => {
+                if(error.response){
+                    this.setState({ error: error.response.data});
+                }
+            });
+        fetchSettlements(this.state.op2_ID, this.state.op1_ID, this.state.date_from, this.state.date_to)
+            .then(csv => {
+              setTimeout(() => {
+                this.setState({data2: csv.data});
               }, 0);
             })
             .catch(error => {
@@ -139,16 +152,28 @@ class ShortReportForm extends React.Component {
         </button>
         {this.state.cost !== null && (
           <div className="ShortReport">
-            {this.state.cost != 0 && (
+            {this.state.cost !== 0 && (
                 <p>Operator {this.state.op_debited} owes operator {this.state.op_credited} a total of {this.state.cost}</p>
             )}
-            {this.state.cost == 0 && (
+            {this.state.cost === 0 && (
                 <p>No one owes anything.</p>
             )}
           </div>
         )}
-        {this.state.data !== null && (
-          <JsonDataDisplay data={this.state.data}/>
+        {this.state.data1 !== null && this.state.data2 !== null && (
+            <div className="float-container">
+
+              <div className="float-child">
+                <p>Passes from {this.state.op2_ID} to {this.state.op1_ID}. </p>
+                <JsonDataDisplay data={this.state.data1}/>
+              </div>
+
+              <div className="float-child">
+                <p>Passes from {this.state.op1_ID} to {this.state.op2_ID}. </p>
+                <JsonDataDisplay data={this.state.data2}/>
+              </div>
+
+            </div>
         )}
         {this.state.error !== null && (
           <div className="error">
