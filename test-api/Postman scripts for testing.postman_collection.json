@@ -195,8 +195,8 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Number of passes is correct\",function(){",
-							"    var jsonData=pm.response.json();",
-							"    pm.expect(jsonData.NumberOfPasses).to.eql(12);",
+							"    var NumberOfPasses=pm.response.text().split(\"\\n\").length-1; //number of lines - 1",
+							"    pm.expect(NumberOfPasses).to.eql(12);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -207,7 +207,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:9103/interoperability/api/PassesPerStation/EG03/20200201/20200229",
+					"raw": "https://localhost:9103/interoperability/api/PassesPerStation/EG03/20200201/20200229?format=csv",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -220,6 +220,12 @@
 						"EG03",
 						"20200201",
 						"20200229"
+					],
+					"query": [
+						{
+							"key": "format",
+							"value": "csv"
+						}
 					]
 				}
 			},
@@ -435,8 +441,8 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Length of result is right\",function(){",
-							"    var jsonData=pm.response.json();",
-							"    pm.expect(jsonData.NumberOfPasses).to.eql(10);//enumerated manually",
+							"    var NumberOfPasses=pm.response.text().split(\"\\n\").length-1; //number of lines - 1",
+							"    pm.expect(NumberOfPasses).to.eql(10);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -447,7 +453,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:9103/interoperability/api/PassesAnalysis/aodos/kentriki_odos/20200301/20200331",
+					"raw": "https://localhost:9103/interoperability/api/PassesAnalysis/aodos/kentriki_odos/20200301/20200331?format=csv",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -461,6 +467,12 @@
 						"kentriki_odos",
 						"20200301",
 						"20200331"
+					],
+					"query": [
+						{
+							"key": "format",
+							"value": "csv"
+						}
 					]
 				}
 			},
@@ -1017,6 +1029,50 @@
 						"gefyra",
 						"20200201",
 						"20200229"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ChargesBy_test5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Length of result is right\",function(){",
+							"    var operators=pm.response.text().split(\"\\n\").length-1; //number of lines - 1",
+							"    pm.expect(operators).to.eql(3);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:9103/interoperability/api/ChargesBy/gefyra/20200201/20200229?format=csv",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"ChargesBy",
+						"gefyra",
+						"20200201",
+						"20200229"
+					],
+					"query": [
+						{
+							"key": "format",
+							"value": "csv"
+						}
 					]
 				}
 			},

@@ -3,6 +3,8 @@ const router = express.Router();
 const spawn = require("child_process").spawn;
 
 function resetstations(req, res) {
+    console.log(req.url);
+
     var output;
 
     const python = spawn(__dirname + '/../../backend/init_stations.py',
@@ -13,11 +15,11 @@ function resetstations(req, res) {
     });
 
     python.on('close', (code) => {
-        console.log(`child process close all stdio with code ${code}`);
+        //console.log(`child process close all stdio with code ${code}`);
         if (code) {
             res.status(500);
             res.send({ 'status': 'failed' });
-            console.log('error:', output);
+            //console.log('error:', output);
         }
         else
             res.send({ 'status': 'OK' });

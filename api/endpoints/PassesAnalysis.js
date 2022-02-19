@@ -4,6 +4,8 @@ var mysql = require('mysql');
 var moment = require('moment');
 
 function getPassesAnalysis(req, res) {
+    console.log(req.url);
+
     //get current date string with format "yyyy-mm-dd hh:mm:ss" from date object
     var reqTmstmp = moment(new Date()).format('YYYY-MM-DD hh:mm:ss') //check if mm is correct (probably mi?)
     var date_from = req.params["date_from"];
@@ -14,7 +16,7 @@ function getPassesAnalysis(req, res) {
         date_to = moment(date_to).format('YYYY-MM-DD');
     } else {
         res.status(400);
-        res.send({status: 'failed', details: 'Date format should be YYYYMMDD.'});
+        res.send({ status: 'failed', details: 'Date format should be YYYYMMDD.' });
         return;
     }
 
@@ -30,15 +32,15 @@ function getPassesAnalysis(req, res) {
     con.connect(function (err) {
         if (err) {
             res.status(500); // internal server error
-            res.send({status:'failed', details: "DB connection refused."});
+            res.send({ status: 'failed', details: "DB connection refused." });
             return;
         }
 
-        if (req.query.settle == 'true'){
-            var myquery = `SELECT ROW_NUMBER() OVER (ORDER BY TimeStamp) AS PassIndex, p.pass_id AS PassID, s.station_id AS StationID, p.timestamp AS TimeStamp, v.vehicle_id AS VehicleID, p.charge AS Charge, p.is_settled AS is_settled FROM vehicles AS v, stations AS s, passes AS p WHERE v.vehicle_id = p.vehicle_ref AND s.station_id = p.station_ref AND v.tag_provider = ? AND s.station_provider = ? AND CAST(p.timestamp AS date) BETWEEN ? AND ?;`;
-        }else if(req.query.settle == 'false' || req.query.settle == undefined){
-            var myquery = `SELECT ROW_NUMBER() OVER (ORDER BY TimeStamp) AS PassIndex, p.pass_id AS PassID, s.station_id AS StationID, p.timestamp AS TimeStamp, v.vehicle_id AS VehicleID, p.charge AS Charge FROM vehicles AS v, stations AS s, passes AS p WHERE v.vehicle_id = p.vehicle_ref AND s.station_id = p.station_ref AND v.tag_provider = ? AND s.station_provider = ? AND CAST(p.timestamp AS date) BETWEEN ? AND ?;`;
-        }else{
+        if (req.query.settle == 'true') {
+            var myquery = `SELECT ROW_NUMBER() OVER (ORDER BY TimeStamp) AS PassIndex, p.pass_id AS PassID, s.station_id AS StationID, p.timestamp AS TimeStamp, v.vehicle_id AS VehicleID, p.charge AS Charge, p.is_settled AS is_settled FROM vehicles AS v, stations AS s, passes AS p WHERE v.vehicle_id = p.vehicle_ref AND s.station_id = p.station_ref AND v.tag_provider = ? AND s.station_provider = ? AND DATE(p.timestamp) BETWEEN ? AND ?;`;
+        } else if (req.query.settle == 'false' || req.query.settle == undefined) {
+            var myquery = `SELECT ROW_NUMBER() OVER (ORDER BY TimeStamp) AS PassIndex, p.pass_id AS PassID, s.station_id AS StationID, p.timestamp AS TimeStamp, v.vehicle_id AS VehicleID, p.charge AS Charge FROM vehicles AS v, stations AS s, passes AS p WHERE v.vehicle_id = p.vehicle_ref AND s.station_id = p.station_ref AND v.tag_provider = ? AND s.station_provider = ? AND DATE(p.timestamp) BETWEEN ? AND ?;`;
+        } else {
             res.status(400); // bad request
             res.send({ status: "failed", details: "settle should be true or false." });
             con.end();
@@ -47,12 +49,12 @@ function getPassesAnalysis(req, res) {
         con.query(myquery, [req.params.op2_ID, req.params.op1_ID, date_from, date_to], function (err, result, fields) {
             if (err) {
                 res.status(500); // internal server error
-                res.send({status: 'failed', details: 'Query error.'});
+                res.send({ status: 'failed', details: 'Query error.' });
                 return;
             }
             if (result.length == 0) {
                 res.status(402); // no data
-                res.send({status: 'failed', details: 'No data.'});
+                res.send({ status: 'failed', details: 'No data.' });
                 return;
             }
             if (req.query.format == 'json' || req.query.format == undefined) {
@@ -75,9 +77,9 @@ function getPassesAnalysis(req, res) {
                             res.send({ status: "failed", details: "Conversion error." });
                             return;
                         }
-                        res.attachment("PassesAnalysis.csv").send(csv);
+                        res.send(csv);
                     }, { "delimiter": { "field": ';' } });
-            }else{
+            } else {
                 res.status(400); // bad request
                 res.send({ status: "failed", details: "Format should be json or csv." });
                 return;

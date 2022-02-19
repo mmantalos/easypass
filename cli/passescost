@@ -1,7 +1,6 @@
 import argparse
 import requests
 import json
-import pandas as pd
 
 parser  = argparse.ArgumentParser(prog = "passescost",
                                  description = "Get the total cost and number of passes of vehicles with the specified tag and station providers")
@@ -10,16 +9,18 @@ parser.add_argument("--op1", required = True)
 parser.add_argument("--op2", required = True)
 parser.add_argument("--datefrom", required = True)
 parser.add_argument("--dateto", required = True)
-parser.add_argument("--format", choices = ["json", "csv"], required = True)
+parser.add_argument("--format", choices = ["json", "csv"], required=False, default='json')
 #parse command line input
 args = parser.parse_args()
 
-#for now doesn't verify SSL ->fix https
-res = requests.get(f"https://localhost:9103/interoperability/api/PassesCost/{args.op1}/{args.op2}/{args.datefrom}/{args.dateto}?format={args.format}", verify = False)
-res = res.json()
-if(args.format == 'csv'): #is this the correct format?
-    df = pd.DataFrame(res['passesCost'])
-    df.to_csv('passesCost.csv', index=None, sep=';')
-    print(df)
+baseurl = 'https://localhost:9103/interoperability/api'
+url = baseurl + '/PassesCost/' + args.op1 + '/' + args.op2 + '/' + str(args.datefrom) + '/' + str(args.dateto) + '?format=' + args.format
+#print(url)
+
+#for now doesn't verify SSL
+res = requests.get(url, verify=False)
+
+if(args.format == 'csv'):
+    print(res.text)
 else:
-    print(json.dumps(res, indent=4))
+    print(json.dumps(res.json(), indent=4))

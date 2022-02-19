@@ -3,6 +3,8 @@ const router = express.Router();
 var mysql = require('mysql');
 
 function CommitPass(req, res) {
+    console.log(req.url);
+
     var con = mysql.createConnection({
         host: "localhost",
         user: "admin",
@@ -18,7 +20,6 @@ function CommitPass(req, res) {
             return;
         }
         let myquery = `INSERT INTO passes(pass_id,timestamp,station_ref,vehicle_ref,charge) VALUES ('${req.params["pass_ID"]}','${req.params["timestamp"]}','${req.params["station_ID"]}','${req.params["vehicle_ID"]}',${req.params["euros"]}.${req.params["cents"]});`;
-        console.log(myquery);
         con.query(myquery, function (err, result, fields) {
             if (err) {
                 res.status(500); // internal server error
