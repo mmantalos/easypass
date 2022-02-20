@@ -29,7 +29,7 @@ const ppStation=require(__dirname + "/endpoints/PassesPerStation.js");
 const pAnalysis = require(__dirname + "/endpoints/PassesAnalysis.js");
 const pCost=require(__dirname + "/endpoints/PassesCost.js");
 const ChargesBy = require(__dirname + "/endpoints/ChargesBy.js");
-const CommitPass = require(__dirname + "/endpoints/CommitPass.js");
+const CommitPasses = require(__dirname + "/endpoints/CommitPasses.js");
 const SetSettlement = require(__dirname + "/endpoints/SetSettlement.js")
 
 
@@ -44,7 +44,7 @@ app.use(baseUrl, ppStation);
 app.use(baseUrl, pCost);
 app.use(baseUrl, ChargesBy);
 
-app.use(baseUrl, CommitPass);
+app.use(baseUrl, CommitPasses);
 app.use(baseUrl, SetSettlement)
 
 https.createServer(
