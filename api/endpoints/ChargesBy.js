@@ -5,6 +5,8 @@ var moment = require('moment');
 let converter = require('json-2-csv');
 
 function getChargesBy(req, res) {
+    console.log(req.url);
+
     //get current date string with format "yyyy-mm-dd hh:mm:ss" from date object
     var reqTmstmp = moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
 
@@ -37,7 +39,6 @@ function getChargesBy(req, res) {
             return;
         }
         let myquery = `SELECT tag_provider as VisitingOperator, COUNT(pass_id) as NumberOfPasses, SUM(charge) as PassesCost FROM stations, vehicles, passes WHERE station_provider = "${req.params["op_ID"]}" AND tag_provider <> "${req.params["op_ID"]}" AND DATE(timestamp) BETWEEN "${req.params["date_from"]}" AND "${req.params["date_to"]}" AND station_ref = station_id AND vehicle_ref = vehicle_id GROUP BY tag_provider;`;
-        console.log(myquery);
         con.query(myquery, function (err, result, fields) {
             if (err) {
                 res.status(500); // internal server error
@@ -72,6 +73,7 @@ function getChargesBy(req, res) {
             else {
                 res.status(400); // bad request
                 res.send({ "status": "failed", "details": "Format should be json or csv." });
+                return;
             }
         });
         con.end();

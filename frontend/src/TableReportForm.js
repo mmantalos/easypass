@@ -1,7 +1,13 @@
 import React from 'react';
 import './TableReportForm.css';
-import { fetchPasses } from './api';
+import { fetchPasses, fetchPassesPerStation } from './api';
 import JsonDataDisplay from './JsonDataDisplay';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+import CanvasJSReact from './canvasjs.react';
+var CanvasJS = CanvasJSReact.CanvasJS;
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
 
 class TableReportForm extends React.Component {
   constructor(props) {
@@ -9,22 +15,26 @@ class TableReportForm extends React.Component {
     this.state = {
       op1_ID: '',
       op2_ID: '',
+      station_ID: '',
       date_from: '',
       date_to: '',
-      data: null,
+      dataT: null,
+      dataG: null,
+      options: null,
       error: null };
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleTableSubmit = this.handleTableSubmit.bind(this);
+    this.handleGraphSubmit = this.handleGraphSubmit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
   }
 
-  handleSubmit() {
-      this.setState({data: null});
+  handleTableSubmit() {
+      this.setState({dataT: null});
       this.setState({error: null});
       fetchPasses(this.state.op1_ID, this.state.op2_ID, this.state.date_from, this.state.date_to)
         .then(csv => {
           this.setState({ error : null});
           setTimeout(() => {
-            this.setState({data: csv.data});
+            this.setState({dataT: csv.data});
           }, 0);
         })
         .catch(error => {
@@ -35,6 +45,50 @@ class TableReportForm extends React.Component {
         });
   }
 
+  handleGraphSubmit() {
+      this.setState({dataG: null});
+      this.setState({error: null});
+      fetchPassesPerStation(this.state.station_ID, this.state.date_from, this.state.date_to)
+        .then(json => {
+          this.setState({ error : null});
+          setTimeout(() => {
+            this.setState({dataG: json.data});
+            var chartData = {};
+            var chartDataJson = [];
+            for (var i = 0; i < this.state.dataG.NumberOfPasses; i++) {
+                var provider = this.state.dataG.PassesList[i].TagProvider;
+                if (chartData[provider] == null)
+                    chartData[provider] = 1;
+                else
+                    chartData[provider] += 1;
+            }
+            for (var key in chartData) {
+                chartDataJson.push({ label: key, y: chartData[key] })
+            }
+            var op = {
+                title: {
+                    text: "Chart of passes from selected station"
+                },
+                data: [{
+                    type: "column",
+                    dataPoints: chartDataJson
+                }]
+            };
+
+            this.setState({dataG: chartData,
+                           options: op
+            });
+          }, 0);
+        })
+        .catch(error => {
+            if(error.response){
+                console.log(error.response.data);
+                this.setState({ error: error.response.data.details});
+            }
+        });
+  }
+
+
   handleUserInput(e) {
     const name = e.target.name;
     const value = e.target.value;
@@ -44,56 +98,116 @@ class TableReportForm extends React.Component {
   render() {
     return (
       <div className="new-form">
-        <h1>Table Report</h1>
-        <input
-          name="op1_ID"
-          field="op1_ID"
-          placeholder="First operator ID"
-          value={this.state.op1_ID}
-          onChange={this.handleUserInput}
-        />
-        <input
-          name="op2_ID"
-          field="op2_ID"
-          placeholder="Second operator ID"
-          value={this.state.op2_ID}
-          onChange={this.handleUserInput} />
-        <input
-          name="date_from"
-          field="date_from"
-          type="date"
-          placeholder="From date"
-          value={this.state.date_from}
-          onChange={this.handleUserInput} />
-        <input
-          name="date_to"
-          field="date_to"
-          placeholder="To date"
-          type="date"
-          value={this.state.date_to}
-          onChange={this.handleUserInput} />
-        <button
-          className="btn"
-          name="back"
-          onClick={this.props.handleBack}
-        >
-          Back
-        </button>
-        <button
-          className="btn"
-          name="submit"
-          onClick={this.handleSubmit}
-        >
-          Show Table
-        </button>
-        {this.state.data !== null && (
-          <JsonDataDisplay data={this.state.data}/>
-        )}
-        {this.state.error !== null && (
-          <div className="error">
-            {this.state.error}
-          </div>
-        )}
+      <Tabs defaultIndex={1}>
+        <TabList>
+          <Tab>Table Report</Tab>
+          <Tab>Graph Report</Tab>
+        </TabList>
+
+        <TabPanel>
+            <h1>Table Report</h1>
+            <input
+              name="op1_ID"
+              field="op1_ID"
+              placeholder="First operator ID"
+              value={this.state.op1_ID}
+              onChange={this.handleUserInput}
+            />
+            <input
+              name="op2_ID"
+              field="op2_ID"
+              placeholder="Second operator ID"
+              value={this.state.op2_ID}
+              onChange={this.handleUserInput} />
+            <input
+              name="date_from"
+              field="date_from"
+              type="date"
+              placeholder="From date"
+              value={this.state.date_from}
+              onChange={this.handleUserInput} />
+            <input
+              name="date_to"
+              field="date_to"
+              placeholder="To date"
+              type="date"
+              value={this.state.date_to}
+              onChange={this.handleUserInput} />
+            <button
+              className="btn"
+              name="back"
+              onClick={this.props.handleBack}
+            >
+              Back
+            </button>
+            <button
+              className="btn"
+              name="submitTable"
+              onClick={this.handleTableSubmit}
+            >
+              Show Table
+            </button>
+            {this.state.dataT !== null && (
+              <JsonDataDisplay data={this.state.dataT}/>
+            )}
+            {this.state.error !== null && (
+              <div className="error">
+                {this.state.error}
+              </div>
+            )}
+        </TabPanel>
+        <TabPanel>
+          <h1>Graph Report</h1>
+          <input
+            name="station_ID"
+            field="station_ID"
+            placeholder="Station ID"
+            value={this.state.station_ID}
+            onChange={this.handleUserInput}
+          />
+          <input
+            name="date_from"
+            field="date_from"
+            type="date"
+            placeholder="From date"
+            value={this.state.date_from}
+            onChange={this.handleUserInput} />
+          <input
+            name="date_to"
+            field="date_to"
+            placeholder="To date"
+            type="date"
+            value={this.state.date_to}
+            onChange={this.handleUserInput} />
+          <button
+            className="btn"
+            name="back"
+            onClick={this.props.handleBack}
+          >
+            Back
+          </button>
+          <button
+            className="btn"
+            name="submitGraph"
+            onClick={this.handleGraphSubmit}
+          >
+            Show Graph
+          </button>
+          {this.state.dataG !== null && (
+             <div>
+                <CanvasJSChart options = {this.state.options}
+                /* onRef = {ref => this.chart = ref} */
+                />
+            </div>
+          )}
+          {this.state.error !== null && (
+            <div className="error">
+              {this.state.error}
+            </div>
+          )}
+        </TabPanel>
+      </Tabs>
+
       </div>
     );
   }

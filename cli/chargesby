@@ -1,19 +1,21 @@
 import argparse
 import requests
 import json
-import pandas as pd
 
 parser = argparse.ArgumentParser()
+#define command arguments
 parser.add_argument('--op1', required=True)
 parser.add_argument('--datefrom', required=True)
 parser.add_argument('--dateto', required=True)
-parser.add_argument('--format', choices=['json','csv'], required=True)
+parser.add_argument('--format', choices=['json','csv'], required=False, default='json')
+#parse command line input
 args = parser.parse_args()
 
 baseurl = 'https://localhost:9103/interoperability/api'
 url = baseurl + '/ChargesBy/' + args.op1 + '/' + str(args.datefrom) + '/' + str(args.dateto) + '?format=' + args.format
 #print(url)
 
+#for now doesn't verify SSL
 res = requests.get(url, verify=False)
 
 if(args.format == 'csv'):

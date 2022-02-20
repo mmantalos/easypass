@@ -1,7 +1,7 @@
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
 echo 'Test1 - This test should display results in json format'
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
-`dirname $0`/../cli/se2162 chargesby --format json --op1 egnatia --datefrom 20200115 --dateto 20210115
+`dirname $0`/../cli/se2162 chargesby  --op1 egnatia --datefrom 20200115 --dateto 20210115
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
 echo 'Test2 - This test should display results in csv format'
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -

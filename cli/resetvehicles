@@ -1,10 +1,9 @@
 import argparse
 import requests
 import json
-import pandas as pd
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--format', choices=['json','csv'], help='', required='TRUE')
+parser.add_argument('--format', choices=['json','csv'], help='', required=False, default='json')
 args = parser.parse_args()
 
 baseurl = 'https://localhost:9103/interoperability/api'
@@ -12,11 +11,5 @@ url = baseurl + '/admin/resetvehicles'
 #print(url)
 
 res = requests.post(url, verify=False)
-res = res.json()
 
-if(args.format == 'csv'):
-    df = pd.DataFrame(res['status'])
-    df.to_csv('resetstations.csv', index=None, sep=';')
-    print(df)
-else:
-    print(json.dumps(res, indent=4))
+print(json.dumps(res.json(), indent=4))

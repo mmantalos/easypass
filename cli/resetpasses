@@ -7,7 +7,7 @@ parser.add_argument('--format', choices=['json','csv'], help='', required=False,
 args = parser.parse_args()
 
 baseurl = 'https://localhost:9103/interoperability/api'
-url = baseurl + '/admin/resetstations'
+url = baseurl + '/admin/resetpasses'
 #print(url)
 
 res = requests.post(url, verify=False)

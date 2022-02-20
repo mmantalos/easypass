@@ -1,7 +1,6 @@
 import argparse
 import requests
 import json
-import pandas as pd
 
 parser =argparse.ArgumentParser(prog="passesperstation",
                                 description="Get passes from a given station in a given period")
@@ -9,14 +8,18 @@ parser =argparse.ArgumentParser(prog="passesperstation",
 parser.add_argument("--station", required=True)
 parser.add_argument("--datefrom", required=True)
 parser.add_argument("--dateto", required=True)
-parser.add_argument("--format",choices=['json','csv'] , required=True)
+parser.add_argument("--format",choices=['json','csv'], required=False, default='json')
 
 args=parser.parse_args()
 
-res=requests.get(f"https://localhost:9103/interoperability/api/PassesPerStation/{args.station}/{args.datefrom}/{args.dateto}?format={args.format}", verify = False)
+baseurl = 'https://localhost:9103/interoperability/api'
+url = baseurl + '/PassesPerStation/' + args.station + '/' + str(args.datefrom) + '/' + str(args.dateto) + '?format=' + args.format
+#print(url)
 
-if(args.format=='csv'):
-    decoded_content=res.content.decode('utf-8')
-    print(res.content.decode('utf-8'))
+#for now doesn't verify SSL
+res = requests.get(url, verify=False)
+
+if(args.format == 'csv'):
+    print(res.text)
 else:
-    print(json.dumps(res.json(),indent=4))
+    print(json.dumps(res.json(), indent=4))
