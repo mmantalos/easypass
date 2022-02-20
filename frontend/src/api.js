@@ -21,7 +21,7 @@ export const fetchSettlements = (op1_ID, op2_ID, date_from, date_to) => {
 export const fetchPassesPerStation = (station_ID, date_from, date_to) => {
   date_from=moment(date_from,'YYYY-MM-DD').format('YYYYMMDD');
   date_to=moment(date_to,'YYYY-MM-DD').format('YYYYMMDD');
-  const requestUrl = "PassesPerStation/" + station_ID + "/" + date_from + "/" + date_to + "?format=csv";
+  const requestUrl = "PassesPerStation/" + station_ID + "/" + date_from + "/" + date_to + "?format=json";
   return axios.get(requestUrl)
 };
 

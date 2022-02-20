@@ -4,6 +4,10 @@ import { fetchPasses, fetchPassesPerStation } from './api';
 import JsonDataDisplay from './JsonDataDisplay';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+import CanvasJSReact from './canvasjs.react';
+var CanvasJS = CanvasJSReact.CanvasJS;
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
 
 class TableReportForm extends React.Component {
   constructor(props) {
@@ -14,7 +18,9 @@ class TableReportForm extends React.Component {
       station_ID: '',
       date_from: '',
       date_to: '',
-      data: null,
+      dataT: null,
+      dataG: null,
+      options: null,
       error: null };
     this.handleTableSubmit = this.handleTableSubmit.bind(this);
     this.handleGraphSubmit = this.handleGraphSubmit.bind(this);
@@ -22,13 +28,13 @@ class TableReportForm extends React.Component {
   }
 
   handleTableSubmit() {
-      this.setState({data: null});
+      this.setState({dataT: null});
       this.setState({error: null});
       fetchPasses(this.state.op1_ID, this.state.op2_ID, this.state.date_from, this.state.date_to)
         .then(csv => {
           this.setState({ error : null});
           setTimeout(() => {
-            this.setState({data: csv.data});
+            this.setState({dataT: csv.data});
           }, 0);
         })
         .catch(error => {
@@ -40,13 +46,38 @@ class TableReportForm extends React.Component {
   }
 
   handleGraphSubmit() {
-      this.setState({data: null});
+      this.setState({dataG: null});
       this.setState({error: null});
       fetchPassesPerStation(this.state.station_ID, this.state.date_from, this.state.date_to)
-        .then(csv => {
+        .then(json => {
           this.setState({ error : null});
           setTimeout(() => {
-            this.setState({data: csv.data});
+            this.setState({dataG: json.data});
+            var chartData = {};
+            var chartDataJson = [];
+            for (var i = 0; i < this.state.dataG.NumberOfPasses; i++) {
+                var provider = this.state.dataG.PassesList[i].TagProvider;
+                if (chartData[provider] == null)
+                    chartData[provider] = 1;
+                else
+                    chartData[provider] += 1;
+            }
+            for (var key in chartData) {
+                chartDataJson.push({ label: key, y: chartData[key] })
+            }
+            var op = {
+                title: {
+                    text: "Chart of passes from selected station"
+                },
+                data: [{
+                    type: "column",
+                    dataPoints: chartDataJson
+                }]
+            };
+
+            this.setState({dataG: chartData,
+                           options: op
+            });
           }, 0);
         })
         .catch(error => {
@@ -56,6 +87,7 @@ class TableReportForm extends React.Component {
             }
         });
   }
+
 
   handleUserInput(e) {
     const name = e.target.name;
@@ -110,13 +142,13 @@ class TableReportForm extends React.Component {
             </button>
             <button
               className="btn"
-              name="submit"
+              name="submitTable"
               onClick={this.handleTableSubmit}
             >
               Show Table
             </button>
-            {this.state.data !== null && (
-              <JsonDataDisplay data={this.state.data}/>
+            {this.state.dataT !== null && (
+              <JsonDataDisplay data={this.state.dataT}/>
             )}
             {this.state.error !== null && (
               <div className="error">
@@ -156,13 +188,17 @@ class TableReportForm extends React.Component {
           </button>
           <button
             className="btn"
-            name="submit"
+            name="submitGraph"
             onClick={this.handleGraphSubmit}
           >
             Show Graph
           </button>
-          {this.state.data !== null && (
-            <JsonDataDisplay data={this.state.data}/>
+          {this.state.dataG !== null && (
+             <div>
+                <CanvasJSChart options = {this.state.options}
+                /* onRef = {ref => this.chart = ref} */
+                />
+            </div>
           )}
           {this.state.error !== null && (
             <div className="error">
