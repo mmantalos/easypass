@@ -3,6 +3,9 @@ const router = express.Router();
 var mysql = require('mysql');
 var moment = require('moment');
 const j2c = require('json2csv');
+const db = require('../config.json');
+
+
 
 function getPassesCost(req, res) {
   console.log(req.url);
@@ -25,13 +28,12 @@ function getPassesCost(req, res) {
   date_to = moment(req.params.date_to, 'YYYYMMDD').format('YYYY-MM-DD');
 
   var con = mysql.createConnection({
-    host: "localhost",
-    user: "admin",
-    password: "freepasses4all",
-    database: "easy_pass",
-    timezone: "eet"
+      host: db.host,
+      user: db.user,
+      password: db.password,
+      database: db.database,
+      timezone: db.timezone
   });
-
   //Make database connection and query. Error handling???
   con.connect(function (err) {
     if (err) {

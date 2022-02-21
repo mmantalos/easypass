@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
 var mysql = require('mysql');
-
+const db = require('../config.json');
 function CommitPass(req, res) {
     console.log(req.url);
 
     var con = mysql.createConnection({
-        host: "localhost",
-        user: "admin",
-        password: "freepasses4all",
-        database: "easy_pass"
+        host: db.host,
+        user: db.user,
+        password: db.password,
+        database: db.database
     });
 
     //Make database connection and query.
