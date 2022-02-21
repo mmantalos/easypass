@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const db = require('../config.json');
 var mysql = require('mysql');
 
 function resetpasses(req, res) {
     console.log(req.url);
 
     var con = mysql.createConnection({
-        host: "localhost",
-        user: "admin",
-        password: "freepasses4all",
-        database: "easy_pass"
+        host: db.host,
+        user: db.username,
+        password: db.password,
+        database: db.database 
     });
 
     con.connect(function (err) {

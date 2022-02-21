@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const db = require('../config.json');
 var mysql = require('mysql');
 var moment = require('moment');
 
@@ -21,11 +22,11 @@ function SetSettlement(req, res) {
     }
 
     var con = mysql.createConnection({
-        host: "localhost",
-        user: "admin",
-        password: "freepasses4all",
-        database: "easy_pass",
-        timezone: "eet"
+        host: db.host,
+        user: db.user,
+        password: db.password,
+        database: db.database,
+        timezone: db.timezone
     });
 
     //Make database connection and query.

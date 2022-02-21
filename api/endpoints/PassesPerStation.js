@@ -2,18 +2,20 @@ const express = require('express');
 const router = express.Router();
 var moment = require('moment');
 var mysql = require('mysql');
+const db = require('../config.json');
+
+
 
 function PassesPerStation(req, res) {
   console.log(req.url);
-
+  console.log(db.user);
   var con = mysql.createConnection({
-    host: "localhost",
-    user: "admin",
-    password: "freepasses4all",
-    database: "easy_pass",
-    timezone: 'eet'
+      host: db.host,
+      user: db.user,
+      password: db.password,
+      database: db.database,
+      timezone: db.timezone
   });
-
   //get the date from which the resulting passes will start
   //and check if it is in the right format
 
