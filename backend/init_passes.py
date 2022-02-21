@@ -60,7 +60,4 @@ def init_passes(file, reset = True):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
-        init_passes(sys.argv[1])
-    else:
-        init_passes(sys.argv[1], sys.argv[2])
+    init_passes(sys.argv[1])

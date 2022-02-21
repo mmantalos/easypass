@@ -40,7 +40,7 @@ function getPassesCost(req, res) {
       return;
     }
 
-    let myquery = `SELECT COUNT(p.pass_id) AS NumberOfPasses, SUM(p.charge) AS PassesCost FROM vehicles AS v, stations AS s, passes AS p WHERE v.vehicle_id = p.vehicle_ref AND s.station_id = p.station_ref AND v.tag_provider = "${req.params["op2_ID"]}" AND s.station_provider = "${req.params["op1_ID"]}" AND DATE(p.timestamp) BETWEEN "${req.params["date_from"]}" AND "${req.params["date_to"]}";`;
+    let myquery = `SELECT COUNT(p.pass_id) AS NumberOfPasses, COALESCE(SUM(p.charge), 0) AS PassesCost FROM vehicles AS v, stations AS s, passes AS p WHERE p.is_settled = 0 AND v.vehicle_id = p.vehicle_ref AND s.station_id = p.station_ref AND v.tag_provider = "${req.params["op2_ID"]}" AND s.station_provider = "${req.params["op1_ID"]}" AND DATE(p.timestamp) BETWEEN "${req.params["date_from"]}" AND "${req.params["date_to"]}";`;
     con.query(myquery, function (err, result, fields) {
       if (err) {
         res.status(500); // internal server error
@@ -56,7 +56,7 @@ function getPassesCost(req, res) {
         NumberOfPasses: result[0].NumberOfPasses,
         PassesCost: result[0].PassesCost
       }
-      if (result.length == 0 || result[0].NumberOfPasses == 0) {
+      if (result.length == 0) {
         res.status(402); // no data
         res.send({ "status": "failed", "details": "No data." });
         return;

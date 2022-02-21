@@ -45,7 +45,7 @@ app.use(baseUrl, pCost);
 app.use(baseUrl, ChargesBy);
 
 app.use(baseUrl, CommitPasses);
-app.use(baseUrl, SetSettlement)
+app.use(baseUrl, SetSettlement);
 
 https.createServer(
   {
