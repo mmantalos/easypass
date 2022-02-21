@@ -9,7 +9,7 @@ from tqdm import tqdm
 from datetime import datetime
 
 
-def init_passes(file):
+def init_passes(file, reset = True):
     try:
         with open(file, 'r') as csv_file:
             db = mysql.connector.connect(
@@ -19,7 +19,8 @@ def init_passes(file):
             )
 
             cursor = db.cursor()
-            cursor.execute("DELETE FROM passes;")
+            if reset:
+                cursor.execute("DELETE FROM passes;")
 
             csv_reader = csv.DictReader(csv_file, delimiter=';')
 

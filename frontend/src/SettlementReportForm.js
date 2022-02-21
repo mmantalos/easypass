@@ -1,6 +1,6 @@
 import React from 'react';
 import './SettlementReportForm.css';
-import { fetchCosts, fetchSettlements } from './api';
+import { fetchCosts, fetchSettlements, setSettlements} from './api';
 import JsonDataDisplay from './JsonDataDisplay';
 
 class ShortReportForm extends React.Component {
@@ -16,10 +16,12 @@ class ShortReportForm extends React.Component {
       cost: null,
       data1: null,
       data2: null,
+      settled: false,
       error: null };
     this.handleShortSubmit = this.handleShortSubmit.bind(this);
     this.handleDetailedSubmit = this.handleDetailedSubmit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
+    this.handleSettleSubmit = this.handleSettleSubmit.bind(this);
     }
 
     handleShortSubmit() {
@@ -29,6 +31,7 @@ class ShortReportForm extends React.Component {
             cost: null,
             data1: null,
             data2: null,
+            settled: false,
             error: null
         });
         this.setState({error: null});
@@ -92,6 +95,26 @@ class ShortReportForm extends React.Component {
             });
     }
 
+    handleSettleSubmit(){
+        this.setState({
+            cost: null,
+            data1: null,
+            data2: null,
+            error: null
+        });
+        //Settle
+        setSettlements(this.state.op1_ID, this.state.op2_ID, this.state.date_from, this.state.date_to)
+            .then(res => {
+                setSettlements(this.state.op2_ID, this.state.op1_ID, this.state.date_from, this.state.date_to)
+                    .then(res => {
+                        this.setState({settled: true});
+                    }); // catch needed?
+            })
+            .catch(error => {
+                this.setState({error: error.response.data});
+            });
+    }
+
     handleUserInput(e) {
         const name = e.target.name;
         const value = e.target.value;
@@ -101,7 +124,7 @@ class ShortReportForm extends React.Component {
   render() {
     return (
       <div className="new-form">
-        <h1>Short Report</h1>
+        <h1>Settlements Report</h1>
         <input
           name="op1_ID"
           field="op1_ID"
@@ -150,12 +173,18 @@ class ShortReportForm extends React.Component {
         >
           Detailed Report
         </button>
+        <button
+        className="btn"
+        name='settle'
+        onClick={this.handleSettleSubmit}>
+        Settle Passes
+        </button>
         {this.state.cost !== null && (
           <div className="ShortReport">
-            {this.state.cost !== 0 && (
+            {this.state.cost != 0 && (
                 <p>Operator {this.state.op_debited} owes operator {this.state.op_credited} a total of {this.state.cost}</p>
             )}
-            {this.state.cost === 0 && (
+            {this.state.cost == 0 && (
                 <p>No one owes anything.</p>
             )}
           </div>
@@ -173,6 +202,11 @@ class ShortReportForm extends React.Component {
                 <JsonDataDisplay data={this.state.data2}/>
               </div>
 
+            </div>
+        )}
+        {this.state.settled && (
+            <div className = 'settlement-result'>
+                <p>Passes between operators {this.state.op1_ID} and {this.state.op2_ID} from date: {this.state.date_from} to date: {this.state.date_to} have been settled succesfuly.</p>
             </div>
         )}
         {this.state.error !== null && (

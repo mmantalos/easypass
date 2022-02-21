@@ -2,7 +2,6 @@ import argparse
 import requests
 import json
 import csv
-import dateparser
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--passesupd', required='TRUE', action='store_true')
@@ -12,16 +11,18 @@ args = parser.parse_args()
 baseurl = 'https://localhost:9103/interoperability/api'
 
 passes = 0
-with open(args.source) as f:
-    csv_reader = csv.DictReader(f, delimiter=';')
-    for row in csv_reader:
-        timestamp = dateparser.parse(row['timestamp'])
-        url = baseurl + '/CommitPass/' + row['passID'] + '/' + timestamp.strftime("%Y%m%d%H%M%S") + '/' + row['stationRef'] + '/' + row['vehicleRef'] + '/' + row['charge']
-        #print(url)
-        res = requests.post(url, verify=False)
-        if(res.status_code == 200):
-            passes += 1
-        else:
-            print(json.dumps([row, res.json()], indent=4))
-            break
+with open(args.source, 'r') as f:
+    r = requests.post(baseurl + '/admin/CommitPasses/', files={'passes':('passes.csv', f, 'multiform/form-data')},verify = False)
+    print(r.text)
+    # csv_reader = csv.DictReader(f, delimiter=';')
+    # for row in csv_reader:
+    #     timestamp = dateparser.parse(row['timestamp'])
+    #     url = baseurl + '/CommitPass/' + row['passID'] + '/' + timestamp.strftime("%Y%m%d%H%M%S") + '/' + row['stationRef'] + '/' + row['vehicleRef'] + '/' + row['charge']
+    #     #print(url)
+    #     res = requests.post(url, verify=False)
+    #     if(res.status_code == 200):
+    #         passes += 1
+    #     else:
+    #         print(json.dumps([row, res.json()], indent=4))
+    #         break
 print(f'Commited {passes} Passes.')
