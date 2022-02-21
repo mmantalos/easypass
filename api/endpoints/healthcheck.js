@@ -1,17 +1,18 @@
 const express = require('express');
 const router = express.Router();
+const db = require('../config.json');
 var mysql = require('mysql');
 
 function healthcheck(req, res) {
     console.log(req.url);
 
-    const cs = "host:localhost;user:admin;password:freepasses4all;database:easy_pass";
+    const cs = db;
 
     var con = mysql.createConnection({
-        host: "localhost",
-        user: "admin",
-        password: "freepasses4all",
-        database: "easy_pass"
+        host: db.host,
+        user: db.user,
+        password: db.password,
+        database: db.database
     });
 
     con.connect(function (err) {
