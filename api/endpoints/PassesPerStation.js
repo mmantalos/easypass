@@ -8,7 +8,7 @@ const db = require('../config.json');
 
 function PassesPerStation(req, res) {
   console.log(req.url);
-
+  console.log(db.user);
   var con = mysql.createConnection({
       host: db.host,
       user: db.user,
