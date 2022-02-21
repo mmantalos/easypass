@@ -8,7 +8,7 @@
 - [requests] - HTTP library for Python
 
 ## Εγκατάσταση
-'''sh
+```sh
 pip3 install -r requirements.txt
-'''
+```
 
