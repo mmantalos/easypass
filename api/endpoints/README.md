@@ -1,6 +1,6 @@
 Το RESTful API μας υποστηρίζει 5 διαχειριστικά endpoints και 5 λειτουργικά enpoints.
 ## Διαχειριστικά endpoints
-- *{baseURL}/admin/healthcheck*
+- *{baseURL}/admin/healthcheck*  
     **Method**: GET
     **Περιγραφή:** Ελέγχει αν είναι δυνατή η σύνδεση με τη βάση.
 - *{baseURL}/admin/resetpasses*
