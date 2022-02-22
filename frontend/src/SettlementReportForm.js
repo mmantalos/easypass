@@ -1,7 +1,8 @@
 import React from 'react';
 import './SettlementReportForm.css';
+// import './CSVdataDisplay.css';
 import { fetchCosts, fetchSettlements, setSettlements} from './api';
-import JsonDataDisplay from './JsonDataDisplay';
+import CSVdataDisplay from './CSVdataDisplay';
 
 class ShortReportForm extends React.Component {
     constructor(props) {
@@ -17,11 +18,13 @@ class ShortReportForm extends React.Component {
       data1: null,
       data2: null,
       settled: false,
+      show_settled: true,
       error: null };
     this.handleShortSubmit = this.handleShortSubmit.bind(this);
     this.handleDetailedSubmit = this.handleDetailedSubmit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handleSettleSubmit = this.handleSettleSubmit.bind(this);
+    this.handleShowSettledCheck = this.handleShowSettledCheck.bind(this);
     }
 
     handleShortSubmit() {
@@ -57,14 +60,14 @@ class ShortReportForm extends React.Component {
                     })
                     .catch(error => {
                         if(error.response){
-                            this.setState({ error: error.response.data});
+                            this.setState({ error: error.response.data.details});
                         }
                     });
               }, 0);
             })
             .catch(error => {
                 if(error.response){
-                    this.setState({ error: error.response.data});
+                    this.setState({ error: error.response.data.details});
                 }
             });
      }
@@ -79,7 +82,7 @@ class ShortReportForm extends React.Component {
             })
             .catch(error => {
                 if(error.response){
-                    this.setState({ error: error.response.data});
+                    this.setState({ error: error.response.data.details});
                 }
             });
         fetchSettlements(this.state.op2_ID, this.state.op1_ID, this.state.date_from, this.state.date_to)
@@ -90,7 +93,7 @@ class ShortReportForm extends React.Component {
             })
             .catch(error => {
                 if(error.response){
-                    this.setState({ error: error.response.data});
+                    this.setState({ error: error.response.data.details});
                 }
             });
     }
@@ -111,7 +114,7 @@ class ShortReportForm extends React.Component {
                     }); // catch needed?
             })
             .catch(error => {
-                this.setState({error: error.response.data});
+                this.setState({error: error.response.data.details});
             });
     }
 
@@ -119,6 +122,11 @@ class ShortReportForm extends React.Component {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({ [name]: value });
+    }
+
+    handleShowSettledCheck(e){
+        console.log('handle', e.target.checked);
+        this.setState({show_settled: e.target.checked});
     }
 
   render() {
@@ -179,30 +187,38 @@ class ShortReportForm extends React.Component {
         onClick={this.handleSettleSubmit}>
         Settle Passes
         </button>
+        <br/>
         {this.state.cost !== null && (
           <div className="ShortReport">
-            {this.state.cost != 0 && (
+            {this.state.cost !== 0.00 && (
                 <p>Operator {this.state.op_debited} owes operator {this.state.op_credited} a total of {this.state.cost}</p>
             )}
-            {this.state.cost == 0 && (
+            {this.state.cost === 0.00 && (
                 <p>No one owes anything.</p>
             )}
           </div>
         )}
         {this.state.data1 !== null && this.state.data2 !== null && (
-            <div className="float-container">
+            <div>
+                <label>
+                    <input type="checkbox" name="settled-checkbox" value="show-settled" defaultChecked={true} onChange={this.handleShowSettledCheck}/>
+                    <span>Show Settled Passes</span>
+                 </label>
+                <div className="float-container">
 
-              <div className="float-child">
-                <p>Passes from {this.state.op2_ID} to {this.state.op1_ID}. </p>
-                <JsonDataDisplay data={this.state.data1}/>
-              </div>
+                  <div className="float-child">
+                    <p>Passes from {this.state.op2_ID} to {this.state.op1_ID}. </p>
+                    <CSVdataDisplay data={this.state.data1} display='settle' show_settled={this.state.show_settled}/>
+                  </div>
 
-              <div className="float-child">
-                <p>Passes from {this.state.op1_ID} to {this.state.op2_ID}. </p>
-                <JsonDataDisplay data={this.state.data2}/>
-              </div>
+                  <div className="float-child">
+                    <p>Passes from {this.state.op1_ID} to {this.state.op2_ID}. </p>
+                    <CSVdataDisplay data={this.state.data2} display='settle' show_settled={this.state.show_settled}/>
+                  </div>
 
+                </div>
             </div>
+
         )}
         {this.state.settled && (
             <div className = 'settlement-result'>

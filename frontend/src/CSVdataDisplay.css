@@ -1,0 +1,12 @@
+tr.not-settled{
+    background-color: #f3989b;
+}
+
+tr.settled{
+    background-color: #81C784;
+}
+
+thead{
+    font-weight: bold;
+    background-color: #64B5F6;
+}

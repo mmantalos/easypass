@@ -1,7 +1,7 @@
 import React from 'react';
 import './TableReportForm.css';
 import { fetchPasses, fetchPassesPerStation } from './api';
-import JsonDataDisplay from './JsonDataDisplay';
+import CSVdataDisplay from './CSVdataDisplay';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import CanvasJSReact from './canvasjs.react';
@@ -82,7 +82,6 @@ class TableReportForm extends React.Component {
         })
         .catch(error => {
             if(error.response){
-                console.log(error.response.data);
                 this.setState({ error: error.response.data.details});
             }
         });
@@ -148,7 +147,7 @@ class TableReportForm extends React.Component {
               Show Table
             </button>
             {this.state.dataT !== null && (
-              <JsonDataDisplay data={this.state.dataT}/>
+              <CSVdataDisplay data={this.state.dataT}/>
             )}
             {this.state.error !== null && (
               <div className="error">
