@@ -191,38 +191,50 @@ class ShortReportForm extends React.Component {
             </TabList>
 
             <TabPanel>
-            <h1>Settlements Report</h1>
+            <h3>Settlements Report</h3>
             <input
+              id="input"
               name="op1_ID"
               field="op1_ID"
               placeholder="First operator ID"
               value={this.state.op1_ID}
               onChange={this.handleUserInput}
+              style={{ marginLeft: "20px"}}
             />
             <input
+              id="input"
               name="op2_ID"
               field="op2_ID"
               placeholder="Second operator ID"
               value={this.state.op2_ID}
-              onChange={this.handleUserInput} />
+              onChange={this.handleUserInput}
+              style={{ marginLeft: "20px"}}
+            />
             <input
+              id="input"
               name="date_from"
               field="date_from"
               placeholder="From date"
               type="date"
               value={this.state.date_from}
-              onChange={this.handleUserInput} />
+              onChange={this.handleUserInput}
+              style={{ marginLeft: "20px"}}
+            />
             <input
+              id="input"
               name="date_to"
               field="date_to"
               placeholder="DD-MM-YYYY"
               type="date"
               value={this.state.date_to}
-              onChange={this.handleUserInput} />
+              onChange={this.handleUserInput}
+              style={{ marginLeft: "20px"}}
+            />
             <button
               className="btn"
               name="back"
               onClick={this.props.handleBack}
+              style={{ marginRight: "10px", marginLeft: "20px"}}
             >
               Back
             </button>
@@ -230,6 +242,7 @@ class ShortReportForm extends React.Component {
               className="btn"
               name="short-submit"
               onClick={this.handleShortSubmit}
+              style={{ marginRight: "10px"}}
             >
               Short Report
             </button>
@@ -237,6 +250,7 @@ class ShortReportForm extends React.Component {
               className="btn"
               name="detailed-submit"
               onClick={this.handleDetailedSubmit}
+              style={{ marginRight: "10px"}}
             >
               Detailed Report
             </button>
@@ -284,32 +298,41 @@ class ShortReportForm extends React.Component {
             </TabPanel>
 
             <TabPanel>
-                <h1>ChargesBy Graph Report</h1>
+                <h3>ChargesBy Graph Report</h3>
                 <input
+                  id="input"
                   name="op_ID"
                   field="op_ID"
                   placeholder="Operator ID"
                   value={this.state.station_ID}
                   onChange={this.handleUserInput}
+                  style={{ marginLeft: "20px"}}
                 />
                 <input
+                  id="input"
                   name="date_from"
                   field="date_from"
                   type="date"
                   placeholder="From date"
                   value={this.state.date_from}
-                  onChange={this.handleUserInput} />
+                  onChange={this.handleUserInput}
+                  style={{ marginLeft: "20px"}}
+                />
                 <input
+                  id="input"
                   name="date_to"
                   field="date_to"
                   placeholder="To date"
                   type="date"
                   value={this.state.date_to}
-                  onChange={this.handleUserInput} />
+                  onChange={this.handleUserInput}
+                  style={{ marginLeft: "20px"}}
+                />
                 <button
                   className="btn"
                   name="back"
                   onClick={this.props.handleBack}
+                  style={{ marginRight: "10px", marginLeft: "20px"}}
                 >
                   Back
                 </button>
@@ -317,6 +340,7 @@ class ShortReportForm extends React.Component {
                   className="btn"
                   name="submitGraph"
                   onClick={this.handleGraphSubmit}
+                  style={{ marginRight: "10px"}}
                 >
                   Show Graph
                 </button>
