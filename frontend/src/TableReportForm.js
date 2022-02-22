@@ -112,38 +112,50 @@ class TableReportForm extends React.Component {
         </TabList>
 
         <TabPanel>
-            <h1>Table Report</h1>
+            <h3>Table Report</h3>
             <input
+              id="input"
               name="op1_ID"
               field="op1_ID"
               placeholder="First operator ID"
               value={this.state.op1_ID}
               onChange={this.handleUserInput}
+              style={{marginLeft: "20px"}}
             />
             <input
+              id="input"
               name="op2_ID"
               field="op2_ID"
               placeholder="Second operator ID"
               value={this.state.op2_ID}
-              onChange={this.handleUserInput} />
+              onChange={this.handleUserInput}
+              style={{marginLeft: "20px"}}
+            />
             <input
+              id="input"
               name="date_from"
               field="date_from"
               type="date"
               placeholder="From date"
               value={this.state.date_from}
-              onChange={this.handleUserInput} />
+              onChange={this.handleUserInput}
+              style={{marginLeft: "20px"}}
+            />
             <input
+              id="input"
               name="date_to"
               field="date_to"
               placeholder="To date"
               type="date"
               value={this.state.date_to}
-              onChange={this.handleUserInput} />
+              onChange={this.handleUserInput}
+              style={{marginLeft: "20px"}}
+            />
             <button
               className="btn"
               name="back"
               onClick={this.props.handleBack}
+              style={{ marginRight: "10px", marginLeft: "20px"}}
             >
               Back
             </button>
@@ -164,32 +176,41 @@ class TableReportForm extends React.Component {
             )}
         </TabPanel>
         <TabPanel>
-          <h1>Graph Report</h1>
+          <h3>Graph Report</h3>
           <input
+            id="input"
             name="station_ID"
             field="station_ID"
             placeholder="Station ID"
             value={this.state.station_ID}
             onChange={this.handleUserInput}
+            style={{marginLeft: "20px"}}
           />
           <input
+            id="input"
             name="date_from"
             field="date_from"
             type="date"
             placeholder="From date"
             value={this.state.date_from}
-            onChange={this.handleUserInput} />
+            onChange={this.handleUserInput}
+            style={{marginLeft: "20px"}}
+          />
           <input
+            id="input"
             name="date_to"
             field="date_to"
             placeholder="To date"
             type="date"
             value={this.state.date_to}
-            onChange={this.handleUserInput} />
+            onChange={this.handleUserInput}
+            style={{marginLeft: "20px"}}
+          />
           <button
             className="btn"
             name="back"
             onClick={this.props.handleBack}
+            style={{ marginRight: "10px", marginLeft: "20px"}}
           >
             Back
           </button>
