@@ -14,6 +14,9 @@
     **Method**: POST  
     **Περιγραφή:** Διαγράφει από τη βάση τα stations και στη συνέχεια προσθέτει στη βάση  
     τα stations που βρίσκονται στο αρχείο: backend/sampledata01/sampledata01_stations.csv.  
+- *{baseURL}/admin/dumpdatabase*  
+    **Method:** GET  
+    **Περιγραφή:** Επιστρέφει το database dump σε μορφή sql.  
 - *{baseURL}/admin/CommitPasses*  
     **Method**: POST  
     **Περιγραφή:** Προσθέτει στη βάση τα passes που βρίσκονται σε αρχείο csv, το οποίο επισυνάπτεται  
