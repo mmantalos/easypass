@@ -17,3 +17,6 @@ pip3 install -r requirements.txt
 ./se2162 SCOPE --param1 value1 [--param2 value2 ...] --format fff
 ```
 
+[argparse]: https://docs.python.org/3/library/argparse.html
+[requests]: https://docs.python-requests.org/en/latest/
+
