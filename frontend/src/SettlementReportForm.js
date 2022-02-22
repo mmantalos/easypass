@@ -202,36 +202,48 @@ class ShortReportForm extends React.Component {
             <TabPanel>
             <h3>Settlements Report</h3>
             <input
+              id="input"
               name="op1_ID"
               field="op1_ID"
               placeholder="First operator ID"
               value={this.state.op1_ID}
               onChange={this.handleUserInput}
+              style={{ marginLeft: "20px"}}
             />
             <input
+              id="input"
               name="op2_ID"
               field="op2_ID"
               placeholder="Second operator ID"
               value={this.state.op2_ID}
-              onChange={this.handleUserInput} />
+              onChange={this.handleUserInput}
+              style={{ marginLeft: "20px"}}
+            />
             <input
+              id="input"
               name="date_from"
               field="date_from"
               placeholder="From date"
               type="date"
               value={this.state.date_from}
-              onChange={this.handleUserInput} />
+              onChange={this.handleUserInput}
+              style={{ marginLeft: "20px"}}
+            />
             <input
+              id="input"
               name="date_to"
               field="date_to"
               placeholder="DD-MM-YYYY"
               type="date"
               value={this.state.date_to}
-              onChange={this.handleUserInput} />
+              onChange={this.handleUserInput}
+              style={{ marginLeft: "20px"}}
+            />
             <button
               className="btn"
               name="back"
               onClick={this.props.handleBack}
+              style={{marginRight: "10px", marginLeft: "20px"}}
             >
               Back
             </button>
@@ -239,6 +251,7 @@ class ShortReportForm extends React.Component {
               className="btn"
               name="short-submit"
               onClick={this.handleShortSubmit}
+              style={{marginRight: "10px"}}
             >
               Short Report
             </button>
@@ -246,14 +259,16 @@ class ShortReportForm extends React.Component {
               className="btn"
               name="detailed-submit"
               onClick={this.handleDetailedSubmit}
+              style={{marginRight: "10px"}}
             >
               Detailed Report
             </button>
             <button
-            className="btn"
-            name='settle'
-            onClick={this.handleSettleSubmit}>
-            Settle Passes
+                className="btn"
+                name='settle'
+                onClick={this.handleSettleSubmit}
+            >
+                Settle Passes
             </button>
             <br/>
             {this.state.cost !== null && (
