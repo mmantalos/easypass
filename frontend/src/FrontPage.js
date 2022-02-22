@@ -26,12 +26,14 @@ class FrontPage extends React.Component {
     return (
       <div className="myDiv">
         {this.state.selection == null && (
-          <div className="first-buttons" id="id">
+          <div className="first-buttons" id="id" style={{ display: "flex",
+          justifyContent: "center",
+          alignItems: "center" }}>
             <button
               className="btn"
               name="passes-btn"
               onClick={this.handleSelect}
-              id="button"
+              style={{ marginLeft: "auto", marginRight: "10px", marginTop: "auto" }}
             >
               Passes Report
             </button>
@@ -39,6 +41,7 @@ class FrontPage extends React.Component {
               className="btn"
               name="settlement-btn"
               onClick={this.handleSelect}
+              style={{ marginRight: "auto", marginTop: "auto", marginButton: "auto" }}
             >
               Settlement Report
             </button>

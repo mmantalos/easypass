@@ -5,9 +5,17 @@ import JsonDataDisplay from './JsonDataDisplay';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import CanvasJSReact from './canvasjs.react';
-var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
+var dict = {
+    egnatia: "Engatia",
+    gefyra: "Gefyra",
+    kentriki_odos: "Kentriki Odos",
+    moreas: "Moreas",
+    nea_odos: "Nea Odos",
+    olympia_odos: "Olympia Odos",
+    aodos: "Attiki Odos"
+}
 
 class TableReportForm extends React.Component {
   constructor(props) {
@@ -39,7 +47,6 @@ class TableReportForm extends React.Component {
         })
         .catch(error => {
             if(error.response){
-                console.log(error.response.data);
                 this.setState({ error: error.response.data.details});
             }
         });
@@ -63,7 +70,7 @@ class TableReportForm extends React.Component {
                     chartData[provider] += 1;
             }
             for (var key in chartData) {
-                chartDataJson.push({ label: key, y: chartData[key] })
+                chartDataJson.push({ label: dict[key], y: chartData[key] })
             }
             var op = {
                 title: {

@@ -1,7 +1,20 @@
 import React from 'react';
 import './SettlementReportForm.css';
-import { fetchCosts, fetchSettlements, setSettlements} from './api';
+import { fetchCosts, fetchSettlements, setSettlements, fetchChargesBy } from './api';
 import JsonDataDisplay from './JsonDataDisplay';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import CanvasJSReact from './canvasjs.react';
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
+var dict = {
+    egnatia: "Engatia",
+    gefyra: "Gefyra",
+    kentriki_odos: "Kentriki Odos",
+    moreas: "Moreas",
+    nea_odos: "Nea Odos",
+    olympia_odos: "Olympia Odos",
+    aodos: "Attiki Odos"
+}
 
 class ShortReportForm extends React.Component {
     constructor(props) {
@@ -9,6 +22,7 @@ class ShortReportForm extends React.Component {
     this.state = {
       op1_ID: '',
       op2_ID: '',
+      op_ID: '',
       date_from: '',
       date_to: '',
       op_credited: '',
@@ -16,12 +30,15 @@ class ShortReportForm extends React.Component {
       cost: null,
       data1: null,
       data2: null,
+      dataG: null,
+      options: null,
       settled: false,
       error: null };
     this.handleShortSubmit = this.handleShortSubmit.bind(this);
     this.handleDetailedSubmit = this.handleDetailedSubmit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handleSettleSubmit = this.handleSettleSubmit.bind(this);
+    this.handleGraphSubmit = this.handleGraphSubmit.bind(this);
     }
 
     handleShortSubmit() {
@@ -57,14 +74,14 @@ class ShortReportForm extends React.Component {
                     })
                     .catch(error => {
                         if(error.response){
-                            this.setState({ error: error.response.data});
+                            this.setState({ error: error.response.data.details});
                         }
                     });
               }, 0);
             })
             .catch(error => {
                 if(error.response){
-                    this.setState({ error: error.response.data});
+                    this.setState({ error: error.response.data.details});
                 }
             });
      }
@@ -79,7 +96,7 @@ class ShortReportForm extends React.Component {
             })
             .catch(error => {
                 if(error.response){
-                    this.setState({ error: error.response.data});
+                    this.setState({ error: error.response.data.details});
                 }
             });
         fetchSettlements(this.state.op2_ID, this.state.op1_ID, this.state.date_from, this.state.date_to)
@@ -90,7 +107,7 @@ class ShortReportForm extends React.Component {
             })
             .catch(error => {
                 if(error.response){
-                    this.setState({ error: error.response.data});
+                    this.setState({ error: error.response.data.details});
                 }
             });
     }
@@ -111,9 +128,52 @@ class ShortReportForm extends React.Component {
                     }); // catch needed?
             })
             .catch(error => {
-                this.setState({error: error.response.data});
+                if(error.response){
+                    this.setState({ error: error.response.data.details});
+                }
             });
     }
+
+    handleGraphSubmit() {
+        this.setState({dataG: null});
+        this.setState({error: null});
+        fetchChargesBy(this.state.op_ID, this.state.date_from, this.state.date_to)
+          .then(json => {
+            this.setState({ error : null});
+            setTimeout(() => {
+              this.setState({dataG: json.data});
+              var chartData = {};
+              var chartDataJson = [];
+              console.log(json.data);
+              for (var i = 0; i < this.state.dataG.PPOList.length; i++) {
+                  chartDataJson.push({ label: dict[this.state.dataG.PPOList[i].VisitingOperator], y: this.state.dataG.PPOList[i].PassesCost })
+              }
+              var op = {
+                  title: {
+                      text: "Chart of charges by other operators"
+                  },
+                  axisY: {
+                      suffix: "€"
+                  },
+                  data: [{
+                      type: "column",
+                      dataPoints: chartDataJson
+                  }]
+              };
+
+              this.setState({dataG: chartData,
+                             options: op
+              });
+            }, 0);
+          })
+          .catch(error => {
+              if(error.response){
+                  console.log(error.response.data);
+                  this.setState({ error: error.response.data.details});
+              }
+          });
+    }
+
 
     handleUserInput(e) {
         const name = e.target.name;
@@ -124,96 +184,156 @@ class ShortReportForm extends React.Component {
   render() {
     return (
       <div className="new-form">
-        <h1>Settlements Report</h1>
-        <input
-          name="op1_ID"
-          field="op1_ID"
-          placeholder="First operator ID"
-          value={this.state.op1_ID}
-          onChange={this.handleUserInput}
-        />
-        <input
-          name="op2_ID"
-          field="op2_ID"
-          placeholder="Second operator ID"
-          value={this.state.op2_ID}
-          onChange={this.handleUserInput} />
-        <input
-          name="date_from"
-          field="date_from"
-          placeholder="From date"
-          type="date"
-          value={this.state.date_from}
-          onChange={this.handleUserInput} />
-        <input
-          name="date_to"
-          field="date_to"
-          placeholder="DD-MM-YYYY"
-          type="date"
-          value={this.state.date_to}
-          onChange={this.handleUserInput} />
-        <button
-          className="btn"
-          name="back"
-          onClick={this.props.handleBack}
-        >
-          Back
-        </button>
-        <button
-          className="btn"
-          name="short-submit"
-          onClick={this.handleShortSubmit}
-        >
-          Short Report
-        </button>
-        <button
-          className="btn"
-          name="detailed-submit"
-          onClick={this.handleDetailedSubmit}
-        >
-          Detailed Report
-        </button>
-        <button
-        className="btn"
-        name='settle'
-        onClick={this.handleSettleSubmit}>
-        Settle Passes
-        </button>
-        {this.state.cost !== null && (
-          <div className="ShortReport">
-            {this.state.cost != 0 && (
-                <p>Operator {this.state.op_debited} owes operator {this.state.op_credited} a total of {this.state.cost}</p>
-            )}
-            {this.state.cost == 0 && (
-                <p>No one owes anything.</p>
-            )}
-          </div>
-        )}
-        {this.state.data1 !== null && this.state.data2 !== null && (
-            <div className="float-container">
+          <Tabs defaultIndex={1}>
+            <TabList>
+              <Tab>Settlement Report</Tab>
+              <Tab>Charges By</Tab>
+            </TabList>
 
-              <div className="float-child">
-                <p>Passes from {this.state.op2_ID} to {this.state.op1_ID}. </p>
-                <JsonDataDisplay data={this.state.data1}/>
+            <TabPanel>
+            <h1>Settlements Report</h1>
+            <input
+              name="op1_ID"
+              field="op1_ID"
+              placeholder="First operator ID"
+              value={this.state.op1_ID}
+              onChange={this.handleUserInput}
+            />
+            <input
+              name="op2_ID"
+              field="op2_ID"
+              placeholder="Second operator ID"
+              value={this.state.op2_ID}
+              onChange={this.handleUserInput} />
+            <input
+              name="date_from"
+              field="date_from"
+              placeholder="From date"
+              type="date"
+              value={this.state.date_from}
+              onChange={this.handleUserInput} />
+            <input
+              name="date_to"
+              field="date_to"
+              placeholder="DD-MM-YYYY"
+              type="date"
+              value={this.state.date_to}
+              onChange={this.handleUserInput} />
+            <button
+              className="btn"
+              name="back"
+              onClick={this.props.handleBack}
+            >
+              Back
+            </button>
+            <button
+              className="btn"
+              name="short-submit"
+              onClick={this.handleShortSubmit}
+            >
+              Short Report
+            </button>
+            <button
+              className="btn"
+              name="detailed-submit"
+              onClick={this.handleDetailedSubmit}
+            >
+              Detailed Report
+            </button>
+            <button
+            className="btn"
+            name='settle'
+            onClick={this.handleSettleSubmit}>
+            Settle Passes
+            </button>
+            {this.state.cost !== null && (
+              <div className="ShortReport">
+                {this.state.cost != 0 && (
+                    <p>Operator {this.state.op_debited} owes operator {this.state.op_credited} a total of {this.state.cost}</p>
+                )}
+                {this.state.cost == 0 && (
+                    <p>No one owes anything.</p>
+                )}
               </div>
+            )}
+            {this.state.data1 !== null && this.state.data2 !== null && (
+                <div className="float-container">
 
-              <div className="float-child">
-                <p>Passes from {this.state.op1_ID} to {this.state.op2_ID}. </p>
-                <JsonDataDisplay data={this.state.data2}/>
+                  <div className="float-child">
+                    <p>Passes from {this.state.op2_ID} to {this.state.op1_ID}. </p>
+                    <JsonDataDisplay data={this.state.data1}/>
+                  </div>
+
+                  <div className="float-child">
+                    <p>Passes from {this.state.op1_ID} to {this.state.op2_ID}. </p>
+                    <JsonDataDisplay data={this.state.data2}/>
+                  </div>
+
+                </div>
+            )}
+            {this.state.settled && (
+                <div className = 'settlement-result'>
+                    <p>Passes between operators {this.state.op1_ID} and {this.state.op2_ID} from date: {this.state.date_from} to date: {this.state.date_to} have been settled succesfuly.</p>
+                </div>
+            )}
+            {this.state.error !== null && (
+              <div className="error">
+                {this.state.error}
               </div>
+            )}
+            </TabPanel>
 
-            </div>
-        )}
-        {this.state.settled && (
-            <div className = 'settlement-result'>
-                <p>Passes between operators {this.state.op1_ID} and {this.state.op2_ID} from date: {this.state.date_from} to date: {this.state.date_to} have been settled succesfuly.</p>
-            </div>
-        )}
-        {this.state.error !== null && (
-          <div className="error">
-            {this.state.error}
-          </div>
-        )}
+            <TabPanel>
+                <h1>ChargesBy Graph Report</h1>
+                <input
+                  name="op_ID"
+                  field="op_ID"
+                  placeholder="Operator ID"
+                  value={this.state.station_ID}
+                  onChange={this.handleUserInput}
+                />
+                <input
+                  name="date_from"
+                  field="date_from"
+                  type="date"
+                  placeholder="From date"
+                  value={this.state.date_from}
+                  onChange={this.handleUserInput} />
+                <input
+                  name="date_to"
+                  field="date_to"
+                  placeholder="To date"
+                  type="date"
+                  value={this.state.date_to}
+                  onChange={this.handleUserInput} />
+                <button
+                  className="btn"
+                  name="back"
+                  onClick={this.props.handleBack}
+                >
+                  Back
+                </button>
+                <button
+                  className="btn"
+                  name="submitGraph"
+                  onClick={this.handleGraphSubmit}
+                >
+                  Show Graph
+                </button>
+                {this.state.dataG !== null && (
+                   <div>
+                      <CanvasJSChart options = {this.state.options}
+                      /* onRef = {ref => this.chart = ref} */
+                      />
+                  </div>
+                )}
+                {this.state.error !== null && (
+                  <div className="error">
+                    {this.state.error}
+                  </div>
+                )}
+            </TabPanel>
+        </Tabs>
       </div>
     );
   }
