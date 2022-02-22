@@ -3,12 +3,17 @@
 import mysql.connector
 import sys
 from tqdm import tqdm
+
+import json
+config = json.load(open('config.json', 'r'))
+
+
 def init_providers():
     try:
         db = mysql.connector.connect(
-                user     = "admin",
-                passwd   = "freepasses4all",
-                database = "easy_pass"
+                user     = config['user'],
+                passwd   = config['password'],
+                database = config['database']
                 )
 
         cursor = db.cursor()

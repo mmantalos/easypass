@@ -8,14 +8,16 @@ from tqdm import tqdm
 # import datetime to get the right format for the database
 from datetime import datetime
 
+import json
+config = json.load(open('config.json', 'r'))
 
 def init_passes(file, reset = True):
     try:
         with open(file, 'r') as csv_file:
             db = mysql.connector.connect(
-                user="admin",
-                passwd="freepasses4all",
-                database="easy_pass"
+                user=config['user'],
+                passwd=config['password'],
+                database=config['database']
             )
 
             cursor = db.cursor()
