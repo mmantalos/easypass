@@ -13,3 +13,8 @@
     margin-right: 0px;
     border: 2px solid #4db6ac;
 }
+
+#input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+ color: black;
+ opacity: 1; /* Firefox */
+}

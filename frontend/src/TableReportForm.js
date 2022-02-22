@@ -5,9 +5,17 @@ import CSVdataDisplay from './CSVdataDisplay';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import CanvasJSReact from './canvasjs.react';
-var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
+var dict = {
+    egnatia: "Engatia",
+    gefyra: "Gefyra",
+    kentriki_odos: "Kentriki Odos",
+    moreas: "Moreas",
+    nea_odos: "Nea Odos",
+    olympia_odos: "Olympia Odos",
+    aodos: "Attiki Odos"
+}
 
 class TableReportForm extends React.Component {
   constructor(props) {
@@ -39,7 +47,6 @@ class TableReportForm extends React.Component {
         })
         .catch(error => {
             if(error.response){
-                console.log(error.response.data);
                 this.setState({ error: error.response.data.details});
             }
         });
@@ -63,7 +70,7 @@ class TableReportForm extends React.Component {
                     chartData[provider] += 1;
             }
             for (var key in chartData) {
-                chartDataJson.push({ label: key, y: chartData[key] })
+                chartDataJson.push({ label: dict[key], y: chartData[key] })
             }
             var op = {
                 title: {
@@ -104,38 +111,50 @@ class TableReportForm extends React.Component {
         </TabList>
 
         <TabPanel>
-            <h1>Table Report</h1>
+            <h3>Table Report</h3>
             <input
+              id="input"
               name="op1_ID"
               field="op1_ID"
               placeholder="First operator ID"
               value={this.state.op1_ID}
               onChange={this.handleUserInput}
+              style={{marginLeft: "20px"}}
             />
             <input
+              id="input"
               name="op2_ID"
               field="op2_ID"
               placeholder="Second operator ID"
               value={this.state.op2_ID}
-              onChange={this.handleUserInput} />
+              onChange={this.handleUserInput}
+              style={{marginLeft: "20px"}}
+            />
             <input
+              id="input"
               name="date_from"
               field="date_from"
               type="date"
               placeholder="From date"
               value={this.state.date_from}
-              onChange={this.handleUserInput} />
+              onChange={this.handleUserInput}
+              style={{marginLeft: "20px"}}
+            />
             <input
+              id="input"
               name="date_to"
               field="date_to"
               placeholder="To date"
               type="date"
               value={this.state.date_to}
-              onChange={this.handleUserInput} />
+              onChange={this.handleUserInput}
+              style={{marginLeft: "20px"}}
+            />
             <button
               className="btn"
               name="back"
               onClick={this.props.handleBack}
+              style={{ marginRight: "10px", marginLeft: "20px"}}
             >
               Back
             </button>
@@ -156,32 +175,41 @@ class TableReportForm extends React.Component {
             )}
         </TabPanel>
         <TabPanel>
-          <h1>Graph Report</h1>
+          <h3>Graph Report</h3>
           <input
+            id="input"
             name="station_ID"
             field="station_ID"
             placeholder="Station ID"
             value={this.state.station_ID}
             onChange={this.handleUserInput}
+            style={{marginLeft: "20px"}}
           />
           <input
+            id="input"
             name="date_from"
             field="date_from"
             type="date"
             placeholder="From date"
             value={this.state.date_from}
-            onChange={this.handleUserInput} />
+            onChange={this.handleUserInput}
+            style={{marginLeft: "20px"}}
+          />
           <input
+            id="input"
             name="date_to"
             field="date_to"
             placeholder="To date"
             type="date"
             value={this.state.date_to}
-            onChange={this.handleUserInput} />
+            onChange={this.handleUserInput}
+            style={{marginLeft: "20px"}}
+          />
           <button
             className="btn"
             name="back"
             onClick={this.props.handleBack}
+            style={{ marginRight: "10px", marginLeft: "20px"}}
           >
             Back
           </button>

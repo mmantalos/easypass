@@ -39,3 +39,10 @@ export const setSettlements = (op1_ID, op2_ID, date_from, date_to) => {
     const requestUrl = "SetSettlement/" + op1_ID + "/" + op2_ID + "/" + date_from + "/" + date_to;
     return axios.post(requestUrl);
 };
+
+export const fetchChargesBy = (op1_ID, date_from, date_to) => {
+  date_from=moment(date_from,'YYYY-MM-DD').format('YYYYMMDD');
+  date_to=moment(date_to,'YYYY-MM-DD').format('YYYYMMDD');
+  const requestUrl = "ChargesBy/" + op1_ID + "/" + date_from + "/" + date_to + "?format=json";
+  return axios.get(requestUrl);
+};
