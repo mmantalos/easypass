@@ -1,0 +1,265 @@
+openapi: 3.0.0
+info:
+  title: easy_pass
+  version: 1.0.0
+servers:
+  - url: https://localhost:9103
+paths:
+  /interoperability/api/PassesPerStation/{station_ID}/{date_from}/{date_to}:
+    get:
+      tags:
+        - default
+      summary: PassesPerStation
+      parameters:
+        - name: format
+          in: query
+          schema:
+            type: string
+          example: json
+        - name: station_ID
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: date_from
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: date_to
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /interoperability/api/admin/healthcheck:
+    get:
+      tags:
+        - default
+      summary: healthcheck
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /interoperability/api/admin/resetstations:
+    post:
+      tags:
+        - default
+      summary: resetstations
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /interoperability/api/admin/resetvehicles:
+    post:
+      tags:
+        - default
+      summary: resetvehicles
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /interoperability/api/admin/resetpasses:
+    post:
+      tags:
+        - default
+      summary: resetpasses
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /interoperability/api/PassesAnalysis/{op1_ID}/{op2_ID}/{date_from}/{date_to}:
+    get:
+      tags:
+        - default
+      summary: PassesAnalysis
+      parameters:
+        - name: format
+          in: query
+          schema:
+            type: string
+          example: json
+        - name: op1_ID
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: op2_ID
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: date_from
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: date_to
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /interoperability/api/PassesCost/{op1_ID}/{op2_ID}/{date_from}/{date_to}:
+    get:
+      tags:
+        - default
+      summary: PassesCost
+      parameters:
+        - name: format
+          in: query
+          schema:
+            type: string
+          example: json
+        - name: op1_ID
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: op2_ID
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: date_from
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: date_to
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /interoperability/api/ChargesBy/{op_ID}/{date_from}/{date_to}:
+    get:
+      tags:
+        - default
+      summary: ChargesBy
+      parameters:
+        - name: format
+          in: query
+          schema:
+            type: string
+          example: json
+        - name: op_ID
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: date_from
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: date_to
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /interoperability/api/SetSettlement/{op1_ID}/{op2_ID}/{date_from}/{date_to}:
+    post:
+      tags:
+        - default
+      summary: SetSettlement
+      requestBody:
+        content: {}
+      parameters:
+        - name: op1_ID
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: op2_ID
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: date_from
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: date_to
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /interoperability/api//CommitPass/{pass_ID}/{timestamp}/{station_ID}/{vehicle_ID}/{euros.:cents}:
+    post:
+      tags:
+        - default
+      summary: CommitPass
+      requestBody:
+        content: {}
+      parameters:
+        - name: pass_ID
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: timestamp
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: station_ID
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: vehicle_ID
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /interoperability/api/admin/CommitPasses/:
+    post:
+      tags:
+        - default
+      summary: CommitPasses
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
