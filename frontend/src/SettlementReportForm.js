@@ -31,6 +31,8 @@ class SettlementReportForm extends React.Component {
             data1: null,
             data2: null,
             dataG: null,
+            length1: null,
+            length2: null,
             options: null,
             settled: false,
             show_settled: true,
@@ -290,12 +292,12 @@ class SettlementReportForm extends React.Component {
                     <div className="float-container">
 
                       <div className="float-child">
-                        <p>{this.state.data1.split("\n").length - 1} passes from {this.state.op2_ID} to {this.state.op1_ID}. </p>
+                        <p>Passes from {this.state.op2_ID} to {this.state.op1_ID}. </p>
                         <CSVdataDisplay data={this.state.data1} display='settle' show_settled={this.state.show_settled}/>
                       </div>
 
                       <div className="float-child">
-                        <p>{this.state.data2.split("\n").length - 1} passes from {this.state.op1_ID} to {this.state.op2_ID}. </p>
+                        <p>Passes from {this.state.op1_ID} to {this.state.op2_ID}. </p>
                         <CSVdataDisplay data={this.state.data2} display='settle' show_settled={this.state.show_settled}/>
                       </div>
                     </div>
