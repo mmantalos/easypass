@@ -276,7 +276,7 @@ class SettlementReportForm extends React.Component {
             {this.state.cost !== null && (
               <div className="ShortReport">
                 {this.state.cost !== 0.00 && (
-                    <p>Operator {this.state.op_debited} owes operator {this.state.op_credited} a total of {this.state.cost}</p>
+                    <p>Operator {this.state.op_debited} owes operator {this.state.op_credited} a total of {this.state.cost} €</p>
                 )}
                 {this.state.cost === 0.00 && (
                     <p>No one owes anything.</p>
