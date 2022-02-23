@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "951c813f-a6cc-4c9a-a0bf-f88e16ec9e22",
+		"_postman_id": "15282bc7-f7f8-4797-ac65-aabb35b6abad",
 		"name": "Postman scripts for testing",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -627,7 +627,8 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Status code is 402\", function () {",
-							"    pm.response.to.have.status(402);",
+							"    pm.expect(jsonData.PassesCost).to.eql(0.00);",
+							"    pm.expect(jsonData.NumberOfPasses).to.eql(0);",
 							"});"
 						],
 						"type": "text/javascript"
