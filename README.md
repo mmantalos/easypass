@@ -14,7 +14,7 @@
 - Database: MariaDB
 - Backend: ΝodeJS, Express, Python3
 - Frontend: React, HTML, CSS
-### Εργαλεία Documentation και Testing
+### Εργαλεία, Documentation και Testing
 - Documentation: Visual Paradigm
 - CLI: Python3
 - API Testing: Postman
