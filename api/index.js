@@ -23,7 +23,6 @@ const healthcheck = require(__dirname + "/endpoints/healthcheck.js");
 const resetpasses = require(__dirname + "/endpoints/resetpasses.js");
 const resetstations = require(__dirname + "/endpoints/resetstations.js");
 const resetvehicles = require(__dirname + "/endpoints/resetvehicles.js");
-const dumpdatabase = require(__dirname + "/endpoints/dumpdatabase.js");
 
 //main endpoints
 const ppStation = require(__dirname + "/endpoints/PassesPerStation.js");
@@ -39,7 +38,6 @@ app.use(baseUrl, healthcheck);
 app.use(baseUrl, resetpasses);
 app.use(baseUrl, resetstations);
 app.use(baseUrl, resetvehicles);
-app.use(baseUrl, dumpdatabase);
 
 app.use(baseUrl, pAnalysis);
 app.use(baseUrl, ppStation);

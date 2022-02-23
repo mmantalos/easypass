@@ -9,14 +9,15 @@ parser.add_argument("--op1", required = True)
 parser.add_argument("--op2", required = True)
 parser.add_argument("--datefrom", required = True)
 parser.add_argument("--dateto", required = True)
-parser.add_argument("--format", choices = ["json", "csv"], required=False, default='json')
+parser.add_argument("--format", choices = ["json", "csv"], required=False, default="json")
+parser.add_argument("--settle", choices = ["true", "false"], required=False, default="false")
 #parse command line input
 args = parser.parse_args()
 
-
 baseurl = 'https://localhost:9103/interoperability/api'
 url = baseurl + '/PassesAnalysis/' + args.op1 + '/' + args.op2 + '/' + str(args.datefrom) + '/' + str(args.dateto) + '?format=' + args.format
-#print(url)
+if args.settle == "true":
+    url += "&settle=true"
 
 #for now doesn't verify SSL
 res = requests.get(url, verify=False)

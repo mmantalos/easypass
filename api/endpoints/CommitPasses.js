@@ -7,17 +7,11 @@ const moment = require('moment');
 
 const router = express.Router();
 const storage = multer.memoryStorage();
-// const storage = multer.diskStorage({
-//     destination: './tmp_uploads/',
-//     filename: function (req, file, cb) {
-//         const uniqueSuffix = Date.now() + '-';
-//         cb(null, 'passes.csv');
-//     }
-// });
+
 const upload = multer({storage: storage}).single('passes');
 
-
 const CommitPasses = (req, res) => {
+    console.log(req.url);
     var con = mysql.createConnection({
         host: "localhost",
         user: "admin",
@@ -37,7 +31,7 @@ const CommitPasses = (req, res) => {
                     res.send({ status: 'failed', details: 'DB connection refused.' });
                     return;
                 }
-                csv = req.file.buffer.toString().split('\r\n');
+                csv = req.file.buffer.toString().split('\n');
                 var error = false;
                 for(const element of csv.slice(1)){
                     if(error) break;
@@ -46,7 +40,6 @@ const CommitPasses = (req, res) => {
                     myquery = 'INSERT INTO passes(pass_id,timestamp,station_ref,vehicle_ref,charge) VALUES (?,?,?,?,?)';
                     await con.query(myquery, [params[0], formated_date, params[2], params[3], params[4]], function(err, result, fields){
                         if (err) error = true;
-                        console.log(result);
                     });
                 }
                 if(error){
