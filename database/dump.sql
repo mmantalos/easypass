@@ -16,22 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `Users`
---
-
-DROP TABLE IF EXISTS `Users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Users` (
-  `user_id` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-
---
 -- Table structure for table `passes`
 --
 
@@ -69,29 +53,6 @@ CREATE TABLE `providers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `settlement`
---
-
-DROP TABLE IF EXISTS `settlement`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `settlement` (
-  `settlement_id` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `operator_debited` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `operator_credited` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `from_date` date NOT NULL,
-  `to_date` date NOT NULL,
-  `amount` numeric(10,2) NOT NULL,
-  `is_paid` tinyint(2) NOT NULL,
-  `payment_details` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`settlement_id`),
-  KEY `owes` (`operator_debited`),
-  KEY `receives` (`operator_credited`),
-  CONSTRAINT `owes` FOREIGN KEY (`operator_debited`) REFERENCES `providers` (`provider_name`),
-  CONSTRAINT `receives` FOREIGN KEY (`operator_credited`) REFERENCES `providers` (`provider_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `stations`

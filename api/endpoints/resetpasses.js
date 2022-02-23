@@ -8,9 +8,9 @@ function resetpasses(req, res) {
 
     var con = mysql.createConnection({
         host: db.host,
-        user: db.username,
+        user: db.user,
         password: db.password,
-        database: db.database 
+        database: db.database
     });
 
     con.connect(function (err) {
