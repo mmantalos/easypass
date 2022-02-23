@@ -17,7 +17,7 @@
 - *{baseURL}/admin/dumpdatabase*  
     **Method:** GET  
     **Περιγραφή:** Επιστρέφει το database dump σε μορφή sql.  
-- *{baseURL}/admin/CommitPasses*  
+- *{baseURL}/admin/CommitPass*  
     **Method**: POST  
     **Περιγραφή:** Προσθέτει στη βάση τα passes που βρίσκονται σε αρχείο csv, το οποίο επισυνάπτεται  
     στο body του POST request σε πεδίο με όνομα 'passes.csv' και mimetype 'multipart/form-data'.  
@@ -28,13 +28,13 @@
     **Περιγραφή:** Επιστρέφει τα passes του σταθμού *:stationID* από την ημερομηνία *:date_from* έως την ημερομηνία *:date_to*.  
 - *{baseURL}/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to?format={json|csv}&settle={true, false}*  
     **Method**: GET  
-    **Περιγραφή:** Επιστρέφει τα passes οχημάτων με pass του διαχειριστή *:op1_ID* από σταθμούς του διαχειριστή *:op2_ID* από την ημερομηνία *:date_from* μέχρι την ημερομηνία *:date_to*.  
-- *{baseURL}/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to*  
+    **Περιγραφή:** Επιστρέφει τα passes οχημάτων με tag του διαχειριστή *op2_ID* από σταθμούς του διαχειριστή *op1_ID* από την ημερομηνία *date_from* μέχρι την ημερομηνία *date_to*.  
+- *{baseURL}/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to?format={json|csv}*  
     **Method**: GET  
-    **Περιγραφή:** Επιστρέφεται ο αριθμός των γεγονότων διέλευσης που πραγματοποιήθηκαν με tag του *:op2_ID* σε σταθμούς του *:op1_ID*, καθώς και το κόστος τους, δηλαδή το ποσό που ο *:op2_ID* οφείλει στον *:op1_ID* από την ημερομηνία *:date_from* μέχρι την ημερομηνία *:date_to*.  
-- *{baseURL}/ChargesBy/:op_ID/:date_from/:date_to*  
+    **Περιγραφή:** Επιστρέφεται ο αριθμός των γεγονότων διέλευσης που πραγματοποιήθηκαν με tag του *op2_ID* σε σταθμούς του *op1_ID*, καθώς και το κόστος τους, δηλαδή το ποσό που ο *op2_ID* οφείλει στον *op1_ID* από την ημερομηνία *date_from* μέχρι την ημερομηνία *date_to*.  
+- *{baseURL}/ChargesBy/:op_ID/:date_from/:date_to?format={json|csv}*  
     **Method**: GET  
     **Περιγραφή:** Υπολογίζει όλες τις χρεώσεις σε σταθμούς του διαχειριστή *op_ID* από οχήματα άλλων διαχειριστών από την ημερομηνία *date_from* έως την ημερομηνία *date_to*.  
-- *{baseURL}/SetSettlement/:op1_ID/:op2_ID/:date_from/:date_to*  
+- *{baseURL}/SetSettlement/:op1_ID/:op2_ID/:date_from/:date_to?format={json|csv}*  
     **Method**: POST  
-    **Περιγραφή:** Θέτει ως settled τα passes από οχήματα του διαχειριστή *op1_ID* σε σταθμούς του διαχειριστή *op2_ID* από την ημερομηνία *date_from* έως την ημερομηνία *date_to*.  
+    **Περιγραφή:** Θέτει ως settled τα passes από οχήματα του διαχειριστή *op2_ID* σε σταθμούς του διαχειριστή *op1_ID* από την ημερομηνία *date_from* έως την ημερομηνία *date_to*.  

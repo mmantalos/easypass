@@ -1,19 +1,22 @@
-# Back-end
+# RESTful API
 
 ## Περιεχόμενα:
 - RESTful API
 
-## Εγκατάσταση
+## Προαπαιτούμενα:
+- npm 8.5.1
+
+## Εγκατάσταση:
 Συμπληρώστε τα στοιχεία της βάσης στο config.json
 ```sh
 npm install
 ./create_credentials.sh
 ```
 
-## Εκκίνηση
+## Εκκίνηση:
 ```sh
 node index.js
 ```
 
-## Endpoints
+## Endpoints:
 Τα Endpoints που υποστηρίζονται από το RESTful API μας βρίσκονται στο directory: api/endpoints

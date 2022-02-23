@@ -1,18 +1,22 @@
 # test-cli
 
 ## Περιεχόμενα:
-
 - CLI tests
 
-## Python3 packages
+## Προαπαιτούμενα:
+- Python 3
+- pip3
+
+## Python3 packages:
 - [pandas]
 
-## Εγκατάσταση
+## Εγκατάσταση:
 ```sh
 pip3 install -r requirements.txt
 ```
 
-## Χρήση  
+## Χρήση:  
 ```sh
 python -m unittest -v test.py
 ```
+[pandas]: https://pandas.pydata.org/
