@@ -1,2 +1,2 @@
-mysql_connector_repackaged==0.3.1
+mysql.connector==2.2.9
 tqdm==4.62.3
