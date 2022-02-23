@@ -16,7 +16,7 @@ var dict = {
     aodos: "Attiki Odos"
 }
 
-class ShortReportForm extends React.Component {
+class SettlementReportForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -290,15 +290,14 @@ class ShortReportForm extends React.Component {
                     <div className="float-container">
 
                       <div className="float-child">
-                        <p>Passes from {this.state.op2_ID} to {this.state.op1_ID}. </p>
+                        <p>{this.state.data1.split("\n").length - 1} passes from {this.state.op2_ID} to {this.state.op1_ID}. </p>
                         <CSVdataDisplay data={this.state.data1} display='settle' show_settled={this.state.show_settled}/>
                       </div>
 
                       <div className="float-child">
-                        <p>Passes from {this.state.op1_ID} to {this.state.op2_ID}. </p>
+                        <p>{this.state.data2.split("\n").length - 1} passes from {this.state.op1_ID} to {this.state.op2_ID}. </p>
                         <CSVdataDisplay data={this.state.data2} display='settle' show_settled={this.state.show_settled}/>
                       </div>
-
                     </div>
                 </div>
 
@@ -364,9 +363,7 @@ class ShortReportForm extends React.Component {
                 </button>
                 {this.state.dataG !== null && (
                    <div>
-                      <CanvasJSChart options = {this.state.options}
-                      /* onRef = {ref => this.chart = ref} */
-                      />
+                      <CanvasJSChart options = {this.state.options}/>
                   </div>
                 )}
                 {this.state.error !== null && (
@@ -381,4 +378,4 @@ class ShortReportForm extends React.Component {
   }
 }
 
-export default ShortReportForm;
+export default SettlementReportForm;
