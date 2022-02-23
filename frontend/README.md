@@ -10,6 +10,6 @@ npm install
 ```
 ## Εκκίνηση
 ```sh
-yarn start
+npm start
 ```
 
