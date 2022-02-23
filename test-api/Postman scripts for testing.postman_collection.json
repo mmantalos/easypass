@@ -627,6 +627,7 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Status code is 402\", function () {",
+							"    jsonData=pm.response.json();",
 							"    pm.expect(jsonData.PassesCost).to.eql(0.00);",
 							"    pm.expect(jsonData.NumberOfPasses).to.eql(0);",
 							"});"
