@@ -17,7 +17,7 @@ const storage = multer.memoryStorage();
 const upload = multer({storage: storage}).single('passes');
 
 
-function CommitPasses(req, res) {
+const CommitPasses = (req, res) => {
     var con = mysql.createConnection({
         host: "localhost",
         user: "admin",
@@ -31,7 +31,7 @@ function CommitPasses(req, res) {
             console.log(err);
             //return something
         }else{
-            con.connect(function(err){
+            con.connect(async function(err){
                 if (err) {
                     res.status(500); // internal server error
                     res.send({ status: 'failed', details: 'DB connection refused.' });
@@ -44,8 +44,9 @@ function CommitPasses(req, res) {
                     params = element.split(';')
                     formated_date = moment(params[1]+':00', 'DD/MM/YYYY hh:mm:ss').format('YYYY-MM-DD hh:mm:ss');
                     myquery = 'INSERT INTO passes(pass_id,timestamp,station_ref,vehicle_ref,charge) VALUES (?,?,?,?,?)';
-                    con.query(myquery, [params[0], formated_date, params[2], params[3], params[4]], function(err, result, fields){
+                    await con.query(myquery, [params[0], formated_date, params[2], params[3], params[4]], function(err, result, fields){
                         if (err) error = true;
+                        console.log(result);
                     });
                 }
                 if(error){
@@ -59,10 +60,5 @@ function CommitPasses(req, res) {
         }
     });
 }
-
-// router.use(express.raw()) // for parsing application/json
-// router.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-// router.use(bodyParser.json());
-
 router.post('/admin/CommitPasses/', CommitPasses);
 module.exports = router;
